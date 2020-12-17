@@ -1,0 +1,37 @@
+<!--
+  Based on:
+  https://boulderinformationservices.com/blog/print-avery-labels-using-css-and-html/
+-->
+<div *ngIf="layout && items">
+  <div *ngFor="let page of items" class="page" 
+    style="margin: 0;font-family: 'arial';text-align: center;page-break-after: always;"
+    [style.width]="layout.pageWidth + layout.measure"
+    [style.padding]="layout.topMargin + layout.measure + ' 0 0 ' + layout.leftMargin + layout.measure"
+  >
+
+    <div class='label'
+      style="box-sizing: border-box;float: left;text-align: center;overflow: hidden;outline: 1px dotted #ccc;"
+      [style.width]="layout.width + layout.measure"
+      [style.height]="layout.height + layout.measure"
+      [style.padding-right]="layout.verticalGap + layout.measure"
+      [style.padding-top]="layout.horizontalGap + layout.measure"
+      [style.writing-mode]="layout.orientation == 'landscape' ? 'vertical-rl' : 'horizontal-tb'"
+      *ngFor="let item of page"
+    >
+      <strong>{{item.item_data.barcode}}</strong>
+      <div *ngIf="item.item_data.call_no">{{item.item_data.call_no.join(' ')}}</div>
+    </div>
+  </div>
+</div> 
+  <!--
+  measure: 'in' | 'cm' = 'in';
+  topMargin: number = 0;
+  leftMargin: number = 0;
+  pageWidth: number = 8.5;
+  orientation: 'portrait' | 'landscape' = 'portrait';
+  width: number = 0;
+  height: number = 0;
+  horizontalGap: number = 0;
+  verticalGap: number = 0;
+  rows: number = 6;
+  -->

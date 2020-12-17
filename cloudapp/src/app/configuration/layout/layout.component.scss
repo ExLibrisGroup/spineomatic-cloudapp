@@ -1,0 +1,27 @@
+.layout-list {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.mat-form-field {
+  width: 100%;
+}
+.radio-group {
+  label {
+    display: block;
+  }
+  .mat-radio-group {
+    display: flex;
+    //flex-direction: column;
+    margin: 5px 0 10px;
+  }
+  .mat-radio-button {
+    margin: 5px;
+  }
+}
+
+div.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 1em;
+}

@@ -1,0 +1,61 @@
+<div class="layout-list">
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.SelectLayout</mat-label>
+    <mat-select placeholder="Profile" [(value)]="selectedLayout">
+      <mat-option *ngFor="let layout of layoutKeys" [value]="layout">
+        {{startCase(layout)}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <i class="uxf-icon uxf-plus eca-button" (click)="addLayout()" attr.aria-label="{{'Configuration.Layouts.AddLayout'|translate}}" title="{{'Configuration.Layouts.AddLayout'|translate}}"></i>
+  <i class="uxf-icon uxf-pencil eca-button" (click)="renameLayout()" attr.aria-label="{{'Configuration.Layouts.RenameLayout'|translate}}" title="{{'Configuration.Layouts.RenameLayout'|translate}}"></i>
+  <i class="uxf-icon uxf-trash eca-button" (click)="deleteLayout()" attr.aria-label="{{'Configuration.Layouts.DeleteLayout'|translate}}" title="{{'Configuration.Layouts.DeleteLayout'|translate}}"></i>
+</div>
+<div *ngIf="form" [formGroup]="form.get(selectedLayout)" class="form">
+  <div class="radio-group">
+    <label id="measure-label" translate>Configuration.Layouts.Fields.measure.Title</label>
+    <mat-radio-group formControlName="measure" aria-labelledby="measure-label">
+      <mat-radio-button value="in">{{'Configuration.Layouts.Fields.measure.in' | translate}}</mat-radio-button>
+      <mat-radio-button value="cm">{{'Configuration.Layouts.Fields.measure.cm' | translate}}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.topMargin</mat-label>
+    <input matInput formControlName="topMargin">
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.leftMargin</mat-label>
+    <input matInput formControlName="leftMargin">
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.pageWidth</mat-label>
+    <input matInput formControlName="pageWidth">
+  </mat-form-field>  
+  <div class="radio-group">
+    <label id="orientation-label" translate>Configuration.Layouts.Fields.orientation.Title</label>
+    <mat-radio-group formControlName="orientation" aria-labelledby="orientation-label">
+      <mat-radio-button value="portrait">{{'Configuration.Layouts.Fields.orientation.portrait' | translate}}</mat-radio-button>
+      <mat-radio-button value="landscape">{{'Configuration.Layouts.Fields.orientation.landscape' | translate}}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.width</mat-label>
+    <input matInput formControlName="width">
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.height</mat-label>
+    <input matInput formControlName="height">
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.horizontalGap</mat-label>
+    <input matInput formControlName="horizontalGap">
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.verticalGap</mat-label>
+    <input matInput formControlName="verticalGap">
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label translate>Configuration.Layouts.Fields.perPage</mat-label>
+    <input matInput formControlName="perPage">
+  </mat-form-field>        
+</div>

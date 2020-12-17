@@ -1,0 +1,50 @@
+<div class="cloudapp-actions">
+  <button mat-flat-button [disabled]="!isValid" color="primary" [routerLink]="['labels']">
+    {{'Main.Next' | translate}}
+    <mat-icon>arrow_forward_ios</mat-icon>
+  </button>
+</div>
+<p translate>Main.Intro</p>
+<div class="select-options">
+  <mat-radio-group aria-label="Select an option" [(ngModel)]="listType" (ngModelChange)="onListTypeChange()">
+    <mat-radio-button value="SCAN">{{'Main.ScanItems' | translate}}</mat-radio-button>
+    <mat-radio-button value="SET">{{'Main.SelectSet' | translate}}</mat-radio-button>
+    <mat-radio-button value="SELECT" *ngIf="entities.length>0">{{'Main.SelectRecords' | translate}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+<div [ngSwitch]="listType">
+  <div *ngSwitchCase="'SELECT'">
+    <mat-label translate [translateParams]="{length: printService.items.size}">Main.SelectedIds</mat-label>
+    <app-select-entities #selectEntities
+      (entitySelected)="onItemSelected($event)"
+      [entityList]="entities"
+      [selectedEntities]="printService.items">
+    </app-select-entities>
+  </div>
+  <div *ngSwitchCase="'SET'">
+    <app-select-set #selectSet
+      (setSelected)=onSetSelected($event)>
+    </app-select-set>
+  </div>
+  <div *ngSwitchCase="'SCAN'">
+    <mat-form-field>
+      <mat-label translate>Main.ScanLabel</mat-label>
+      <input matInput #barcode (keyup.enter)="scan()" autocomplete="off">
+      <i matSuffix class="uxf-icon uxf-right eca-button" (click)="scan()"></i>
+    </mat-form-field>
+    <div *ngIf="scannedEntities.length>0 || loading.size > 0">
+      <div><p translate>Main.ScannedBarcodes</p></div>
+      <mat-list>
+        <mat-list-item role="listitem" *ngFor="let b of loading">
+          {{b}} <mat-spinner diameter=15></mat-spinner>
+        </mat-list-item>
+      </mat-list>      
+      <mat-list>
+        <mat-list-item role="listitem" *ngFor="let entity of scannedEntities; index as i">
+          {{entity.description}}
+          <i class="uxf-icon uxf-trash eca-button" (click)="remove(i)"></i>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>

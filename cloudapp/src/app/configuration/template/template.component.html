@@ -1,0 +1,16 @@
+<div class="template-list">
+  <mat-form-field>
+    <mat-label translate>Configuration.Templates.SelectTemplate</mat-label>
+    <mat-select placeholder="Template" [(value)]="selectedTemplate">
+      <mat-option *ngFor="let template of templateKeys" [value]="template">
+        {{startCase(template)}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <i class="uxf-icon uxf-plus eca-button" (click)="addTemplate()" attr.aria-label="{{'Configuration.Templates.AddTemplate'|translate}}" title="{{'Configuration.Templates.AddTemplate'|translate}}"></i>
+  <i class="uxf-icon uxf-pencil eca-button" (click)="renameTemplate()" attr.aria-label="{{'Configuration.Templates.RenameTemplate'|translate}}" title="{{'Configuration.Templates.RenameTemplate'|translate}}"></i>
+  <i class="uxf-icon uxf-trash eca-button" (click)="deleteTemplate()" attr.aria-label="{{'Configuration.Templates.DeleteTemplate'|translate}}" title="{{'Configuration.Templates.DeleteTemplate'|translate}}"></i>
+</div>
+<div *ngIf="form && selectedTemplate" [formGroup]="form.get(selectedTemplate)" class="form">
+  Form
+</div>

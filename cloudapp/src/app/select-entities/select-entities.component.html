@@ -1,0 +1,15 @@
+<mat-list>
+  <mat-list-item>
+    <mat-checkbox
+    [(ngModel)]="masterChecked"
+    [(indeterminate)]="masterIndeterminate"
+    (change)="masterChange()"
+    ><b>Check/Uncheck All</b></mat-checkbox>
+  </mat-list-item>
+  <mat-list-item *ngFor="let entity of entities">
+    <mat-checkbox [value]="entity"
+    [(ngModel)]="entity.checked"
+    (change)="listChange(entity, $event.checked)"
+    >{{entity.name}}</mat-checkbox>
+  </mat-list-item> 
+</mat-list>

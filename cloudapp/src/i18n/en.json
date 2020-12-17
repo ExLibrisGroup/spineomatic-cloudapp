@@ -1,0 +1,84 @@
+{
+  "Back": "Back",
+  "Save": "Save",
+	"Main": {
+    "SelectRecords": "Select items",
+    "ScanItems": "Scan items",
+		"Intro": "To begin printing spine labels, scan in/enter barcodes, navigate to a list of item records or select a set of items.",
+    "SelectSet": "Set",
+    "Next": "Next",
+    "SelectedIds": "{length} records selected",
+    "Scan": "Go",
+    "ScanLabel": "Scan/type a barcode and press enter",
+    "ScannedBarcodes": "Scanned barcodes"
+  },  
+	"SetSelect": {
+		"SelectSet": "Begin typing to select from a list of sets"
+  },
+  "Labels": {
+    "Print": "Print {length} labels",
+    "SelectLayout": "Select a layout",
+    "SelectTemplate": "Select a template",
+    "Dialog": {
+      "title": "Print completed",
+      "text": "Were the labels printed sucessfully?",
+      "ok": "Yes, clear and start over",
+      "cancel": "No"
+    }
+  },
+  "Configuration": {
+    "Title": "Configuration",
+    "Success": "Configuration saved successfully.",
+    "Discard": "Discard changes?",
+    "Layouts": {
+      "Title": "Layouts",
+      "SelectLayout": "Select a layout",
+      "AddLayout": "Add a layout",
+      "RenameLayout": "Rename a layout",
+      "DeleteLayout": "Delete a layout",
+      "LayoutName": "Layout name",
+      "LayoutExists": "Layout \"{name}\" already exists.",
+      "ConfirmDeleteLayout": "Are you sure you want to delete layout \"{name}\"",
+      "Fields": {
+        "measure": {
+          "Title": "Measurement units",
+          "in": "Inches",
+          "cm": "Centimeters"
+        },
+        "topMargin": "Top margin",
+        "leftMargin": "Left margin",
+        "pageWidth": "Page width",
+        "orientation": {
+          "Title": "Orientation",
+          "portrait": "Portrait",
+          "landscape": "Landscape"
+        },
+        "width": "Label width",
+        "height": "Label height",
+        "horizontalGap": "Horizontal gap",
+        "verticalGap": "Vertical gap",
+        "perPage": "Labels per page"
+      }
+    },
+    "Templates": {
+      "Title": "Templates",
+      "SelectTemplate": "Select a template",
+      "AddTemplate": "Add a template",
+      "RenameTemplate": "Rename a template",
+      "DeleteTemplate": "Delete a template",
+      "TemplateName": "Template name",
+      "TemplateExists": "Template \"{name}\" already exists.",
+      "ConfirmDeleteTemplate": "Are you sure you want to delete template \"{name}\""
+    },
+    "Images": {
+      "Title": "Images",
+      "AddImage": "Add image",
+      "RenameImage": "Rename iamge",
+      "DeleteImage": "Delete image",
+      "EditImage": "Edit image",
+      "ImageName": "Image nickname",
+      "ConfirmDeleteImage": "Are you sure you want to delete image \"{name}\"",
+      "ImageExists": "Image with nickname \"{name}\" already exists."
+    }
+  }
+}

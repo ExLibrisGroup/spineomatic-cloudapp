@@ -1,0 +1,25 @@
+<div class="loading-shade" *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>
+<div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" [routerLink]="['/']">
+    <mat-icon>arrow_back_ios</mat-icon> {{ 'Back' | translate}}
+  </button>
+  <button mat-flat-button type="button" color="primary" [disabled]="!valid" (click)="print()">{{ 'Labels.Print' | translate:{length: printService.items.size} }}</button>
+  <!-- [routerLink]="['/print']" -->
+</div>
+<div *ngIf="config">
+  <mat-form-field>
+    <mat-label translate>Labels.SelectLayout</mat-label>
+    <mat-select [(ngModel)]="printService.layout" [compareWith]="isEqual" (selectionChange)="onSettingsChanged($event, 'layout')">
+      <mat-option *ngFor="let layout of config.layouts | keyvalue" [value]="layout.value">{{startCase(layout.key)}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label translate>Labels.SelectTemplate</mat-label>
+    <mat-select [(ngModel)]="printService.template" [compareWith]="isEqual" (selectionChange)="onSettingsChanged($event, 'template')">
+      <mat-option *ngFor="let template of config.templates | keyvalue" [value]="template.value">{{startCase(template.key)}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<iframe style="visibility: hidden;" #iframe></iframe>

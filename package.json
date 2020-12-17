@@ -1,0 +1,23 @@
+{
+  "name": "my-exl-cloudapp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "eca start"
+  },
+  "dependencies": {
+    "@angular/common": "^9.1.0",
+    "@angular/core": "^9.1.0",
+    "@angular/forms": "^9.1.0",
+    "@angular/material": "^9.2.0",
+    "@angular/router": "^9.1.0",
+    "@exlibris/exl-cloudapp-angular-lib": "^0.3.0",
+    "@exlibris/exl-cloudapp-base": "^0.3.0",
+    "@ngx-translate/core": "^12.1.0",
+    "lodash": "^4.17.15",
+    "ngx-toastr": "^12.0.0",
+    "ngx-translate-parser-plural-select": "^1.1.3",
+    "rxjs": "^6.5.5",
+    "uuid": "^8.0.0"
+  }
+}

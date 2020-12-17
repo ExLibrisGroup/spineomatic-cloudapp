@@ -1,0 +1,25 @@
+<i class="uxf-icon uxf-plus eca-button" (click)="add()" attr.aria-label="{{'Configuration.Images.AddImage'|translate}}" title="{{'Configuration.Images.AddImage'|translate}}"></i>
+
+<!--
+<div><img src="{{logoUrl}}" style="max-width: 100%;"/></div>
+      <input type="file" id="files" class="hidden" (change)="fileChangeEvent($event.target.files)" accept="image/*" style="display: none;"/>
+      <label for="files" class="mat-flat-button mat-button-base mat-secondary" translate>Configuration.ChooseImage</label>
+-->
+  <mat-card class="image-card" *ngFor="let key of imageKeys">
+    <mat-card-header>
+      <mat-card-title>
+        {{startCase(key)}}
+        <i class="uxf-icon uxf-pencil eca-button" (click)="rename(key)" attr.aria-label="{{'Configuration.Images.RenameImage'|translate}}" title="{{'Configuration.Images.RenameImage'|translate}}"></i>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="{{url(key)}}" *ngIf="url(key)" class="image">
+    </mat-card-content>
+    <mat-card-actions>
+      <input type="file" [id]="'files-'+key" class="hidden" (change)="fileChangeEvent($event.target.files, key)" accept="image/*" style="display: none;"/>
+      <i class="uxf-icon uxf-trash eca-button" (click)="delete(key)" attr.aria-label="{{'Configuration.Images.DeleteImage'|translate}}" title="{{'Configuration.Images.DeleteImage'|translate}}"></i>
+      <label [for]="'files-'+key">
+        <i class="uxf-icon uxf-pencil eca-button" attr.aria-label="{{'Configuration.Images.EditImage'|translate}}" title="{{'Configuration.Images.EditImage'|translate}}"></i>
+      </label>
+    </mat-card-actions>
+  </mat-card>      

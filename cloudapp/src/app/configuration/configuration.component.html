@@ -1,0 +1,24 @@
+<div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" [routerLink]="['/']">
+    <mat-icon>arrow_back_ios</mat-icon> {{ 'Back' | translate}}
+  </button>
+  <button mat-flat-button type="button" color="primary" (click)="save()">{{ 'Save' | translate}}</button>
+</div>
+<h1 translate>Configuration.Title</h1>
+<div class="loading-shade" *ngIf="saving">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>
+<form *ngIf="form" [formGroup]="form">
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab [label]="'Configuration.Templates.Title' | translate">
+      <app-template [form]="form.get('templates')"></app-template>
+    </mat-tab>
+    <mat-tab [label]="'Configuration.Layouts.Title' | translate">
+      <app-layout [form]="form.get('layouts')"></app-layout>
+    </mat-tab>
+    <mat-tab [label]="'Configuration.Images.Title' | translate">
+      <app-image [form]="form.get('images')"></app-image>
+    </mat-tab>
+  </mat-tab-group>
+  <pre>{{form.value | json}}</pre>
+</form>

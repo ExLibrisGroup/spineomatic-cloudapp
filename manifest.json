@@ -1,0 +1,27 @@
+{
+   "id": "exlibrisgroup/spineomatic-cloudapp",
+   "title": "Spine-O-Matic",
+   "description": "Define layouts and templates, print barcodes and call numbers",
+   "subtitle": "Print spine labels from Alma",
+   "author": "Ex Libris",
+   "entities": [
+      "ITEM"
+   ],
+   "pages": {
+      "config": "/#/configuration"
+   },
+   "contentSecurity": {
+      "sandbox": {
+         "popups": true,
+         "modals": true
+      }
+   },
+   "fullscreen": {
+      "allow": true,
+      "open": false
+   },
+   "icon": {
+      "type": "font",
+      "value": "fa fa-barcode"
+   }
+}

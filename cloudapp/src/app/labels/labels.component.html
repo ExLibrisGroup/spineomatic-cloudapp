@@ -1,12 +1,15 @@
 <div class="loading-shade" *ngIf="loading">
-  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <mat-progress-spinner 
+    [mode]="percentComplete > 0 ? 'determinate' : 'indeterminate'"
+    diameter="50"
+    [value]="percentComplete"
+  ></mat-progress-spinner>
 </div>
 <div class="cloudapp-actions">
   <button mat-flat-button color="secondary" [routerLink]="['/']">
     <mat-icon>arrow_back_ios</mat-icon> {{ 'Back' | translate}}
   </button>
   <button mat-flat-button type="button" color="primary" [disabled]="!valid" (click)="print()">{{ 'Labels.Print' | translate:{length: printService.items.size} }}</button>
-  <!-- [routerLink]="['/print']" -->
 </div>
 <div *ngIf="config">
   <mat-form-field>

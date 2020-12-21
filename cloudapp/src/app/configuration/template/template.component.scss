@@ -3,9 +3,19 @@
   align-items: center;
   margin-bottom: 15px;
 }
+h2 {
+  margin-top: 15px;
+}
 .mat-form-field {
   width: 100%;
 }
+.mat-checkbox {
+  display: block;
+  margin: 3px 0 12px;
+}
+input[readonly], textarea[readonly] {
+  color: rgba(0,0,0,.38);
+ }
 .radio-group {
   label {
     display: block;
@@ -19,9 +29,10 @@
     margin: 5px;
   }
 }
-
+/*
 div.form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   column-gap: 1em;
 }
+*/

@@ -6,6 +6,11 @@ export interface Item {
   }
 }
 
+export const LABEL_FIELDS = [
+  'item_data.barcode',
+  'item_data.call_no'
+]
+
 /*
 [{
   "bib_data": {

@@ -9,9 +9,12 @@
   <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
 </div>
 <form *ngIf="form" [formGroup]="form">
-  <mat-tab-group mat-align-tabs="start">
+  <mat-tab-group #tabGroup mat-align-tabs="start" (selectedTabChange)="handleTabChange($event)">
     <mat-tab [label]="'Configuration.Templates.Title' | translate">
-      <app-template [form]="form.get('templates')"></app-template>
+      <app-template [form]="form.get('templates')" 
+        [images]="form.get('images').value"
+        *ngIf="activeTabIndex===0"
+      ></app-template>
     </mat-tab>
     <mat-tab [label]="'Configuration.Layouts.Title' | translate">
       <app-layout [form]="form.get('layouts')"></app-layout>
@@ -20,5 +23,5 @@
       <app-image [form]="form.get('images')"></app-image>
     </mat-tab>
   </mat-tab-group>
-  <pre>{{form.value | json}}</pre>
+  <!--<pre style="white-space: pre-wrap; overflow-wrap: break-word;">{{form.value | json}}</pre>-->
 </form>

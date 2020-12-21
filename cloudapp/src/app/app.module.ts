@@ -3,9 +3,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MaterialModule, AlertModule, LazyTranslateLoader } from '@exlibris/exl-cloudapp-angular-lib';
-import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
-import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
+import { MaterialModule, AlertModule } from '@exlibris/exl-cloudapp-angular-lib';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { NgxBarcodeModule } from 'ngx-barcode';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { DialogsModule } from './dialogs/dialogs.module';
+import { getTranslateModuleWithICU } from './utils';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,25 +22,13 @@ import { SelectEntitiesComponent } from './select-entities/select-entities.compo
 import { SelectSetComponent } from './select-set/select-set.component';
 import { LabelsComponent } from './labels/labels.component';
 import { PrintComponent } from './print/print.component';
-import { ConfirmationDialog } from './labels/dialog.component';
-
-export function getTranslateModuleWithICU() {
-  return TranslateModule.forRoot({
-    loader: {
-      provide: TranslateLoader,
-      useClass: (LazyTranslateLoader)
-    },
-    parser: {
-      provide: TranslateParser,
-      useClass: TranslateICUParser
-    }
-  });
-}
+import { ConfigurationBaseComponent } from './configuration/configuration-base.component';
 
 @NgModule({
   declarations: [					
     AppComponent,
     MainComponent,
+    ConfigurationBaseComponent,
     ConfigurationComponent,
     LayoutComponent,
     TemplateComponent,
@@ -46,7 +37,6 @@ export function getTranslateModuleWithICU() {
     SelectSetComponent,
     LabelsComponent,
     PrintComponent,
-    ConfirmationDialog,
    ],
   imports: [
     MaterialModule,
@@ -56,14 +46,16 @@ export function getTranslateModuleWithICU() {
     HttpClientModule,
     AlertModule,
     getTranslateModuleWithICU(),
+    NgxBarcodeModule,
+    DialogsModule,
     FormsModule,
     ReactiveFormsModule,    
-  ],
-  entryComponents: [
-    ConfirmationDialog,
+    EditorModule,  
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { autoFocus: false } },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'assets/tinymce/tinymce.min.js' }
   ],
   bootstrap: [AppComponent]
 })

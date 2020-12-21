@@ -1,11 +1,14 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CanDeactivate } from '@angular/router';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { TranslateService } from '@ngx-translate/core';
 import { startCase } from 'lodash';
+import { Observable, of } from 'rxjs';
+import { DialogService } from '../dialogs/dialog.service';
 import { configFormGroup } from '../models/configuration';
 import { ConfigService } from '../services/config.service';
+import { MatTabChangeEvent } from '@angular/material/tabs'
 
 @Component({
   selector: 'app-configuration',
@@ -16,6 +19,8 @@ export class ConfigurationComponent implements OnInit {
   form: FormGroup;
   startCase = startCase;
   saving = false;
+  @ViewChild('tabGroup', { static: false }) tabGroup: any;
+  activeTabIndex: number;
 
   constructor(
     private configService: ConfigService,
@@ -27,11 +32,18 @@ export class ConfigurationComponent implements OnInit {
     this.load();
   }
 
+  ngAfterViewInit() {
+    setTimeout(()=>this.activeTabIndex = 0);
+  }
+
   load() {
     this.configService.get().subscribe(config => {
-      console.log('config', config)
       this.form = configFormGroup(config);
     });
+  }
+
+  handleTabChange(e: MatTabChangeEvent) {
+    this.activeTabIndex = e.index;
   }
 
   save() {
@@ -54,13 +66,15 @@ export class ConfigurationComponent implements OnInit {
 })
 export class ConfigurationGuard implements CanDeactivate<ConfigurationComponent> {
   constructor(
-    private translate: TranslateService
+    private dialog: DialogService,
   ) {}
 
-  canDeactivate(component: ConfigurationComponent): boolean {
-    if(component.form.dirty) {
-      return confirm(this.translate.instant('Configuration.Discard'));
-    }
-    return true;
+  canDeactivate(component: ConfigurationComponent): Observable<boolean> {
+    if(!component.form.dirty) return of(true);
+    const dialogRef = this.dialog.confirm({ 
+      text: 'Configuration.Discard',
+      ok: 'Configuration.DiscardOk'
+    });
+    return dialogRef.afterClosed();
   }
 }

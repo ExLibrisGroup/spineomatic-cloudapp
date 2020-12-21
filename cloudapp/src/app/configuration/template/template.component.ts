@@ -1,63 +1,82 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { snakeCase, startCase } from 'lodash';
-import { templateFormGroup } from '../../models/configuration';
+import { startCase } from 'lodash';
+import { Editor } from '../../../assets/tinymce/tinymce';
+import { DialogService } from '../../dialogs/dialog.service';
+import { barcodeFormats, Images, templateFormGroup } from '../../models/configuration';
+import { LABEL_FIELDS } from '../../models/item';
+import { ConfigurationBaseComponent } from '../configuration-base.component';
 
 @Component({
   selector: 'app-template',
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']
 })
-export class TemplateComponent implements OnInit {
+export class TemplateComponent extends ConfigurationBaseComponent {
   @Input() form: FormGroup;
-  selectedTemplate: string;
+  @Input() images: Images;
+  selected: string;
   startCase = startCase;
+  defaultForm = templateFormGroup;
+  barcodeFormats = barcodeFormats;
 
   constructor(
     private translate: TranslateService,
-  ) { }
+    public dialog: DialogService,
+  ) { 
+    super(dialog)
+  }
 
   ngOnInit() {
-    this.selectedTemplate = this.templateKeys[0];
+    this.selected = this.keys[0];
   }
 
-  get templateKeys() { 
+  get keys() { 
     return Object.keys(this.form.value) 
   }
-
-  addTemplate() {
-    let name = snakeCase(prompt(this.translate.instant('Configuration.Templates.TemplateName')));
-    if (!!name) {
-      if (this.templateKeys.includes(name)) {
-        return alert(this.translate.instant('Configuration.Templates.TemplateExists',{name: name}));
-      } else {
-        this.form.addControl(name, templateFormGroup());
-        this.selectedTemplate = name;
-        this.form.markAsDirty();  
-      }
-    }
+  
+  initmce = (editor: Editor) => {
+    editor.ui.registry.addSplitButton('addimage', {
+      icon: 'image',
+      text: this.translate.instant('Configuration.Templates.AddImage'),
+      tooltip: this.translate.instant('Configuration.Templates.AddImage'),
+      fetch: this.imageList,
+      onAction: () => null,
+      onItemAction: (api, value) =>
+         editor.insertContent(`{{image:${value}}}`)
+    });
+    editor.ui.registry.addSplitButton('addfield', {
+      icon: 'template',
+      text: this.translate.instant('Configuration.Templates.AddField'),
+      tooltip: this.translate.instant('Configuration.Templates.AddField'),
+      fetch: this.fieldList,
+      onAction: () => null,
+      onItemAction: (api, value) =>
+         editor.insertContent(`{{field:${value}}}`)
+    });
   }
 
-  deleteTemplate() {
-    if (confirm(this.translate.instant('Configuration.Templates.ConfirmDeleteTemplate', {name: startCase(this.selectedTemplate)}))) {
-      this.form.removeControl(this.selectedTemplate);
-      this.selectedTemplate = this.templateKeys[0];
-      this.form.markAsDirty();
-    }
+  imageList = (cb: (items: any[]) => void) => {
+    const images = Object.keys(this.images).map(key=>({
+      type: 'choiceitem', 
+      text: key,
+      value: key
+    }));
+    cb(images);
   }
 
-  renameTemplate() {
-    let name = snakeCase(prompt(this.translate.instant('Configuration.Templates.RenameTemplate'), startCase(this.selectedTemplate)));
-    if (!!name) {
-      if (this.templateKeys.includes(name)) {
-        return alert(this.translate.instant('Configuration.Templates.TemplateExists',{name: startCase(name)}));
-      } else {
-        this.form.addControl(name, this.form.get(this.selectedTemplate));
-        this.form.removeControl(this.selectedTemplate);
-        this.selectedTemplate = name;
-        this.form.markAsDirty();
-      }
-    }
+  fieldList = (cb: (items: any[]) => void) => {
+    const fields = LABEL_FIELDS.map(key=>({
+      type: 'choiceitem', 
+      text: this.translate.instant('Configuration.Templates.Fields.'+key),
+      value: key
+    }));
+    cb(fields);
+  }
+
+  get asBarcode(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.asBarcode.value
   }
 }
+

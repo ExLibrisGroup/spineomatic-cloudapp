@@ -1,63 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { snakeCase, startCase } from 'lodash';
+import { startCase } from 'lodash';
+import { AddLayoutDialog } from '../../dialogs/add-layout-dialog.component';
+import { DialogService } from '../../dialogs/dialog.service';
 import { layoutFormGroup } from '../../models/configuration'
+import { LayoutExamples } from '../../models/layout-examples';
+import { ConfigurationBaseComponent } from '../configuration-base.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent extends ConfigurationBaseComponent {
   @Input() form: FormGroup;
-  selectedLayout: string;
+  selected: string;
   startCase = startCase;
+  addDialog = AddLayoutDialog;
+  defaultForm = (basedOn: string) => layoutFormGroup(LayoutExamples[basedOn]);
 
   constructor(
-    private translate: TranslateService,
-  ) { }
+    public dialog: DialogService,
+  ) { 
+    super(dialog);
+  }
 
   ngOnInit() {
-    this.selectedLayout = this.layoutKeys[0];
+    this.selected = this.keys[0];
   }
 
-  get layoutKeys() { 
+  get keys() { 
     return Object.keys(this.form.value) 
-  }
-
-  addLayout() {
-    let name = snakeCase(prompt(this.translate.instant('Configuration.Layouts.LayoutName')));
-    if (!!name) {
-      if (this.layoutKeys.includes(name)) {
-        return alert(this.translate.instant('Configuration.Layouts.LayoutExists',{name: name}));
-      } else {
-        this.form.addControl(name, layoutFormGroup());
-        this.selectedLayout = name;
-        this.form.markAsDirty();  
-      }
-    }
-  }
-
-  deleteLayout() {
-    if (confirm(this.translate.instant('Configuration.Layouts.ConfirmDeleteLayout', {name: startCase(this.selectedLayout)}))) {
-      this.form.removeControl(this.selectedLayout);
-      this.selectedLayout = this.layoutKeys[0];
-      this.form.markAsDirty();
-    }
-  }
-
-  renameLayout() {
-    let name = snakeCase(prompt(this.translate.instant('Configuration.Layouts.RenameLayout'), startCase(this.selectedLayout)));
-    if (!!name) {
-      if (this.layoutKeys.includes(name)) {
-        return alert(this.translate.instant('Configuration.Layouts.LayoutExists',{name: startCase(name)}));
-      } else {
-        this.form.addControl(name, this.form.get(this.selectedLayout));
-        this.form.removeControl(this.selectedLayout);
-        this.selectedLayout = name;
-        this.form.markAsDirty();
-      }
-    }
   }
 }

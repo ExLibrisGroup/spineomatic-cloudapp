@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { CloudAppConfigService } from "@exlibris/exl-cloudapp-angular-lib";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
-import { Config, Layout } from "../models/configuration";
+import { Config, Layout, Template } from "../models/configuration";
 import { merge } from 'lodash';
 
 @Injectable({
@@ -32,6 +32,10 @@ export class ConfigService {
     return this.configService.set(val);
   }
 
+  clear() {
+    return this.configService.remove();
+  }
+
   migrate(config: Config) {
     if (Object.keys(config).length == 0)
       return new Config();
@@ -40,6 +44,11 @@ export class ConfigService {
       const defaultLayout = new Layout();
       Object.keys(config.layouts).forEach(key=>{
         config.layouts[key] = merge({...defaultLayout}, config.layouts[key])
+      });
+      /* Update templates */
+      const defaultTemplate = new Template();
+      Object.keys(config.templates).forEach(key=>{
+        config.templates[key] = merge({...defaultTemplate}, config.templates[key])
       });
       return config;
     }

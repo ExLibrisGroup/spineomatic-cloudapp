@@ -1,6 +1,9 @@
 {
   "Back": "Back",
   "Save": "Save",
+  "OK": "OK",
+  "Cancel": "Cancel",
+  "Blank": "Blank",
 	"Main": {
     "SelectRecords": "Select items",
     "ScanItems": "Scan items",
@@ -10,7 +13,8 @@
     "SelectedIds": "{length} records selected",
     "Scan": "Go",
     "ScanLabel": "Scan/type a barcode and press enter",
-    "ScannedBarcodes": "Scanned barcodes"
+    "ScannedBarcodes": "Scanned barcodes",
+    "NoConfig": "No templates or layouts have been configured. {admin, select, true {<a href=\"./#/configuration\">Click here to configure.</a>} false {Please ask an administrator to configure.}"
   },  
 	"SetSelect": {
 		"SelectSet": "Begin typing to select from a list of sets"
@@ -21,7 +25,7 @@
     "SelectTemplate": "Select a template",
     "Dialog": {
       "title": "Print completed",
-      "text": "Were the labels printed sucessfully?",
+      "text": "Were the labels printed successfully?",
       "ok": "Yes, clear and start over",
       "cancel": "No"
     }
@@ -29,16 +33,18 @@
   "Configuration": {
     "Title": "Configuration",
     "Success": "Configuration saved successfully.",
-    "Discard": "Discard changes?",
+    "Discard": "Are you sure you wish to discard changes?",
+    "DiscardOk": "Yes, discard changes",
+    "Add": "Add",
+    "Rename": "Rename",
+    "Delete": "Delete",
+    "Name": "Name",
+    "Exists": "\"{name}\" already exists.",
+    "ConfirmDelete": "Are you sure you want to delete \"{name}\"",
     "Layouts": {
       "Title": "Layouts",
       "SelectLayout": "Select a layout",
-      "AddLayout": "Add a layout",
-      "RenameLayout": "Rename a layout",
-      "DeleteLayout": "Delete a layout",
-      "LayoutName": "Layout name",
-      "LayoutExists": "Layout \"{name}\" already exists.",
-      "ConfirmDeleteLayout": "Are you sure you want to delete layout \"{name}\"",
+      "ExampleLayout": "Layout based on",
       "Fields": {
         "measure": {
           "Title": "Measurement units",
@@ -63,22 +69,24 @@
     "Templates": {
       "Title": "Templates",
       "SelectTemplate": "Select a template",
-      "AddTemplate": "Add a template",
-      "RenameTemplate": "Rename a template",
-      "DeleteTemplate": "Delete a template",
-      "TemplateName": "Template name",
-      "TemplateExists": "Template \"{name}\" already exists.",
-      "ConfirmDeleteTemplate": "Are you sure you want to delete template \"{name}\""
+      "AddImage": "Add image",
+      "AddField": "Add field",
+      "Contents": "Label contents",
+      "OtherOptions": "Other options",
+      "BarcodeOptions": "Barcode",
+      "CallNoOptions": "Call number",
+      "Fields": {
+        "item_data.barcode": "Barcode",
+        "item_data.call_no": "Call number",
+        "asBarcode": "Show as barcode",
+        "showBarcodeValue": "Show barcode value",
+        "barcodeEncoding": "Barcode encoding",
+        "callNumberLineBreaks": "Line breaks between call number parts"
+      }
     },
     "Images": {
       "Title": "Images",
-      "AddImage": "Add image",
-      "RenameImage": "Rename iamge",
-      "DeleteImage": "Delete image",
-      "EditImage": "Edit image",
-      "ImageName": "Image nickname",
-      "ConfirmDeleteImage": "Are you sure you want to delete image \"{name}\"",
-      "ImageExists": "Image with nickname \"{name}\" already exists."
+      "EditImage": "Replace image"
     }
   }
 }

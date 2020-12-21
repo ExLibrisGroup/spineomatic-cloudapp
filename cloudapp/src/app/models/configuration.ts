@@ -14,9 +14,17 @@ export class Templates {
   [key: string]: Template
 }
 
+export const barcodeFormats = ['CODE128' , 'CODE128A' , 'CODE128B' , 'CODE128C' , 'EAN' , 'UPC' , 'EAN8' , 'EAN5' , 'EAN2' , 'CODE39' , 'ITF14' , 'MSI' , 'MSI10' , 'MSI11' , 'MSI1010' , 'MSI1110' , 'pharmacode' , 'codabar'] as const;
+type BarcodeFormats = typeof barcodeFormats[number];
+
 export class Template {
-  font: string = "";
+  contents: string = "";
+  asBarcode: boolean = false;
+  showBarcodeValue: boolean = true;
+  barcodeEncoding: BarcodeFormats = 'codabar';
+  callNumberLineBreaks: boolean = false;
 }
+
 export class Images {
   [key: string]: Image
 }
@@ -42,29 +50,3 @@ export const layoutFormGroup = (layout: Layout = new Layout()) => FormGroupUtil.
 export const templateFormGroup = (template: Template = new Template()) => FormGroupUtil.toFormGroup(template);
 export const imageFormGroup = (image: Image = new Image()) => FormGroupUtil.toFormGroup(image);
 export const configFormGroup = (config: Config) => FormGroupUtil.toFormGroup(Object.assign(new Config(), config));
-
-/*
-Avery 5163
-https://www.worldlabel.com/Pages/wl-ol125.htm
-Top Margin: 0.5
-Left Margin: 0.18
-Page width: 8.5
-Orientation: Portrait
-Label width: 4
-Label height: 2
-Horizontal Gap: 0.14
-Vertical gap: 0
-Labels per page: 10
-
-Avery 5160
-https://www.worldlabel.com/Pages/wl-ol875.htm
-Top Margin: 0.5
-Left margin: 0.21975
-Page width: 8.5
-Orientation: Landscape
-Label width: 2.625
-Label height: 1
-Horizontal gap: 0.14
-Vertical gap: 0
-Labels- 30
-*/

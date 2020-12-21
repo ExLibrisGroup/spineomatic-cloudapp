@@ -1,17 +1,17 @@
 <div class="layout-list">
   <mat-form-field>
     <mat-label translate>Configuration.Layouts.SelectLayout</mat-label>
-    <mat-select placeholder="Profile" [(value)]="selectedLayout">
-      <mat-option *ngFor="let layout of layoutKeys" [value]="layout">
+    <mat-select placeholder="Profile" [(value)]="selected">
+      <mat-option *ngFor="let layout of keys" [value]="layout">
         {{startCase(layout)}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <i class="uxf-icon uxf-plus eca-button" (click)="addLayout()" attr.aria-label="{{'Configuration.Layouts.AddLayout'|translate}}" title="{{'Configuration.Layouts.AddLayout'|translate}}"></i>
-  <i class="uxf-icon uxf-pencil eca-button" (click)="renameLayout()" attr.aria-label="{{'Configuration.Layouts.RenameLayout'|translate}}" title="{{'Configuration.Layouts.RenameLayout'|translate}}"></i>
-  <i class="uxf-icon uxf-trash eca-button" (click)="deleteLayout()" attr.aria-label="{{'Configuration.Layouts.DeleteLayout'|translate}}" title="{{'Configuration.Layouts.DeleteLayout'|translate}}"></i>
+  <i class="uxf-icon uxf-plus eca-button" (click)="add()" attr.aria-label="{{'Configuration.Add'|translate}}" title="{{'Configuration.Add'|translate}}"></i>
+  <i class="uxf-icon uxf-pencil eca-button" (click)="rename()" attr.aria-label="{{'Configuration.Rename'|translate}}" title="{{'Configuration.Rename'|translate}}"></i>
+  <i class="uxf-icon uxf-trash eca-button" (click)="delete()" attr.aria-label="{{'Configuration.Delete'|translate}}" title="{{'Configuration.Delete'|translate}}"></i>
 </div>
-<div *ngIf="form" [formGroup]="form.get(selectedLayout)" class="form">
+<div *ngIf="form && selected" [formGroup]="form.get(selected)" class="form">
   <div class="radio-group">
     <label id="measure-label" translate>Configuration.Layouts.Fields.measure.Title</label>
     <mat-radio-group formControlName="measure" aria-labelledby="measure-label">

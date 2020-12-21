@@ -1,16 +1,71 @@
 <div class="template-list">
   <mat-form-field>
     <mat-label translate>Configuration.Templates.SelectTemplate</mat-label>
-    <mat-select placeholder="Template" [(value)]="selectedTemplate">
-      <mat-option *ngFor="let template of templateKeys" [value]="template">
+    <mat-select placeholder="Template" [(value)]="selected">
+      <mat-option *ngFor="let template of keys" [value]="template">
         {{startCase(template)}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <i class="uxf-icon uxf-plus eca-button" (click)="addTemplate()" attr.aria-label="{{'Configuration.Templates.AddTemplate'|translate}}" title="{{'Configuration.Templates.AddTemplate'|translate}}"></i>
-  <i class="uxf-icon uxf-pencil eca-button" (click)="renameTemplate()" attr.aria-label="{{'Configuration.Templates.RenameTemplate'|translate}}" title="{{'Configuration.Templates.RenameTemplate'|translate}}"></i>
-  <i class="uxf-icon uxf-trash eca-button" (click)="deleteTemplate()" attr.aria-label="{{'Configuration.Templates.DeleteTemplate'|translate}}" title="{{'Configuration.Templates.DeleteTemplate'|translate}}"></i>
+  <i class="uxf-icon uxf-plus eca-button" (click)="add()" attr.aria-label="{{'Configuration.Add'|translate}}" title="{{'Configuration.Add'|translate}}"></i>
+  <i class="uxf-icon uxf-pencil eca-button" (click)="rename()" attr.aria-label="{{'Configuration.Rename'|translate}}" title="{{'Configuration.Rename'|translate}}"></i>
+  <i class="uxf-icon uxf-trash eca-button" (click)="delete()" attr.aria-label="{{'Configuration.Delete'|translate}}" title="{{'Configuration.Delete'|translate}}"></i>
 </div>
-<div *ngIf="form && selectedTemplate" [formGroup]="form.get(selectedTemplate)" class="form">
-  Form
+<div *ngIf="form && selected" [formGroup]="form.get(selected)" class="form">
+  <div>
+    <h2 translate>Configuration.Templates.Contents</h2>
+    <editor [init]="{
+      base_url: 'assets/tinymce',
+      suffix: '.min',
+      height: 300,
+      menubar: false,
+      setup: initmce,
+      content_style: 'body, p {font-size: 14px;font-weight: 300;color: #5e5e5e;}',
+      toolbar:
+        'addimage addfield | \
+        bold italic | \
+        alignleft aligncenter alignright | fontselect forecolor | \
+        undo redo | removeformat'
+      }"
+      formControlName="contents"
+    ></editor>
+  </div>
+  <h2 translate>Configuration.Templates.OtherOptions</h2>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title translate>
+          Configuration.Templates.BarcodeOptions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-checkbox labelPosition="before" formControlName="asBarcode">{{'Configuration.Templates.Fields.asBarcode' | translate}}</mat-checkbox>
+      <mat-checkbox labelPosition="before" formControlName="showBarcodeValue">{{'Configuration.Templates.Fields.showBarcodeValue' | translate}}</mat-checkbox>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.barcodeEncoding</mat-label>
+        <mat-select formControlName="barcodeEncoding">
+          <mat-option *ngFor="let format of barcodeFormats" [value]="format">{{format}}</mat-option>
+        </mat-select>     
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title translate>
+          Configuration.Templates.CallNoOptions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-checkbox labelPosition="before" formControlName="callNumberLineBreaks">{{'Configuration.Templates.Fields.callNumberLineBreaks' | translate}}</mat-checkbox>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
+
+<!--
+    plugins: [
+      'advlist autolink lists link image charmap print preview anchor',
+      'searchreplace visualblocks code fullscreen',
+      'insertdatetime media table paste code help wordcount'
+    ],
+    toolbar:
+      'undo redo | formatselect | bold italic backcolor | \
+      alignleft aligncenter alignright alignjustify | \
+      bullist numlist outdent indent | removeformat | help'
+-->

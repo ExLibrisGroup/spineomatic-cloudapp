@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AlertService, CloudAppEventsService, Entity, EntityType, PageInfo } from '@exlibris/exl-cloudapp-angular-lib';
 import { Set } from '../models/set';
@@ -7,6 +7,8 @@ import { SelectEntitiesComponent } from '../select-entities/select-entities.comp
 import { ConfigService } from '../services/config.service';
 import { PrintService } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
+import { TranslateService } from '@ngx-translate/core';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main',
@@ -29,10 +31,20 @@ export class MainComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private alma: AlmaService,
     public printService: PrintService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
     this.pageLoad$ = this.eventsService.onPageLoad(this.onPageLoad);
+    /* Check if app is configured */
+    this.configService.get().subscribe(config=>{
+      if (Object.keys(config.layouts).length==0 || Object.keys(config.templates).length==0) {
+        this.eventsService.getInitData().pipe(
+          switchMap(initData=>this.translate.get('Main.NoConfig', { admin: initData.user.isAdmin }))
+        )
+        .subscribe(text=>this.alert.warn(text));
+      }
+    })
   }
 
   ngOnDestroy(): void {
@@ -43,7 +55,7 @@ export class MainComponent implements OnInit, OnDestroy {
     setTimeout(()=>{
       if (this.barcode && this.listType==ListType.SCAN)
         this.barcode.nativeElement.focus();
-     }, 100);
+     });
   }
 
   onPageLoad = (pageInfo: PageInfo) => {

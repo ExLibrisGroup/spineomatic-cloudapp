@@ -3,8 +3,9 @@
   https://boulderinformationservices.com/blog/print-avery-labels-using-css-and-html/
 -->
 <div *ngIf="layout && items">
-  <div *ngFor="let page of items" class="page" 
-    style="margin: 0;font-family: 'arial';text-align: center;page-break-after: always;"
+  <div *ngFor="let page of items; let last = last" class="page" 
+    style="margin: 0;font-family: 'arial';text-align: center;"
+    [style.page-break-after]="last ? 'avoid' : 'always'"
     [style.width]="layout.pageWidth + layout.measure"
     [style.padding]="layout.topMargin + layout.measure + ' 0 0 ' + layout.leftMargin + layout.measure"
   >
@@ -17,21 +18,16 @@
       [style.padding-top]="layout.horizontalGap + layout.measure"
       [style.writing-mode]="layout.orientation == 'landscape' ? 'vertical-rl' : 'horizontal-tb'"
       *ngFor="let item of page"
+      [innerHTML]="contents(item)"
     >
-      <strong>{{item.item_data.barcode}}</strong>
-      <div *ngIf="item.item_data.call_no">{{item.item_data.call_no.join(' ')}}</div>
     </div>
   </div>
 </div> 
-  <!--
-  measure: 'in' | 'cm' = 'in';
-  topMargin: number = 0;
-  leftMargin: number = 0;
-  pageWidth: number = 8.5;
-  orientation: 'portrait' | 'landscape' = 'portrait';
-  width: number = 0;
-  height: number = 0;
-  horizontalGap: number = 0;
-  verticalGap: number = 0;
-  rows: number = 6;
-  -->
+<ngx-barcode *ngIf="layout"
+  style='visibility: hidden;'
+  [bc-height] = "20"
+  [bc-width] = "1"
+  [bc-font-size] = "10"
+  [bc-display-value] = template.showBarcodeValue
+  [bc-format] = printService.template.barcodeEncoding
+></ngx-barcode>

@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Config } from '../models/configuration';
 import { ConfigService } from '../services/config.service';
 import { PrintService } from '../services/print.service';
@@ -8,15 +8,18 @@ import { PrintComponent } from '../print/print.component';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialog } from './dialog.component';
+import { ConfirmDialog } from '../dialogs/confirm.component';
 import { Router } from '@angular/router';
+import { DialogService } from '../dialogs/dialog.service';
+import { DialogData, DialogType } from '../dialogs/dialogs';
 
 const LABELS_STICKY = "labelsSticky";
-const dialogData = {
+const dialogData: DialogData = {
   title: 'Labels.Dialog.title',
   text: 'Labels.Dialog.text',
   cancel: 'Labels.Dialog.cancel',
-  ok: 'Labels.Dialog.ok'
+  ok: 'Labels.Dialog.ok',
+  type: DialogType.OK_CANCEL
 }
 
 @Component({
@@ -30,6 +33,7 @@ export class LabelsComponent implements OnInit {
   @ViewChild('iframe', { read: ElementRef }) iframe: ElementRef;
   loading = false;
   isEqual = isEqual;
+  printComponent: ComponentRef<PrintComponent>;
 
   constructor(
     public printService: PrintService,
@@ -38,11 +42,13 @@ export class LabelsComponent implements OnInit {
     private vcref: ViewContainerRef,
     private alert: AlertService,   
     private store: CloudAppStoreService, 
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router,
   ) { }
 
   ngOnInit() {
+    const componentFactory = this.resolver.resolveComponentFactory(PrintComponent);
+    this.printComponent = this.vcref.createComponent(componentFactory);
     this.configService.get()
     .pipe(
       tap(config => this.config = config),
@@ -69,36 +75,37 @@ export class LabelsComponent implements OnInit {
   }
 
   get valid() {
-    return !!this.printService.layout && this.printService.items.size > 0;
+    return !!this.printService.layout && 
+      !!this.printService.template &&
+      this.printService.items.size > 0;
   }
 
   print() {
-    const componentFactory = this.resolver.resolveComponentFactory(PrintComponent);
-    const componentRef = this.vcref.createComponent(componentFactory);
     const doc = this.iframe.nativeElement.contentDocument || this.iframe.nativeElement.contentWindow;
     doc.body.innerHTML = "";
-    doc.body.appendChild(componentRef.location.nativeElement);
+    doc.body.appendChild(this.printComponent.location.nativeElement);
     this.loading = true;
-    componentRef.instance.load()
+    this.printComponent.instance.load()
     .subscribe({
-      next: () => {
-        setTimeout(()=>{
-          this.iframe.nativeElement.contentWindow.print();
-          const dialogRef = this.dialog.open(ConfirmationDialog, {
-            autoFocus: false,
-            data: dialogData
-          });
-          dialogRef.afterClosed().subscribe(result => {
-            if (!result) return;
-            this.printService.clear();
-            this.router.navigate(['/']);
-          });
-        }, 100)
-      },
-      error: e => this.alert.error('An error occurred: ' + e),
+      next: () => setTimeout(this.printIt),
+      error: e => this.alert.error('An error occurred: ' + e.message),
       complete: () => this.loading = false
     });
-  }  
+  }
+
+  get percentComplete() {
+    return !!this.printComponent ? this.printComponent.instance.percentLoaded : 0;
+  }
+
+  printIt = () => {
+    this.iframe.nativeElement.contentWindow.print();
+    const dialogRef = this.dialog.confirm(dialogData);
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+      this.printService.clear();
+      this.router.navigate(['/']);
+    });
+  }
 
   onSettingsChanged(event: MatSelectChange, val: string) {
     this.store.get(LABELS_STICKY).pipe(

@@ -1,68 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
-import { TranslateService } from '@ngx-translate/core';
-import { snakeCase, startCase } from 'lodash';
+import { startCase } from 'lodash';
+import { DialogService } from '../../dialogs/dialog.service';
 import { imageFormGroup } from '../../models/configuration';
-import { resizeImage } from './utils';
+import { ConfigurationBaseComponent } from '../configuration-base.component';
+import { resizeImage } from './image-utils';
 
-const MAX_IMAGE_SIZE = 300;
+const MAX_IMAGE_SIZE = 250;
 
 @Component({
   selector: 'app-image',
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss']
 })
-export class ImageComponent implements OnInit {
+export class ImageComponent extends ConfigurationBaseComponent {
   @Input() form: FormGroup;
   startCase = startCase;
+  defaultForm = imageFormGroup;
+  afterAdd = (name: string) => document.getElementById('files-'+ name).click();
 
   constructor(
     private alert: AlertService,
-    private translate: TranslateService,
-  ) { }
+    public dialog: DialogService,
+  ) { 
+    super(dialog)
+  }
 
   ngOnInit() {
-  }
-
-  add() {
-    let name = snakeCase(prompt(this.translate.instant('Configuration.Images.ImageName')));
-    if (!!name) {
-      if (this.imageKeys.includes(name)) {
-        return alert(this.translate.instant('Configuration.Images.ImageExists',{name: name}));
-      } else {
-        this.form.addControl(name, imageFormGroup());
-        //this.selectedLayout = name;
-        this.form.markAsDirty();  
-      }
-    }
-  }
-
-  rename(key: string) {
-    let name = snakeCase(prompt(this.translate.instant('Configuration.Images.RenameImage'), startCase(key)));
-    if (!!name) {
-      if (this.imageKeys.includes(name)) {
-        return alert(this.translate.instant('Configuration.Images.ImageExists',{name: startCase(name)}));
-      } else {
-        this.form.addControl(name, this.form.get(key));
-        this.form.removeControl(key);
-        this.form.markAsDirty();
-      }
-    }
-  }
-
-  delete(key) {
-    if (confirm(this.translate.instant('Configuration.Images.ConfirmDeleteImage', {name: startCase(key)}))) {
-      this.form.removeControl(key);
-      this.form.markAsDirty();
-    }
   }
 
   url(key: string) {
     return (this.form.get(key) as FormGroup).controls.url.value;
   }
 
-  get imageKeys() {
+  get keys() {
     return Object.keys(this.form.value) 
   }
 

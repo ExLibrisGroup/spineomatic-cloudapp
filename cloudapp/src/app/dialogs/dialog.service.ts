@@ -2,7 +2,7 @@ import { Injectable, Type } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BaseDialog } from './dialog-base.component';
 import { ConfirmDialog, ConfirmDialogData } from './confirm.component';
-import { DialogType } from './dialogs';
+import { DialogType } from './dialog';
 import { PromptDialog, PromptDialogData } from './prompt.component';
 
 @Injectable({

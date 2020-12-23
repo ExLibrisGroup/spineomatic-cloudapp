@@ -2,7 +2,7 @@ import { Inject } from "@angular/core";
 import { Component } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { TranslateService } from "@ngx-translate/core";
-import { DEFAULT_DIALOG_OPTIONS, DialogData } from "./dialogs";
+import { DEFAULT_DIALOG_OPTIONS, DialogData } from "./dialog";
 
 @Component({
   selector: 'base-dialog',

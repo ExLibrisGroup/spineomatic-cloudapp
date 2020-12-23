@@ -21,4 +21,19 @@
         margin-left: auto;
         }
     }
+    /* Readonly */
+    $readonly-color: lightgrey;
+    app-configuration .readonly {
+        &.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+            background-color: $readonly-color;
+        }
+        .mat-checkbox-frame {
+            border-color: $readonly-color;
+        }
+        .mat-select-value-text,
+        .mat-form-field-label,
+        .mat-checkbox-label {
+          color: $readonly-color;
+        }
+      }
 }

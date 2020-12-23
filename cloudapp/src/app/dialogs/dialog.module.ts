@@ -19,4 +19,4 @@ import { BaseDialog } from './dialog-base.component';
   declarations: [BaseDialog,ConfirmDialog,PromptDialog,AddLayoutDialog],
   entryComponents: [BaseDialog,ConfirmDialog,PromptDialog,AddLayoutDialog],
 })
-export class DialogsModule { }
+export class DialogModule { }

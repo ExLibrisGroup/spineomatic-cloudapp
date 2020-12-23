@@ -12,8 +12,10 @@
   }
   .mat-radio-group {
     display: flex;
-    //flex-direction: column;
     margin: 5px 0 10px;
+  }
+  .mat-radio-group.column {
+    flex-direction: column;
   }
   .mat-radio-button {
     margin: 5px;

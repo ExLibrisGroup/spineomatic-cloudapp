@@ -4,7 +4,7 @@ import { forkJoin, of } from 'rxjs';
 import { AlmaService } from '../services/alma.service';
 import { PrintService } from '../services/print.service';
 import { Item } from '../models/item';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { chunk } from 'lodash';
 import { ConfigService } from '../services/config.service';
 import { Config } from '../models/configuration';
@@ -38,7 +38,10 @@ export class PrintComponent implements OnInit {
     .pipe(
       tap(config=>this.config = config),
       switchMap(()=>forkJoin(Array.from(this.printService.items).map(i=>this.getItem(i)))),
-      tap(items => this.items = chunk(items, this.layout.perPage))
+      tap(items => this.items = chunk(items, this.layout.perPage)),
+      finalize(()=>{
+        this.percentLoaded = 0; this.itemsLoaded = 0;
+      }),
     )
   }
 
@@ -46,7 +49,8 @@ export class PrintComponent implements OnInit {
     return this.alma.getItem(link).pipe(
       tap(()=>{
         this.itemsLoaded++
-        this.percentLoaded = Math.round((this.itemsLoaded/this.printService.items.size)*100);
+        this.percentLoaded = 
+          Math.round((this.itemsLoaded/this.printService.items.size)*100);
       }),
       catchError(e => of(e)),
     )
@@ -70,6 +74,7 @@ export class PrintComponent implements OnInit {
         switch (detail) {
           case 'item_data.barcode':
             return this.getBarCode(val);
+          case 'item_data.alt_call_no':
           case 'item_data.call_no':
             return this.getCallNo(val);
           default:

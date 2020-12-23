@@ -2,16 +2,19 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { startCase } from 'lodash';
+import * as dot from 'dot-object'
 import { Editor } from '../../../assets/tinymce/tinymce';
 import { DialogService } from '../../dialogs/dialog.service';
 import { barcodeFormats, Images, templateFormGroup } from '../../models/configuration';
 import { LABEL_FIELDS } from '../../models/item';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
+import { itemExample } from '../../models/item-example';
+import { resizeImage } from '../image/image-utils';
 
 @Component({
   selector: 'app-template',
   templateUrl: './template.component.html',
-  styleUrls: ['./template.component.scss']
+  styleUrls: ['./template.component.scss'],
 })
 export class TemplateComponent extends ConfigurationBaseComponent {
   @Input() form: FormGroup;
@@ -37,6 +40,8 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   }
   
   initmce = (editor: Editor) => {
+    this.addImageIcons(editor);
+
     editor.ui.registry.addSplitButton('addimage', {
       icon: 'image',
       text: this.translate.instant('Configuration.Templates.AddImage'),
@@ -61,18 +66,41 @@ export class TemplateComponent extends ConfigurationBaseComponent {
     const images = Object.keys(this.images).map(key=>({
       type: 'choiceitem', 
       text: key,
-      value: key
+      value: key,
+      icon: key,
     }));
     cb(images);
   }
 
   fieldList = (cb: (items: any[]) => void) => {
-    const fields = LABEL_FIELDS.map(key=>({
+    const fields = LABEL_FIELDS
+    .map(key=>({
       type: 'choiceitem', 
       text: this.translate.instant('Configuration.Templates.Fields.'+key),
       value: key
     }));
-    cb(fields);
+    const otherFields = Object.keys(dot.dot(itemExample))
+    .sort().map(key=>({
+      type: 'choiceitem', 
+      text: key,
+      value: key
+    }))
+    cb(fields.concat(otherFields));
+  }
+
+  addImageIcons(editor: Editor) {
+    Object.entries(this.images)
+    .forEach(([key, value])=>{
+      resizeImage(value.url, 24)
+      .then(result=>{
+        const image = 
+          `<svg height="${result.height}" width="${result.width}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <image height="${result.height}" width="${result.width}" xlink:href="${result.data}"></image>
+          </svg>`;
+        editor.ui.registry.addIcon(key, image);
+      })
+      .catch(error=>console.error('Error reading image. ' + error));
+    })
   }
 
   get asBarcode(): boolean {

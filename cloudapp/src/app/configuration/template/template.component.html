@@ -22,7 +22,7 @@
       setup: initmce,
       content_style: 'body, p {font-size: 14px;font-weight: 300;color: #5e5e5e;}',
       toolbar:
-        'addimage addfield | \
+        'addfield addimage | \
         bold italic | \
         alignleft aligncenter alignright | fontselect forecolor | \
         undo redo | removeformat'
@@ -39,8 +39,8 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-checkbox labelPosition="before" formControlName="asBarcode">{{'Configuration.Templates.Fields.asBarcode' | translate}}</mat-checkbox>
-      <mat-checkbox labelPosition="before" formControlName="showBarcodeValue">{{'Configuration.Templates.Fields.showBarcodeValue' | translate}}</mat-checkbox>
-      <mat-form-field appearance="standard">
+      <mat-checkbox labelPosition="before" [ngClass]="{'readonly': !asBarcode}" formControlName="showBarcodeValue">{{'Configuration.Templates.Fields.showBarcodeValue' | translate}}</mat-checkbox>
+      <mat-form-field appearance="standard" [ngClass]="{'readonly': !asBarcode}">
         <mat-label translate>Configuration.Templates.Fields.barcodeEncoding</mat-label>
         <mat-select formControlName="barcodeEncoding">
           <mat-option *ngFor="let format of barcodeFormats" [value]="format">{{format}}</mat-option>
@@ -57,15 +57,3 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
-
-<!--
-    plugins: [
-      'advlist autolink lists link image charmap print preview anchor',
-      'searchreplace visualblocks code fullscreen',
-      'insertdatetime media table paste code help wordcount'
-    ],
-    toolbar:
-      'undo redo | formatselect | bold italic backcolor | \
-      alignleft aligncenter alignright alignjustify | \
-      bullist numlist outdent indent | removeformat | help'
--->

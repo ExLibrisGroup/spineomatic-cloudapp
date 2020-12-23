@@ -14,7 +14,7 @@
       <input type="file" [id]="'files-'+key" class="hidden" (change)="fileChangeEvent($event.target.files, key)" accept="image/*" style="display: none;"/>
       <i class="uxf-icon uxf-trash eca-button" (click)="delete(key)" attr.aria-label="{{'Configuration.Delete'|translate}}" title="{{'Configuration.Delete'|translate}}"></i>
       <label [for]="'files-'+key">
-        <i class="uxf-icon uxf-pencil eca-button" attr.aria-label="{{'Configuration.Images.EditImage'|translate}}" title="{{'Configuration.Images.EditImage'|translate}}"></i>
+        <i class="uxf-icon uxf-pictures eca-button" attr.aria-label="{{'Configuration.Images.EditImage'|translate}}" title="{{'Configuration.Images.EditImage'|translate}}"></i>
       </label>
     </mat-card-actions>
   </mat-card>      

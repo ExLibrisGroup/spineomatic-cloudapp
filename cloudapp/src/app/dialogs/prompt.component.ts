@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from "@ngx-translate/core";
 import { BaseDialog } from './dialog-base.component';
-import { DEFAULT_DIALOG_OPTIONS, DialogData } from "./dialogs";
+import { DEFAULT_DIALOG_OPTIONS, DialogData } from "./dialog";
 
 export interface PromptDialogData extends DialogData {
   prompt: string;
@@ -17,18 +17,17 @@ export interface PromptDialogData extends DialogData {
     <p *ngIf="text">{{text}}</p>
     <mat-form-field>
       <mat-label>{{data.prompt | translate}}</mat-label>
-      <input matInput #input [(ngModel)]="val" 
-        (keyup.enter)="dialogRef.close(val)"
+      <input matInput #input [(ngModel)]="data.val" 
+        (keyup.enter)="dialogRef.close(data.val)"
       >
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-flat-button color="secondary" *ngIf="data.type=='ok-cancel'" mat-dialog-close>{{data.cancel | translate}}</button>
-    <button mat-flat-button color="secondary" [mat-dialog-close]="val" cdkFocusInitial>{{data.ok | translate}}</button>
+    <button mat-flat-button color="secondary" [mat-dialog-close]="data.val" cdkFocusInitial>{{data.ok | translate}}</button>
   </mat-dialog-actions>`
 })
 export class PromptDialog extends BaseDialog {
-  val: any;
   @ViewChild('input') inputElement: ElementRef;
   defaultOptions: PromptDialogData = 
     Object.assign(DEFAULT_DIALOG_OPTIONS, { prompt: '', val: '' });
@@ -43,10 +42,9 @@ export class PromptDialog extends BaseDialog {
 
   ngAfterViewInit() {
     setTimeout(()=>{
-      this.val = this.data.val;
       const elem = this.inputElement.nativeElement as HTMLInputElement;
       elem.focus();
-      elem.select(); /* this doesn't seem to work */
+      elem.select();
     });
   }
 }

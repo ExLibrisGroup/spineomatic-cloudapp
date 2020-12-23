@@ -1,4 +1,4 @@
-import { forkJoin, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AlertService, CloudAppEventsService, Entity, EntityType, PageInfo } from '@exlibris/exl-cloudapp-angular-lib';
 import { Set } from '../models/set';
@@ -8,7 +8,8 @@ import { ConfigService } from '../services/config.service';
 import { PrintService } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
-import { map, switchMap } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
+import { Item } from '../models/item';
 
 @Component({
   selector: 'app-main',
@@ -38,9 +39,11 @@ export class MainComponent implements OnInit, OnDestroy {
     this.pageLoad$ = this.eventsService.onPageLoad(this.onPageLoad);
     /* Check if app is configured */
     this.configService.get().subscribe(config=>{
-      if (Object.keys(config.layouts).length==0 || Object.keys(config.templates).length==0) {
+      if (Object.keys(config.layouts).length==0 ||
+          Object.keys(config.templates).length==0) {
         this.eventsService.getInitData().pipe(
-          switchMap(initData=>this.translate.get('Main.NoConfig', { admin: initData.user.isAdmin }))
+          switchMap(initData=>this.translate.get('Main.NoConfig', 
+            { isAdmin: initData.user.isAdmin }))
         )
         .subscribe(text=>this.alert.warn(text));
       }
@@ -59,7 +62,8 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onPageLoad = (pageInfo: PageInfo) => {
-    this.entities = (pageInfo.entities||[]).filter(e=>[EntityType.ITEM].includes(e.type));
+    this.entities = (pageInfo.entities||[])
+      .filter(e=>[EntityType.ITEM].includes(e.type));
     if (this.entities.length == 0) {
       this.listType = ListType.SCAN;
     } else {
@@ -77,29 +81,32 @@ export class MainComponent implements OnInit, OnDestroy {
     if (barcode) {
       this.loading.add(barcode);
       this.alma.getBarcode(barcode)
+      .pipe(finalize(()=>this.loading.delete(barcode)))
       .subscribe({
-        next: result => {
-          this.loading.delete(barcode);
-          if (!this.printService.items.has(result.link)) {
-            this.printService.items.add(result.link);
-            let entity: Entity = {
-              id: result.item_data.pid,
-              link: result.link,
-              description: result.item_data.barcode,
-              type: EntityType.ITEM
-            };
-            this.scannedEntities.unshift(entity);
-          } else {
-            this.alert.warn(`Barcode ${barcode} already added`);
-          }
-        },
+        next: this.onItemScanned,
         error: e => {
           console.error('e', e);
-          this.loading.delete(barcode);
-          this.alert.warn(`Barcode ${barcode} could not be loaded: ` + e.message);
+          this.alert.warn(this.translate.instant('Main.BarcodeError', 
+            { barcode: barcode, message: e.message }), { autoClose: true });
         },
       })
       this.barcode.nativeElement.value = "";
+    }
+  }
+
+  onItemScanned = (item: Item) => {
+    if (!this.printService.items.has(item.link)) {
+      this.printService.items.add(item.link);
+      let entity: Entity = {
+        id: item.item_data.pid,
+        link: item.link,
+        description: item.item_data.barcode,
+        type: EntityType.ITEM
+      };
+      this.scannedEntities.unshift(entity);
+    } else {
+      this.alert.warn(this.translate.instant('Main.BarcodeAlreadyLoaded', 
+        { barcode: item.item_data.barcode }), { autoClose: true });
     }
   }
 

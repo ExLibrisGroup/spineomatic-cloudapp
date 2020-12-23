@@ -7,11 +7,9 @@ import { AlertService, CloudAppStoreService } from '@exlibris/exl-cloudapp-angul
 import { PrintComponent } from '../print/print.component';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialog } from '../dialogs/confirm.component';
 import { Router } from '@angular/router';
 import { DialogService } from '../dialogs/dialog.service';
-import { DialogData, DialogType } from '../dialogs/dialogs';
+import { DialogData, DialogType } from '../dialogs/dialog';
 
 const LABELS_STICKY = "labelsSticky";
 const dialogData: DialogData = {

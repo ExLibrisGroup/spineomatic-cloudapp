@@ -40,8 +40,11 @@ export class ImageComponent extends ConfigurationBaseComponent {
 
   fileChangeEvent(files: File[], key: string) {
     resizeImage(files[0], MAX_IMAGE_SIZE)
-    .then(result=>this.form.get(key).patchValue({url: result}))
-    .catch(error=>this.alert.error('Error reading image' + error));
+    .then(result=>this.form.get(key).patchValue({url: result.data}))
+    .catch(error=>{
+      this.alert.error('Error reading image. ' + error);
+      this.form.removeControl(key);
+    });
   }
 
 }

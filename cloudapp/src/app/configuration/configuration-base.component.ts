@@ -4,7 +4,7 @@ import { snakeCase, startCase } from "lodash";
 import { AddLayoutDialogResult } from "../dialogs/add-layout-dialog.component";
 import { BaseDialog } from "../dialogs/dialog-base.component";
 import { DialogService } from "../dialogs/dialog.service";
-import { DialogType } from "../dialogs/dialogs";
+import { DialogType } from "../dialogs/dialog";
 import { PromptDialog } from "../dialogs/prompt.component";
 
 @Component({
@@ -35,12 +35,13 @@ export class ConfigurationBaseComponent implements OnInit {
       prompt: 'Configuration.Name'
     })
     .afterClosed().subscribe( (result: string | AddLayoutDialogResult ) => {
+      if (!result) return;
       const name = snakeCase(typeof result == 'string' ? result : result.name);
       const basedOn = typeof result == 'string' ? undefined : result.basedOn;
       if (!name) return;
       if (this.keys.includes(name)) {
         return this.dialog.confirm({
-          text: ['Configuration.Exists', {name: startCase(name)}],
+          text: ['Configuration.Exists', { name: startCase(name) }],
           type: DialogType.OK
         });
       } 
@@ -54,7 +55,7 @@ export class ConfigurationBaseComponent implements OnInit {
   delete(key?: string) {
     key = key || this.selected;
     this.dialog.confirm({
-      text: ['Configuration.ConfirmDelete',{ name: startCase(key)}] 
+      text: ['Configuration.ConfirmDelete', { name: startCase(key) }] 
     })
     .afterClosed().subscribe(result => {
       if (!result) return;
@@ -76,7 +77,7 @@ export class ConfigurationBaseComponent implements OnInit {
       if (!name || name == key) return;
       if (this.keys.includes(name)) {
         return this.dialog.confirm({
-          text: ['Configuration.Exists', {name: startCase(name)}],
+          text: ['Configuration.Exists', { name: startCase(name) }],
           type: DialogType.OK
         });
       } 

@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from "@ngx-translate/core";
 import { BaseDialog } from "./dialog-base.component";
-import { DialogData } from "./dialogs";
+import { DialogData } from "./dialog";
 
 export interface ConfirmDialogData extends DialogData {
   

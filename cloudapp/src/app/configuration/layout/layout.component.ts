@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { startCase } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, map, startWith, tap } from 'rxjs/operators';
 import { AddLayoutDialog } from '../../dialogs/add-layout-dialog.component';
 import { DialogService } from '../../dialogs/dialog.service';
-import { layoutFormGroup } from '../../models/configuration'
+import { layoutFormGroup, Layouts } from '../../models/configuration'
 import { LayoutExamples } from '../../models/layout-examples';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
 
@@ -18,6 +20,7 @@ export class LayoutComponent extends ConfigurationBaseComponent {
   startCase = startCase;
   addDialog = AddLayoutDialog;
   defaultForm = (basedOn: string) => layoutFormGroup(LayoutExamples[basedOn]);
+  valueChanges$ = new BehaviorSubject<Layouts>(null);
 
   constructor(
     public dialog: DialogService,
@@ -27,6 +30,16 @@ export class LayoutComponent extends ConfigurationBaseComponent {
 
   ngOnInit() {
     this.selected = this.keys[0];
+    this.form.valueChanges.pipe(
+      startWith(this.form.value),
+      debounceTime(500), 
+      map(val=>val[this.selected]),
+    )
+    .subscribe(this.valueChanges$);
+  }
+
+  ngOnDestroy(): void {
+    this.valueChanges$.unsubscribe();
   }
 
   get keys() { 

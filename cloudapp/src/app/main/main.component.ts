@@ -56,6 +56,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onListTypeChange() {
     setTimeout(()=>{
+      if (this.listType!=ListType.SET) {
+        this.printService.setId = null;
+      }
       if (this.barcode && this.listType==ListType.SCAN)
         this.barcode.nativeElement.focus();
      });
@@ -64,11 +67,7 @@ export class MainComponent implements OnInit, OnDestroy {
   onPageLoad = (pageInfo: PageInfo) => {
     this.entities = (pageInfo.entities||[])
       .filter(e=>[EntityType.ITEM].includes(e.type));
-    if (this.entities.length == 0) {
-      this.listType = ListType.SCAN;
-    } else {
-      this.listType = ListType.SELECT;
-    }
+    this.listType = this.entities.length == 0 ? ListType.SCAN : ListType.SELECT;
     this.onListTypeChange();
   }
 

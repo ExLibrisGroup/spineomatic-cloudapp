@@ -10,6 +10,7 @@
 		"Intro": "To begin printing spine labels, scan in/enter barcodes, navigate to a list of item records or select a set of items.",
     "SelectSet": "Set",
     "Next": "Next",
+    "Clear": "Clear",
     "SelectedIds": "{length} records selected",
     "Scan": "Go",
     "ScanLabel": "Scan/type a barcode and press enter",
@@ -47,6 +48,7 @@
       "Title": "Layouts",
       "SelectLayout": "Select a layout",
       "ExampleLayout": "Layout based on",
+      "Preview": "Preview",
       "Fields": {
         "measure": {
           "Title": "Measurement units",

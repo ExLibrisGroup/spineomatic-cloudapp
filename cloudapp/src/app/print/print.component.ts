@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, of } from 'rxjs';
 import { AlmaService } from '../services/alma.service';
@@ -7,9 +7,12 @@ import { Item } from '../models/item';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { chunk } from 'lodash';
 import { ConfigService } from '../services/config.service';
-import { Config } from '../models/configuration';
+import { Config, Layout } from '../models/configuration';
 import * as dot from 'dot-object';
 import { NgxBarcodeComponent } from 'ngx-barcode';
+import { itemExample } from '../models/item-example';
+
+const INCH_IN_PIXELS = 96, CM_IN_PIXELS = 37.8, PREVIEW_WIDTH = 250;
 
 @Component({
   selector: 'app-print',
@@ -22,6 +25,21 @@ export class PrintComponent implements OnInit {
   barcodeComponent: NgxBarcodeComponent;
   private itemsLoaded = 0;
   percentLoaded = 0;
+  private _preview: Layout;
+  @Input() set preview(val: Layout) {
+    try {
+      const scale = PREVIEW_WIDTH / (val.pageWidth * (val.measure == 'in' ? INCH_IN_PIXELS : CM_IN_PIXELS));
+      let newval = {...val};
+      ['topMargin', 'leftMargin', 'pageWidth', 'width', 'height', 'horizontalGap', 'verticalGap']
+      .forEach(m=>newval[m]=newval[m]*scale);
+      this._preview = newval;
+      const perPage = (typeof this.layout.perPage == 'string') ? parseInt(this.layout.perPage) || 0 : this.layout.perPage;
+      this.items = [new Array(perPage).fill(itemExample)];
+    } catch(e) {
+      console.warn('Could not display preview', e.message);
+      this.items = [];
+    }
+  }
 
   constructor(
     public printService: PrintService,
@@ -55,8 +73,9 @@ export class PrintComponent implements OnInit {
       catchError(e => of(e)),
     )
   }
+
   get layout() {
-    return this.printService.layout;
+    return this._preview || this.printService.layout;
   }
 
   get template() {
@@ -64,6 +83,7 @@ export class PrintComponent implements OnInit {
   }
 
   contents(item: Item) {
+    if (this._preview) return '<p>X</p>';
     let body = this.printService.template.contents
     .replace(/{{ *(\S*:\S*) *}}/g, (match, str) => {
       const [ cmd, detail ] = str.split(':');

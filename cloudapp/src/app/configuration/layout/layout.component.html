@@ -1,7 +1,7 @@
 <div class="layout-list">
   <mat-form-field>
     <mat-label translate>Configuration.Layouts.SelectLayout</mat-label>
-    <mat-select placeholder="Profile" [(value)]="selected">
+    <mat-select placeholder="Profile" [(value)]="selected" (selectionChange)="valueChanges$.next(form.value[selected])">
       <mat-option *ngFor="let layout of keys" [value]="layout">
         {{startCase(layout)}}
       </mat-option>
@@ -56,6 +56,12 @@
   </mat-form-field>  
   <mat-form-field>
     <mat-label translate>Configuration.Layouts.Fields.perPage</mat-label>
-    <input matInput formControlName="perPage">
+    <input matInput formControlName="perPage" type="number">
   </mat-form-field>        
+  <div #preview id="preview">
+    <h3 translate>Configuration.Layouts.Preview</h3>
+    <app-print 
+      [preview]="valueChanges$ | async"
+    ></app-print>
+  </div>
 </div>

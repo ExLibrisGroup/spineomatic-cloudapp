@@ -107,11 +107,7 @@ export class LabelsComponent implements OnInit {
 
   onSettingsChanged(event: MatSelectChange, val: string) {
     this.store.get(LABELS_STICKY).pipe(
-      map(sticky=>sticky || {}),
-      map(sticky=>{
-        sticky[val] = snakeCase(event.source.triggerValue);
-        return sticky;
-      }),
+      map(sticky=>Object.assign(sticky || {}, { [val]: snakeCase(event.source.triggerValue) })),
       switchMap(sticky=>this.store.set(LABELS_STICKY, sticky))
     )
     .subscribe();

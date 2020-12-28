@@ -21,9 +21,18 @@
     margin: 5px;
   }
 }
-
+app-print {
+  display: inline-block;
+  outline: 1px solid darkgrey;
+  margin: 0 1px;
+}
+@media (min-width: 400px) {
+  #preview {
+    grid-area: 1 / -2 / 6 / -1;
+  }
+}
 div.form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   column-gap: 1em;
 }

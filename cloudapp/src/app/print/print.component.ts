@@ -116,7 +116,15 @@ export class PrintComponent implements OnInit {
   getCallNo(val: string | Array<string>) {
     if (!val) return "";
     if (!Array.isArray(val)) return val;
-    return val.join(this.template.callNumberLineBreaks ? '<br>' : ' ');
+    var splitId = "<br>";
+    var returnstr = "";
+    if(this.template.callNumberLineBreaks){
+      splitId = this.template.SplitIdentifier;
+      returnstr = val.join(' ').split(splitId).join("<br>");
+    }else{
+      returnstr = val.join(' ');
+    }
+    return returnstr;
   }
 
   getImage(key: string) {

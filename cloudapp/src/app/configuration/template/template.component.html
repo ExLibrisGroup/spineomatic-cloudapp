@@ -24,7 +24,7 @@
       toolbar:
         'addfield addimage | \
         bold italic | \
-        alignleft aligncenter alignright | fontselect forecolor | \
+        alignleft aligncenter alignright | fontselect fontsizeselect forecolor | \
         undo redo | removeformat'
       }"
       formControlName="contents"
@@ -54,6 +54,10 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-checkbox labelPosition="before" formControlName="callNumberLineBreaks">{{'Configuration.Templates.Fields.callNumberLineBreaks' | translate}}</mat-checkbox>
+      <mat-form-field appearance="standard" [ngClass]="{'readonly': !callNumberLineBreaks}">
+        <mat-label translate>Configuration.Templates.Fields.SplitIdentifier</mat-label>
+        <input matInput formControlName="SplitIdentifier"  >
+      </mat-form-field>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

@@ -106,5 +106,9 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   get asBarcode(): boolean {
     return (this.form.get(this.selected) as FormGroup).controls.asBarcode.value
   }
+
+  get callNumberLineBreaks(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.callNumberLineBreaks.value
+  }
 }
 

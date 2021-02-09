@@ -4,6 +4,11 @@
 
 export const itemExample = {
   "link" : "string",
+  "bib_data" : {
+    "title" : "this bib's title",
+    "mms_id" : "990007380550203961",
+    "isbn" : "978-7-5617-9659-7",
+    },
   "holding_data" : {
     "link" : "string",
     "holding_id" : "224831320000121",

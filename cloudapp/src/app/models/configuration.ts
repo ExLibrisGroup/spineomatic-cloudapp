@@ -23,7 +23,7 @@ export class Template {
   showBarcodeValue: boolean = true;
   barcodeEncoding: BarcodeFormats = 'codabar';
   callNumberLineBreaks: boolean = false;
-  SplitIdentifier: string = "";
+  splitIdentifier: string = "";
 }
 
 export class Images {

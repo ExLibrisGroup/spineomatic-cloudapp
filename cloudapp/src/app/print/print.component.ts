@@ -118,10 +118,10 @@ export class PrintComponent implements OnInit {
     if (!Array.isArray(val)) return val;
     var splitId = "<br>";
     var returnstr = "";
-    if(this.template.callNumberLineBreaks){
-      splitId = this.template.SplitIdentifier;
+    if (this.template.callNumberLineBreaks) {
+      splitId = this.template.splitIdentifier;
       returnstr = val.join(' ').split(splitId).join("<br>");
-    }else{
+    } else {
       returnstr = val.join(' ');
     }
     return returnstr;

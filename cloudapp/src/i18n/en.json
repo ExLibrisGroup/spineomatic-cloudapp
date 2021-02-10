@@ -91,7 +91,7 @@
         "showBarcodeValue": "Show barcode value",
         "barcodeEncoding": "Barcode encoding",
         "callNumberLineBreaks": "Line breaks between call number parts",
-        "SplitIdentifier": "Input call number line break identifier (default is one space)"
+        "splitIdentifier": "Input call number line break identifier (default is one space)"
       }
     },
     "Images": {

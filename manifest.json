@@ -1,9 +1,9 @@
 {
    "id": "exlibrisgroup/spineomatic-cloudapp",
    "title": "SpineOMatic",
-   "description": "Define layouts and templates, print barcodes and call numbers. Currently available for early-testers.",
    "subtitle": "Print spine labels from Alma",
    "author": "Ex Libris",
+   "description": "Define layouts and templates, print barcodes and call numbers. Currently available for early-testers.",
    "entities": [
       "ITEM"
    ],
@@ -23,6 +23,6 @@
    },
    "icon": {
       "type": "font",
-      "value": "fa fa-barcode"
+      "value": "fa fa-tags"
    }
 }

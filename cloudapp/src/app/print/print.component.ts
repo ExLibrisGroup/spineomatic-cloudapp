@@ -119,7 +119,7 @@ export class PrintComponent implements OnInit {
     var splitId = "<br>";
     var returnstr = "";
     if (this.template.callNumberLineBreaks) {
-      splitId = this.template.splitIdentifier;
+      splitId = this.template.splitIdentifier || ' ';
       returnstr = val.join(' ').split(splitId).join("<br>");
     } else {
       returnstr = val.join(' ');

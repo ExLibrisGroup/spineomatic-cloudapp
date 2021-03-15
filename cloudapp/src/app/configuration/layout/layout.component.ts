@@ -6,7 +6,7 @@ import { debounceTime, map, startWith, tap } from 'rxjs/operators';
 import { AddLayoutDialog } from '../../dialogs/add-layout-dialog.component';
 import { DialogService } from '../../dialogs/dialog.service';
 import { layoutFormGroup, Layouts } from '../../models/configuration'
-import { LayoutExamples } from '../../models/layout-examples';
+import { BaseLayouts } from '../../models/base-layouts';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class LayoutComponent extends ConfigurationBaseComponent {
   selected: string;
   startCase = startCase;
   addDialog = AddLayoutDialog;
-  defaultForm = (basedOn: string) => layoutFormGroup(LayoutExamples[basedOn]);
+  defaultForm = (basedOn: string) => layoutFormGroup(BaseLayouts[basedOn]);
   valueChanges$ = new BehaviorSubject<Layouts>(null);
 
   constructor(

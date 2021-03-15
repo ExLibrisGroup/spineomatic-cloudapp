@@ -2,8 +2,8 @@ import { ElementRef, Inject, ViewChild } from "@angular/core";
 import { Component } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from "@ngx-translate/core";
-import { startCase } from "lodash";
-import { LayoutExamples } from "../models/layout-examples";
+import { capitalize } from "lodash";
+import { BaseLayouts } from "../models/base-layouts";
 import { DEFAULT_DIALOG_OPTIONS } from "./dialog";
 import { PromptDialog, PromptDialogData } from "./prompt.component";
 
@@ -20,7 +20,7 @@ export interface AddLayoutDialogResult {
       <mat-label>{{'Configuration.Layouts.ExampleLayout' | translate }}</mat-label>
       <mat-select [(ngModel)]="result.basedOn">
         <mat-option selected value="">{{'Blank' | translate}}</mat-option>
-        <mat-option *ngFor="let layout of layoutExamples | keyvalue" [value]="layout.key">{{startCase(layout.key)}}</mat-option>
+        <mat-option *ngFor="let layout of baseLayouts | keyvalue" [value]="layout.key">{{startCase(layout.key)}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -39,8 +39,8 @@ export interface AddLayoutDialogResult {
   ]
 })
 export class AddLayoutDialog extends PromptDialog {
-  layoutExamples = LayoutExamples;
-  startCase = startCase;
+  baseLayouts = BaseLayouts;
+  startCase = (str: string) => str.replace(/_/g, ' ').replace(/\w+/g, capitalize);
   @ViewChild('input') inputElement: ElementRef;
   defaultOptions: PromptDialogData = 
     Object.assign(DEFAULT_DIALOG_OPTIONS, { prompt: '', val: '' });

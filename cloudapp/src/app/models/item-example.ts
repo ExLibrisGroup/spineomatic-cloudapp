@@ -13,6 +13,10 @@ export const itemExample = {
     "link" : "string",
     "holding_id" : "224831320000121",
     "copy_id" : "142312420001021",
+    "call_number_type" : {
+      "value" : "#"
+    },
+    "call_number" : "string",    
     "in_temp_location" : false,
     "temp_library" : {
       "value" : "string"

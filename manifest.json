@@ -22,7 +22,7 @@
       "open": false
    },
    "icon": {
-      "type": "font",
-      "value": "fa fa-tags"
+      "type": "url",
+      "value": "/assets/spineomatic-logo.png"
    }
 }

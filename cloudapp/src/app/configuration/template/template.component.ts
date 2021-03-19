@@ -10,6 +10,7 @@ import { LABEL_FIELDS } from '../../models/item';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
 import { itemExample } from '../../models/item-example';
 import { resizeImage } from '../image/image-utils';
+import { callNumberParsers } from '../../models/call-number-parsers';
 
 @Component({
   selector: 'app-template',
@@ -23,7 +24,8 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   startCase = startCase;
   defaultForm = templateFormGroup;
   barcodeFormats = barcodeFormats;
-
+  callNumberParsers = callNumberParsers;
+  
   constructor(
     private translate: TranslateService,
     public dialog: DialogService,

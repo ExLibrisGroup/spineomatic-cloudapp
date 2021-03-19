@@ -27,7 +27,7 @@ export class AlmaService {
   }
 
   getBarcode(barcode:string) {
-    return this.restService.call<Item>(`/items?item_barcode=${barcode}`);
+    return this.restService.call<Item>(`/items?item_barcode=${barcode.trim()}`);
   }
 
   getItem(link: string) {

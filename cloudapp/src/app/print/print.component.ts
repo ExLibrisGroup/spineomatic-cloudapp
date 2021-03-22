@@ -11,6 +11,7 @@ import { Config, Layout } from '../models/configuration';
 import * as dot from 'dot-object';
 import { NgxBarcodeComponent } from 'ngx-barcode';
 import { itemExample } from '../models/item-example';
+import { callNumberParsers } from '../models/call-number-parsers';
 
 const INCH_IN_PIXELS = 96, CM_IN_PIXELS = 37.8, PREVIEW_WIDTH = 250;
 
@@ -96,6 +97,9 @@ export class PrintComponent implements OnInit {
             return this.getBarCode(val);
           case 'item_data.alt_call_no':
           case 'item_data.call_no':
+          case 'holding_data.call_number':
+          case 'holding_data.permanent_call_number':
+          case 'holding_data.temp_call_number':
             return this.getCallNo(val);
           default:
             return val;
@@ -115,16 +119,11 @@ export class PrintComponent implements OnInit {
 
   getCallNo(val: string | Array<string>) {
     if (!val) return "";
-    if (!Array.isArray(val)) return val;
-    var splitId = "<br>";
-    var returnstr = "";
-    if (this.template.callNumberLineBreaks) {
-      splitId = this.template.splitIdentifier || ' ';
-      returnstr = val.join(' ').split(splitId).join("<br>");
-    } else {
-      returnstr = val.join(' ');
+    if (callNumberParsers[this.template.callNumberParser]) {
+      val = callNumberParsers[this.template.callNumberParser](val);
     }
-    return returnstr;
+    if (!Array.isArray(val)) return val;
+    return val.join(this.template.callNumberLineBreaks ? '<br>' : ' ');
   }
 
   getImage(key: string) {

@@ -1,5 +1,5 @@
 <div class="cloudapp-actions">
-  <button mat-flat-button color="secondary" (click)="scannedEntities = [];printService.clear()">{{'Main.Clear' | translate}}</button>
+  <button mat-flat-button color="secondary" (click)="clear()">{{'Main.Clear' | translate}}</button>
   <button mat-flat-button [disabled]="!isValid" color="primary" [routerLink]="['labels']">
     {{'Main.Next' | translate}}
     <mat-icon>arrow_forward_ios</mat-icon>

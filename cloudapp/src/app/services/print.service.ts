@@ -11,6 +11,7 @@ export class PrintService {
   items = new Set<string>();
   layout: Layout;
   template: Template;
+  offset: number = 0;
 
   constructor( 
     private alma: AlmaService,
@@ -19,7 +20,6 @@ export class PrintService {
   loadItems() {
     return this.alma.getItemsFromSet(this.setId)
     .pipe(
-      tap(results=>console.log('results', results)),
       tap(results=>this.items=new Set((results.member||[]).map(m=>m.link)))
     )
   }

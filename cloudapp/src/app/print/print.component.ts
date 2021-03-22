@@ -57,6 +57,7 @@ export class PrintComponent implements OnInit {
     .pipe(
       tap(config=>this.config = config),
       switchMap(()=>forkJoin(Array.from(this.printService.items).map(i=>this.getItem(i)))),
+      tap(items => items.unshift(...new Array(this.printService.offset))),
       tap(items => this.items = chunk(items, this.layout.perPage)),
       finalize(()=>{
         this.percentLoaded = 0; this.itemsLoaded = 0;
@@ -85,6 +86,7 @@ export class PrintComponent implements OnInit {
 
   contents(item: Item) {
     if (this._preview) return '<p>X</p>';
+    else if (!item) return '';
     let body = this.printService.template.contents
     .replace(/{{ *(\S*:\S*) *}}/g, (match, str) => {
       const [ cmd, detail ] = str.split(':');
@@ -122,8 +124,8 @@ export class PrintComponent implements OnInit {
     if (callNumberParsers[this.template.callNumberParser]) {
       val = callNumberParsers[this.template.callNumberParser](val);
     }
-    if (!Array.isArray(val)) return val;
-    return val.join(this.template.callNumberLineBreaks ? '<br>' : ' ');
+    return Array.isArray(val) ?
+      val.join(this.template.callNumberLineBreaks ? '<br>' : ' ') : val;
   }
 
   getImage(key: string) {

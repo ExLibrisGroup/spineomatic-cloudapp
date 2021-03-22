@@ -45,6 +45,11 @@ export class SelectEntitiesComponent implements OnInit {
     this.masterChecked = checked_count == this.entities.length;
     this.masterIndeterminate = checked_count > 0 && checked_count < this.entities.length;
   }
+
+  clear() {
+    Object.values(this.entities).forEach(b => b.checked = false);
+    this.determineMasterValue();
+  }
 }
 
 export class SelectItem {

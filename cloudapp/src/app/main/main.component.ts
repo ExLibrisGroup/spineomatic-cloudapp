@@ -23,7 +23,7 @@ export class MainComponent implements OnInit, OnDestroy {
   entities: Entity[];
   listType: ListType = ListType.SET;
   @ViewChild('selectSet', {static: false}) selectSetComponent: SelectSetComponent;
-  @ViewChild('selectBibs', {static: false}) selectBibsComponent: SelectEntitiesComponent;
+  @ViewChild('selectEntities', {static: false}) selectEntitiesComponent: SelectEntitiesComponent;
   @ViewChild('barcode', {static: false}) barcode: ElementRef;
 
   constructor(
@@ -113,6 +113,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.printService.items.delete(this.scannedEntities[i].link);
     this.scannedEntities.splice(i, 1);
     if (this.barcode) this.barcode.nativeElement.focus();
+  }
+
+  clear() {
+    this.scannedEntities = [];
+    this.printService.clear();
+    this.selectEntitiesComponent.clear();
   }
 
   onItemSelected(event: {entity: Entity, checked: boolean}) {

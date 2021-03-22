@@ -26,6 +26,8 @@
     "Print": "Print {length} labels",
     "SelectLayout": "Select a layout",
     "SelectTemplate": "Select a template",
+    "Offset": "Offset",
+    "OffsetHint": "Skip this number of slots on first page of labels",
     "Dialog": {
       "title": "Print completed",
       "text": "Were the labels printed successfully?",

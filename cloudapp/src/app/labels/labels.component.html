@@ -24,5 +24,10 @@
       <mat-option *ngFor="let template of config.templates | keyvalue" [value]="template.value">{{startCase(template.key)}}</mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label translate>Labels.Offset</mat-label>
+    <input matInput [(ngModel)]="printService.offset" type="number" min="0" [max]="printService.layout?.perPage">
+    <mat-hint translate>Labels.OffsetHint</mat-hint>
+  </mat-form-field>
 </div>
 <iframe style="visibility: hidden;" #iframe></iframe>

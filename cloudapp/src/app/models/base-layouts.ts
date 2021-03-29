@@ -12,7 +12,8 @@ export const BaseLayouts: Layouts = {
     height: 2,
     horizontalGap: 0.14,
     verticalGap: 0,
-    perPage: 10
+    perPage: 10,
+    leftPadding: 0.05,
   },
   /* https://www.worldlabel.com/Pages/wl-ol875.htm */
   avery_5160: {
@@ -25,7 +26,8 @@ export const BaseLayouts: Layouts = {
     height: 1,
     horizontalGap: 0.14,
     verticalGap: 0,
-    perPage: 30
+    perPage: 30,
+    leftPadding: 0.05,
   },
   /* https://www.demco.com/demco-reg-gaylord-reg-processing-spine-labels-1-12-x-78 */
   'Demco Spine 1 1/2 x 7/8': {
@@ -38,7 +40,8 @@ export const BaseLayouts: Layouts = {
     height: 1.5,
     horizontalGap: 0.12,
     verticalGap: 0.13,
-    perPage: 48
+    perPage: 48,
+    leftPadding: 0.05,
   },
   /* https://www.demco.com/demco-reg-gaylord-reg-processing-spine-labels-34-x-1-14 */
   'Demco Spine 3/4 x 1 1/4': {
@@ -51,6 +54,7 @@ export const BaseLayouts: Layouts = {
     height: .75,
     horizontalGap: 0,
     verticalGap: 0.1,
-    perPage: 84
+    perPage: 84,
+    leftPadding: 0.05,
   },
 }

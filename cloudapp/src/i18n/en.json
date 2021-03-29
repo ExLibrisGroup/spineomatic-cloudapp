@@ -69,7 +69,8 @@
         "height": "Label height",
         "horizontalGap": "Horizontal gap",
         "verticalGap": "Vertical gap",
-        "perPage": "Labels per page"
+        "perPage": "Labels per page",
+        "leftPadding": "Left padding"
       }
     },
     "Templates": {

@@ -45,6 +45,7 @@ export class Layout {
   horizontalGap: number = 0;
   verticalGap: number = 0;
   perPage: number = 12;
+  leftPadding: number = 0.05;
 }
 
 export const layoutFormGroup = (layout: Layout = new Layout()) => FormGroupUtil.toFormGroup(layout);

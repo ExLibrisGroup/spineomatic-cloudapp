@@ -1,6 +1,6 @@
 <div class="cloudapp-actions">
   <button mat-flat-button color="secondary" (click)="clear()">{{'Main.Clear' | translate}}</button>
-  <button mat-flat-button [disabled]="!isValid" color="primary" [routerLink]="['labels']">
+  <button mat-flat-button [disabled]="!isValid" color="primary" (click)="next()">
     {{'Main.Next' | translate}}
     <mat-icon>arrow_forward_ios</mat-icon>
   </button>
@@ -19,7 +19,7 @@
     <app-select-entities #selectEntities
       (entitySelected)="onItemSelected($event)"
       [entityList]="entities"
-      [selectedEntities]="printService.items">
+      [isEntitySelected]="isEntitySelected">
     </app-select-entities>
   </div>
   <div *ngSwitchCase="'SET'">

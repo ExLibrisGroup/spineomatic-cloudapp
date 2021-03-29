@@ -102,8 +102,8 @@ export class LabelsComponent implements OnInit {
     const dialogRef = this.dialog.confirm(dialogData);
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
-      this.printService.clear();
-      this.router.navigate(['/']);
+      this.printService.clear()
+      .then(() => this.router.navigate(['/']));
     });
   }
 

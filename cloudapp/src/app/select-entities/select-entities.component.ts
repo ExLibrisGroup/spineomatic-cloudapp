@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Entity } from '@exlibris/exl-cloudapp-angular-lib';
+import { Entity, EntityType } from '@exlibris/exl-cloudapp-angular-lib';
 
 @Component({
   selector: 'app-select-entities',
@@ -12,7 +11,7 @@ export class SelectEntitiesComponent implements OnInit {
   masterChecked: boolean;
   masterIndeterminate: boolean;
   entities: SelectItem[];
-  @Input() selectedEntities: Set<string>;
+  @Input() isEntitySelected: (e: Entity) => boolean;
   @Output() entitySelected = 
     new EventEmitter<{entity: SelectItem, checked: boolean}>();
 
@@ -24,7 +23,7 @@ export class SelectEntitiesComponent implements OnInit {
 
   @Input()
   set entityList(val: Entity[]) {
-    this.entities = val.map(i=>new SelectItem(i, item => this.selectedEntities.has(item.link)));
+    this.entities = val.map(i=>new SelectItem(i, this.isEntitySelected));
     this.determineMasterValue();
   }
 
@@ -52,17 +51,18 @@ export class SelectEntitiesComponent implements OnInit {
   }
 }
 
-export class SelectItem {
+export class SelectItem implements Entity {
   checked: boolean;
   id: string;
   description: string;
   code: string;
   name: string;
   link: string;
+  type: EntityType;
 
-  constructor(item: Partial<SelectItem>, checker: (item: Partial<SelectItem>) => boolean) {
+  constructor(item: Partial<SelectItem>, checker: (e: Entity) => boolean) {
     Object.assign(this, item);
     this.name = (this.description || this.code) || this.id;
-    this.checked = checker(item);
+    this.checked = checker(item as Entity);
   }
 }

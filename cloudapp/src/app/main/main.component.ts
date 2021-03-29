@@ -1,15 +1,16 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { AlertService, CloudAppEventsService, Entity, EntityType, PageInfo } from '@exlibris/exl-cloudapp-angular-lib';
+import { AlertService, CloudAppEventsService, CloudAppStoreService, Entity, EntityType, PageInfo } from '@exlibris/exl-cloudapp-angular-lib';
 import { Set } from '../models/set';
 import { SelectSetComponent } from '../select-set/select-set.component';
 import { SelectEntitiesComponent } from '../select-entities/select-entities.component';
 import { ConfigService } from '../services/config.service';
-import { PrintService } from '../services/print.service';
+import { PrintService, STORE_SCANNED_BARCODES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, switchMap } from 'rxjs/operators';
 import { Item } from '../models/item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -20,6 +21,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private pageLoad$: Subscription;
   loading = new Set<string>();
   scannedEntities: Entity[] = [];
+  selectedEntities = new Set<string>();
   entities: Entity[];
   listType: ListType = ListType.SET;
   @ViewChild('selectSet', {static: false}) selectSetComponent: SelectSetComponent;
@@ -33,6 +35,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private alma: AlmaService,
     public printService: PrintService,
     private translate: TranslateService,
+    private router: Router,
+    private store: CloudAppStoreService,
   ) { }
 
   ngOnInit() {
@@ -48,6 +52,9 @@ export class MainComponent implements OnInit, OnDestroy {
         .subscribe(text=>this.alert.warn(text));
       }
     })
+    /* Reload scanned barcodes */
+    this.store.get(STORE_SCANNED_BARCODES)
+    .subscribe(barcodes => this.scannedEntities = barcodes || []);
   }
 
   ngOnDestroy(): void {
@@ -72,6 +79,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onSetSelected(set: Set) {
+    this.printService.clear();
     this.printService.setId = set.id;
   }
 
@@ -94,23 +102,28 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onItemScanned = (item: Item) => {
-    if (!this.printService.items.has(item.link)) {
-      this.printService.items.add(item.link);
-      let entity: Entity = {
-        id: item.item_data.pid,
-        link: item.link,
-        description: item.item_data.barcode,
-        type: EntityType.ITEM
-      };
-      this.scannedEntities.unshift(entity);
+    if (!this.scannedEntities.find(e=>e.link==item.link)) {
+      this.scannedEntities.unshift(this.itemToEntity(item));
     } else {
       this.alert.warn(this.translate.instant('Main.BarcodeAlreadyLoaded', 
         { barcode: item.item_data.barcode }), { autoClose: true });
     }
+    this.store.set(STORE_SCANNED_BARCODES, this.scannedEntities)
+    .subscribe();
   }
 
+  itemToEntity = (item: Item): Entity => (
+    {
+      id: item.item_data.pid,
+      link: item.link,
+      description: item.item_data.barcode,
+      type: EntityType.ITEM
+    }
+  )
+  
+  isEntitySelected = (entity: Entity) => this.selectedEntities.has(entity.link);
+
   remove(i: number) {
-    this.printService.items.delete(this.scannedEntities[i].link);
     this.scannedEntities.splice(i, 1);
     if (this.barcode) this.barcode.nativeElement.focus();
   }
@@ -118,18 +131,28 @@ export class MainComponent implements OnInit, OnDestroy {
   clear() {
     this.scannedEntities = [];
     this.printService.clear();
-    this.selectEntitiesComponent.clear();
+    if (this.selectEntitiesComponent) this.selectEntitiesComponent.clear();
   }
 
   onItemSelected(event: {entity: Entity, checked: boolean}) {
-    if (event.checked) this.printService.items.add(event.entity.link);
-    else this.printService.items.delete(event.entity.link);
+    if (event.checked) this.selectedEntities.add(event.entity.link);
+    else this.selectedEntities.delete(event.entity.link);
+  }
+
+  next() {
+    if (this.listType == ListType.SCAN) {
+      this.printService.items = new Set(this.scannedEntities.map(e=>e.link));
+    } else if (this.listType == ListType.SELECT) {
+      this.printService.items = this.selectedEntities;
+    }
+    this.router.navigate(['labels']);
   }
 
   get isValid() {
     return (
       ( (this.listType==ListType.SET && this.printService.setId!=null) ||
-        ([ListType.SELECT, ListType.SCAN].includes(this.listType) && this.printService.items.size!=0) 
+        (this.listType==ListType.SELECT && this.selectedEntities.size != 0) ||
+        (this.listType==ListType.SCAN && this.scannedEntities.length != 0) 
       ) 
       && this.loading.size == 0
     );

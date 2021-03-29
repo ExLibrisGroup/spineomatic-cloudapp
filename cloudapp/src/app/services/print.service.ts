@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import { CloudAppStoreService } from '@exlibris/exl-cloudapp-angular-lib';
 import { tap } from 'rxjs/operators';
 import { Layout, Template } from '../models/configuration';
 import { AlmaService } from './alma.service';
+
+export const STORE_SCANNED_BARCODES = 'ScannedBarcodes';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,7 @@ export class PrintService {
 
   constructor( 
     private alma: AlmaService,
+    private store: CloudAppStoreService,
   ) {  }
 
   loadItems() {
@@ -24,9 +28,10 @@ export class PrintService {
     )
   }
 
-  clear() {
+  async clear() {
     this.items.clear();
     this.setId = '';
+    await this.store.remove(STORE_SCANNED_BARCODES).toPromise();
   }
 
 }

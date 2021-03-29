@@ -125,7 +125,9 @@ export class PrintComponent implements OnInit {
       val = callNumberParsers[this.template.callNumberParser](val);
     }
     return Array.isArray(val) ?
-      val.join(this.template.callNumberLineBreaks ? '<br>' : ' ') : val;
+      val.filter(v=>!!v) /* Suppress blank lines */
+      .join(this.template.callNumberLineBreaks ? '<br>' : ' ') : 
+      val;
   }
 
   getImage(key: string) {

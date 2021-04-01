@@ -10,17 +10,17 @@
   <mat-radio-group aria-label="Select an option" [(ngModel)]="listType" (ngModelChange)="onListTypeChange()">
     <mat-radio-button value="SCAN">{{'Main.ScanItems' | translate}}</mat-radio-button>
     <mat-radio-button value="SET">{{'Main.SelectSet' | translate}}</mat-radio-button>
-    <mat-radio-button value="SELECT" *ngIf="entities.length>0">{{'Main.SelectRecords' | translate}}</mat-radio-button>
+    <mat-radio-button value="SELECT" *ngIf="(entities$ | async).length>0">{{'Main.SelectRecords' | translate}}</mat-radio-button>
   </mat-radio-group>
 </div>
 <div [ngSwitch]="listType">
   <div *ngSwitchCase="'SELECT'">
     <mat-label translate [translateParams]="{length: printService.items.size}">Main.SelectedIds</mat-label>
-    <app-select-entities #selectEntities
+    <eca-select-entities #selectEntities
       (entitySelected)="onItemSelected($event)"
-      [entityList]="entities"
+      [entityList]="entities$ | async"
       [isEntitySelected]="isEntitySelected">
-    </app-select-entities>
+    </eca-select-entities>
   </div>
   <div *ngSwitchCase="'SET'">
     <app-select-set #selectSet

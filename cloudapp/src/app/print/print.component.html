@@ -20,7 +20,7 @@
         float: 'left',
         'text-align': 'center',
         overflow: 'hidden',
-        outline: '1px dotted #ccc',
+        outline: printService.gridlines ? '1px dotted #ccc' : '',
         width: layout.width + layout.measure,
         height: layout.height + layout.measure,
         padding: layout.orientation == 'landscape' ? 

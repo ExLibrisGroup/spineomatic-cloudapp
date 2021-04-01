@@ -28,6 +28,7 @@
     "SelectTemplate": "Select a template",
     "Offset": "Offset",
     "OffsetHint": "Skip this number of slots on first page of labels",
+    "Gridlines": "Print gridlines",
     "Dialog": {
       "title": "Print completed",
       "text": "Were the labels printed successfully?",

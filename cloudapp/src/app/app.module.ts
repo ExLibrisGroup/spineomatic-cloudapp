@@ -9,6 +9,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { DialogModule } from './dialogs/dialog.module';
 import { getTranslateModuleWithICU } from './utils';
+import { SelectEntitiesModule } from 'eca-select-entities';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +19,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutComponent } from './configuration/layout/layout.component';
 import { TemplateComponent } from './configuration/template/template.component';
 import { ImageComponent } from './configuration/image/image.component'; 
-import { SelectEntitiesComponent } from './select-entities/select-entities.component';
 import { SelectSetComponent } from './select-set/select-set.component';
 import { LabelsComponent } from './labels/labels.component';
 import { PrintComponent } from './print/print.component';
@@ -33,7 +33,6 @@ import { ConfigurationBaseComponent } from './configuration/configuration-base.c
     LayoutComponent,
     TemplateComponent,
     ImageComponent,
-    SelectEntitiesComponent,
     SelectSetComponent,
     LabelsComponent,
     PrintComponent,
@@ -51,6 +50,7 @@ import { ConfigurationBaseComponent } from './configuration/configuration-base.c
     FormsModule,
     ReactiveFormsModule,    
     EditorModule,  
+    SelectEntitiesModule,
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } },

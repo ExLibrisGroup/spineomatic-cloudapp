@@ -15,6 +15,7 @@ export class PrintService {
   layout: Layout;
   template: Template;
   offset: number = 0;
+  gridlines = false;
 
   constructor( 
     private alma: AlmaService,

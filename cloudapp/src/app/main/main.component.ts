@@ -1,14 +1,13 @@
-import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { AlertService, CloudAppEventsService, CloudAppStoreService, Entity, EntityType, PageInfo } from '@exlibris/exl-cloudapp-angular-lib';
+import { AlertService, CloudAppEventsService, CloudAppStoreService, Entity, EntityType } from '@exlibris/exl-cloudapp-angular-lib';
 import { Set } from '../models/set';
 import { SelectSetComponent } from '../select-set/select-set.component';
-import { SelectEntitiesComponent } from '../select-entities/select-entities.component';
+import { SelectEntitiesComponent } from 'eca-select-entities';
 import { ConfigService } from '../services/config.service';
 import { PrintService, STORE_SCANNED_BARCODES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, switchMap } from 'rxjs/operators';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import { Item } from '../models/item';
 import { Router } from '@angular/router';
 
@@ -18,12 +17,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-  private pageLoad$: Subscription;
   loading = new Set<string>();
   scannedEntities: Entity[] = [];
   selectedEntities = new Set<string>();
-  entities: Entity[];
-  listType: ListType = ListType.SET;
+  public entities$ = 
+    this.eventsService.entities$.pipe(
+      map(entities=>entities.filter(e=>[EntityType.ITEM].includes(e.type))),
+      tap(entities=>setTimeout(()=>this.listType = entities.length == 0 ? ListType.SCAN : ListType.SELECT)),
+      tap(()=>this.onListTypeChange())
+    );
+  listType: ListType = ListType.SCAN;
   @ViewChild('selectSet', {static: false}) selectSetComponent: SelectSetComponent;
   @ViewChild('selectEntities', {static: false}) selectEntitiesComponent: SelectEntitiesComponent;
   @ViewChild('barcode', {static: false}) barcode: ElementRef;
@@ -40,7 +43,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.pageLoad$ = this.eventsService.onPageLoad(this.onPageLoad);
     /* Check if app is configured */
     this.configService.get().subscribe(config=>{
       if (Object.keys(config.layouts).length==0 ||
@@ -58,7 +60,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.pageLoad$.unsubscribe();
   }
 
   onListTypeChange() {
@@ -69,13 +70,6 @@ export class MainComponent implements OnInit, OnDestroy {
       if (this.barcode && this.listType==ListType.SCAN)
         this.barcode.nativeElement.focus();
      });
-  }
-
-  onPageLoad = (pageInfo: PageInfo) => {
-    this.entities = (pageInfo.entities||[])
-      .filter(e=>[EntityType.ITEM].includes(e.type));
-    this.listType = this.entities.length == 0 ? ListType.SCAN : ListType.SELECT;
-    this.onListTypeChange();
   }
 
   onSetSelected(set: Set) {
@@ -108,8 +102,7 @@ export class MainComponent implements OnInit, OnDestroy {
       this.alert.warn(this.translate.instant('Main.BarcodeAlreadyLoaded', 
         { barcode: item.item_data.barcode }), { autoClose: true });
     }
-    this.store.set(STORE_SCANNED_BARCODES, this.scannedEntities)
-    .subscribe();
+    this.saveScannedBarcodes();
   }
 
   itemToEntity = (item: Item): Entity => (
@@ -125,13 +118,20 @@ export class MainComponent implements OnInit, OnDestroy {
 
   remove(i: number) {
     this.scannedEntities.splice(i, 1);
+    this.saveScannedBarcodes();
     if (this.barcode) this.barcode.nativeElement.focus();
   }
 
   clear() {
     this.scannedEntities = [];
     this.printService.clear();
+    this.selectedEntities.clear();
     if (this.selectEntitiesComponent) this.selectEntitiesComponent.clear();
+  }
+
+  saveScannedBarcodes() {
+    this.store.set(STORE_SCANNED_BARCODES, this.scannedEntities)
+    .subscribe();
   }
 
   onItemSelected(event: {entity: Entity, checked: boolean}) {

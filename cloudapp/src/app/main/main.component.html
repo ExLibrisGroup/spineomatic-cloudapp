@@ -15,7 +15,7 @@
 </div>
 <div [ngSwitch]="listType">
   <div *ngSwitchCase="'SELECT'">
-    <mat-label translate [translateParams]="{length: printService.items.size}">Main.SelectedIds</mat-label>
+    <mat-label translate [translateParams]="{length: selectedEntities.size}">Main.SelectedIds</mat-label>
     <eca-select-entities #selectEntities
       (entitySelected)="onItemSelected($event)"
       [entityList]="entities$ | async"

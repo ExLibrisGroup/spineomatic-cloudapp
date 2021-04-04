@@ -26,8 +26,8 @@
         padding: layout.orientation == 'landscape' ? 
           layout.leftPadding + layout.measure + ' 0.05in 0.05in 0.05in' : 
           '0.05in 0.05in 0.05in ' + layout.leftPadding + layout.measure,
-        'margin-right': layout.verticalGap + layout.measure,
-        'margin-bottom': layout.horizontalGap + layout.measure,
+        'margin-right': layout.horizontalGap + layout.measure,
+        'margin-bottom': layout.verticalGap + layout.measure,
         'writing-mode': layout.orientation == 'landscape' ? 'vertical-rl' : 'horizontal-tb'
       }"
       *ngFor="let item of page"

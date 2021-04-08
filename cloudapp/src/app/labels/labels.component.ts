@@ -8,16 +8,14 @@ import { PrintComponent } from '../print/print.component';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { DialogService } from '../dialogs/dialog.service';
-import { DialogData, DialogType } from '../dialogs/dialog';
+import { DialogService, PromptDialogData } from 'eca-components';
 
 const LABELS_STICKY = "labelsSticky";
-const dialogData: DialogData = {
+const dialogData: PromptDialogData = {
   title: 'Labels.Dialog.title',
   text: 'Labels.Dialog.text',
   cancel: 'Labels.Dialog.cancel',
   ok: 'Labels.Dialog.ok',
-  type: DialogType.OK_CANCEL
 }
 
 @Component({
@@ -99,8 +97,8 @@ export class LabelsComponent implements OnInit {
 
   printIt = () => {
     this.iframe.nativeElement.contentWindow.print();
-    const dialogRef = this.dialog.confirm(dialogData);
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialog.confirm(dialogData)
+    .subscribe(result => {
       if (!result) return;
       this.printService.clear()
       .then(() => this.router.navigate(['/']));

@@ -5,7 +5,7 @@ import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { TranslateService } from '@ngx-translate/core';
 import { startCase } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { DialogService } from '../dialogs/dialog.service';
+import { DialogService } from 'eca-components';
 import { configFormGroup } from '../models/configuration';
 import { ConfigService } from '../services/config.service';
 import { MatTabChangeEvent } from '@angular/material/tabs'
@@ -71,10 +71,9 @@ export class ConfigurationGuard implements CanDeactivate<ConfigurationComponent>
 
   canDeactivate(component: ConfigurationComponent): Observable<boolean> {
     if(!component.form.dirty) return of(true);
-    const dialogRef = this.dialog.confirm({ 
+    return this.dialog.confirm({ 
       text: 'Configuration.Discard',
       ok: 'Configuration.DiscardOk'
     });
-    return dialogRef.afterClosed();
   }
 }

@@ -2,12 +2,12 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { AlertService, CloudAppEventsService, CloudAppStoreService, Entity, EntityType } from '@exlibris/exl-cloudapp-angular-lib';
 import { Set } from '../models/set';
 import { SelectSetComponent } from '../select-set/select-set.component';
-import { SelectEntitiesComponent } from 'eca-select-entities';
+import { SelectEntitiesComponent } from 'eca-components';
 import { ConfigService } from '../services/config.service';
 import { PrintService, STORE_SCANNED_BARCODES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { Item } from '../models/item';
 import { Router } from '@angular/router';
 
@@ -19,17 +19,13 @@ import { Router } from '@angular/router';
 export class MainComponent implements OnInit, OnDestroy {
   loading = new Set<string>();
   scannedEntities: Entity[] = [];
-  selectedEntities = new Set<string>();
-  public entities$ = 
-    this.eventsService.entities$.pipe(
-      map(entities=>entities.filter(e=>[EntityType.ITEM].includes(e.type))),
-      tap(entities=>setTimeout(()=>this.listType = entities.length == 0 ? ListType.SCAN : ListType.SELECT)),
-      tap(()=>this.onListTypeChange())
-    );
+  selectedEntities = new Array<Entity>();
   listType: ListType = ListType.SCAN;
   @ViewChild('selectSet', {static: false}) selectSetComponent: SelectSetComponent;
   @ViewChild('selectEntities', {static: false}) selectEntitiesComponent: SelectEntitiesComponent;
   @ViewChild('barcode', {static: false}) barcode: ElementRef;
+  entityTypes = [ EntityType.ITEM ];
+  count = 0;
 
   constructor(
     private eventsService: CloudAppEventsService,
@@ -114,8 +110,6 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   )
   
-  isEntitySelected = (entity: Entity) => this.selectedEntities.has(entity.link);
-
   remove(i: number) {
     this.scannedEntities.splice(i, 1);
     this.saveScannedBarcodes();
@@ -125,7 +119,6 @@ export class MainComponent implements OnInit, OnDestroy {
   clear() {
     this.scannedEntities = [];
     this.printService.clear();
-    this.selectedEntities.clear();
     if (this.selectEntitiesComponent) this.selectEntitiesComponent.clear();
   }
 
@@ -134,24 +127,19 @@ export class MainComponent implements OnInit, OnDestroy {
     .subscribe();
   }
 
-  onItemSelected(event: {entity: Entity, checked: boolean}) {
-    if (event.checked) this.selectedEntities.add(event.entity.link);
-    else this.selectedEntities.delete(event.entity.link);
-  }
-
   next() {
     if (this.listType == ListType.SCAN) {
       this.printService.items = new Set(this.scannedEntities.map(e=>e.link));
     } else if (this.listType == ListType.SELECT) {
-      this.printService.items = this.selectedEntities;
+      this.printService.items = new Set(this.selectedEntities.map(e=>e.link));
     }
     this.router.navigate(['labels']);
   }
 
   get isValid() {
     return (
-      ( (this.listType==ListType.SET && this.printService.setId!=null) ||
-        (this.listType==ListType.SELECT && this.selectedEntities.size != 0) ||
+      ( (this.listType==ListType.SET && this.printService.setId != null) ||
+        (this.listType==ListType.SELECT && this.selectedEntities.length != 0) ||
         (this.listType==ListType.SCAN && this.scannedEntities.length != 0) 
       ) 
       && this.loading.size == 0

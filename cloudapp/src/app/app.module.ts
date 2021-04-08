@@ -7,9 +7,9 @@ import { MaterialModule, AlertModule } from '@exlibris/exl-cloudapp-angular-lib'
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { DialogModule } from './dialogs/dialog.module';
 import { getTranslateModuleWithICU } from './utils';
-import { SelectEntitiesModule } from 'eca-select-entities';
+import { SelectEntitiesModule } from 'eca-components';
+import { AppDialogModule } from './app-dialogs.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +46,7 @@ import { ConfigurationBaseComponent } from './configuration/configuration-base.c
     AlertModule,
     getTranslateModuleWithICU(),
     NgxBarcodeModule,
-    DialogModule,
+    AppDialogModule,
     FormsModule,
     ReactiveFormsModule,    
     EditorModule,  

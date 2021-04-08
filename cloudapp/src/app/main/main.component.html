@@ -10,24 +10,26 @@
   <mat-radio-group aria-label="Select an option" [(ngModel)]="listType" (ngModelChange)="onListTypeChange()">
     <mat-radio-button value="SCAN">{{'Main.ScanItems' | translate}}</mat-radio-button>
     <mat-radio-button value="SET">{{'Main.SelectSet' | translate}}</mat-radio-button>
-    <mat-radio-button value="SELECT" *ngIf="(entities$ | async).length>0">{{'Main.SelectRecords' | translate}}</mat-radio-button>
+    <mat-radio-button value="SELECT">{{'Main.SelectRecords' | translate}}</mat-radio-button>
   </mat-radio-group>
 </div>
-<div [ngSwitch]="listType">
-  <div *ngSwitchCase="'SELECT'">
-    <mat-label translate [translateParams]="{length: selectedEntities.size}">Main.SelectedIds</mat-label>
+<div>
+  <div [style.display]="listType == 'SELECT' ? 'block' : 'none'">
+    <p *ngIf="count == 0" translate>Main.NoEntities</p>
+    <mat-label *ngIf="count >  0" translate [translateParams]="{length: selectedEntities.length}">Main.SelectedIds</mat-label>
     <eca-select-entities #selectEntities
-      (entitySelected)="onItemSelected($event)"
-      [entityList]="entities$ | async"
-      [isEntitySelected]="isEntitySelected">
+      [(selected)]="selectedEntities"
+      [entityTypes]="entityTypes"
+      (count)="count=$event"
+      >
     </eca-select-entities>
   </div>
-  <div *ngSwitchCase="'SET'">
+  <div [style.display]="listType == 'SET' ? 'block' : 'none'">
     <app-select-set #selectSet
       (setSelected)=onSetSelected($event)>
     </app-select-set>
   </div>
-  <div *ngSwitchCase="'SCAN'">
+  <div [style.display]="listType == 'SCAN' ? 'block' : 'none'">
     <mat-form-field>
       <mat-label translate>Main.ScanLabel</mat-label>
       <input matInput #barcode (keyup.enter)="scan()" autocomplete="off">

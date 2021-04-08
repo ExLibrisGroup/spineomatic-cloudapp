@@ -3,9 +3,8 @@ import { Component } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from "@ngx-translate/core";
 import { capitalize } from "lodash";
-import { BaseLayouts } from "../models/base-layouts";
-import { DEFAULT_DIALOG_OPTIONS } from "./dialog";
-import { PromptDialog, PromptDialogData } from "./prompt.component";
+import { BaseLayouts } from "../../models/base-layouts";
+import { PromptDialog, PromptDialogData  } from "eca-components";
 
 export interface AddLayoutDialogResult {
   name: string;
@@ -42,8 +41,6 @@ export class AddLayoutDialog extends PromptDialog {
   baseLayouts = BaseLayouts;
   startCase = (str: string) => str.replace(/_/g, ' ').replace(/\w+/g, capitalize);
   @ViewChild('input') inputElement: ElementRef;
-  defaultOptions: PromptDialogData = 
-    Object.assign(DEFAULT_DIALOG_OPTIONS, { prompt: '', val: '' });
   result: AddLayoutDialogResult = { name: "", basedOn: ""};
 
   constructor(

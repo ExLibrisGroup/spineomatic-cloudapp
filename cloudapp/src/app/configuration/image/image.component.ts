@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { startCase } from 'lodash';
-import { DialogService } from '../../dialogs/dialog.service';
+import { DialogService } from 'eca-components';
 import { imageFormGroup } from '../../models/configuration';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
 import { resizeImage } from './image-utils';

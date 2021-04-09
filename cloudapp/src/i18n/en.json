@@ -13,6 +13,7 @@
     "Clear": "Clear",
     "SelectedIds": "{length} records selected",
     "NoEntities": "Please navigate to a screen with items.",
+    "File": "Load barcodes from a file",
     "Scan": "Go",
     "ScanLabel": "Scan/type a barcode and press enter",
     "ScannedBarcodes": "Scanned barcodes",

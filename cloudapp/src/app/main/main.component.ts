@@ -26,6 +26,7 @@ export class MainComponent implements OnInit, OnDestroy {
   @ViewChild('barcode', {static: false}) barcode: ElementRef;
   entityTypes = [ EntityType.ITEM ];
   count = 0;
+  scanning = false;
 
   constructor(
     private eventsService: CloudAppEventsService,
@@ -73,6 +74,35 @@ export class MainComponent implements OnInit, OnDestroy {
     this.printService.setId = set.id;
   }
 
+  readFile(files: File[]) {
+    const file = files[0];
+    console.log('here', file);
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const file = event.target.result;
+      if (typeof file != 'string') return;
+      const items = file.split(/\r\n|\n/)
+      .reverse() /* Preserve order */
+      .filter(barcode => !!barcode) /* Skip blank lines */
+      .map(barcode =>
+        this.alma.getBarcode(barcode.trim()).toPromise()
+        .then(this.onItemScanned)
+        .catch(e => this.scanBarcodeError(e, barcode))
+      );
+      /* Scan synchronously to preserve order of file */  
+      this.scanning = true;
+      for await (let item of items) {
+      }
+      this.scanning = false;
+      (document.getElementById('file') as HTMLInputElement).value = null;
+    };
+    reader.onerror = (event) => {
+        console.error(event.target.error.name);
+    };
+    reader.readAsText(file);
+  }
+
   scan() {
     const barcode = this.barcode.nativeElement.value;
     if (barcode) {
@@ -81,14 +111,16 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(finalize(()=>this.loading.delete(barcode)))
       .subscribe({
         next: this.onItemScanned,
-        error: e => {
-          console.error('e', e);
-          this.alert.warn(this.translate.instant('Main.BarcodeError', 
-            { barcode: barcode, message: e.message }), { autoClose: true });
-        },
+        error: e => this.scanBarcodeError(e, barcode),
       })
       this.barcode.nativeElement.value = "";
     }
+  }
+
+  scanBarcodeError(e: Error, barcode: string) {
+    console.error('e', e);
+    this.alert.warn(this.translate.instant('Main.BarcodeError', 
+      { barcode: barcode, message: e.message }), { autoClose: true });
   }
 
   onItemScanned = (item: Item) => {

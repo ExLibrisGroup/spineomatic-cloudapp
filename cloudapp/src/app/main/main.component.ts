@@ -76,23 +76,20 @@ export class MainComponent implements OnInit, OnDestroy {
 
   readFile(files: File[]) {
     const file = files[0];
-    console.log('here', file);
     if (!file) return;
     const reader = new FileReader();
     reader.onload = async (event) => {
       const file = event.target.result;
       if (typeof file != 'string') return;
-      const items = file.split(/\r\n|\n/)
+      const barcodes = file.split(/\r\n|\n/)
       .reverse() /* Preserve order */
-      .filter(barcode => !!barcode) /* Skip blank lines */
-      .map(barcode =>
-        this.alma.getBarcode(barcode.trim()).toPromise()
-        .then(this.onItemScanned)
-        .catch(e => this.scanBarcodeError(e, barcode))
-      );
+      .filter(barcode => !!barcode); /* Skip blank lines */
       /* Scan synchronously to preserve order of file */  
       this.scanning = true;
-      for await (let item of items) {
+      for (let barcode of barcodes) {
+        await this.alma.getBarcode(barcode.trim()).toPromise()
+          .then(this.onItemScanned)
+          .catch(e => this.scanBarcodeError(e, barcode))
       }
       this.scanning = false;
       (document.getElementById('file') as HTMLInputElement).value = null;

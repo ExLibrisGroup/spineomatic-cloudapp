@@ -1,11 +1,8 @@
 import { Component, OnInit, Type } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { snakeCase, startCase } from "lodash";
-import { AddLayoutDialogResult } from "../dialogs/add-layout-dialog.component";
-import { BaseDialog } from "../dialogs/dialog-base.component";
-import { DialogService } from "../dialogs/dialog.service";
-import { DialogType } from "../dialogs/dialog";
-import { PromptDialog } from "../dialogs/prompt.component";
+import { AddLayoutDialogResult } from "./layout/add-layout-dialog.component";
+import { BaseDialog, DialogService, PromptDialog} from 'eca-components';
 
 @Component({
   selector: 'app-config-base',
@@ -34,15 +31,14 @@ export class ConfigurationBaseComponent implements OnInit {
       title: 'Configuration.Add',
       prompt: 'Configuration.Name'
     })
-    .afterClosed().subscribe( (result: string | AddLayoutDialogResult ) => {
+    .subscribe( (result: string | AddLayoutDialogResult ) => {
       if (!result) return;
       const name = snakeCase(typeof result == 'string' ? result : result.name);
       const basedOn = typeof result == 'string' ? undefined : result.basedOn;
       if (!name) return;
       if (this.keys.includes(name)) {
-        return this.dialog.confirm({
+        return this.dialog.alert({
           text: ['Configuration.Exists', { name: startCase(name) }],
-          type: DialogType.OK
         });
       } 
       this.form.addControl(name, this.defaultForm(basedOn));
@@ -57,7 +53,7 @@ export class ConfigurationBaseComponent implements OnInit {
     this.dialog.confirm({
       text: ['Configuration.ConfirmDelete', { name: startCase(key) }] 
     })
-    .afterClosed().subscribe(result => {
+    .subscribe(result => {
       if (!result) return;
       this.form.removeControl(key);
       this.selected = this.keys[0];
@@ -72,13 +68,12 @@ export class ConfigurationBaseComponent implements OnInit {
       prompt: 'Configuration.Name',
       val: startCase(key)
     })
-    .afterClosed().subscribe( (result: string) => {
+    .subscribe( (result: string) => {
       const name = snakeCase(result);
       if (!name || name == key) return;
       if (this.keys.includes(name)) {
-        return this.dialog.confirm({
+        return this.dialog.alert({
           text: ['Configuration.Exists', { name: startCase(name) }],
-          type: DialogType.OK
         });
       } 
       this.form.addControl(name, this.form.get(key));

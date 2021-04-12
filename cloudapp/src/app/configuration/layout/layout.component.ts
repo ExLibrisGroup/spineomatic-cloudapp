@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { startCase } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
-import { AddLayoutDialog } from '../../dialogs/add-layout-dialog.component';
-import { DialogService } from '../../dialogs/dialog.service';
+import { AddLayoutDialog } from './add-layout-dialog.component';
+import { DialogService } from 'eca-components';
 import { layoutFormGroup, Layouts } from '../../models/configuration'
 import { BaseLayouts } from '../../models/base-layouts';
 import { ConfigurationBaseComponent } from '../configuration-base.component';

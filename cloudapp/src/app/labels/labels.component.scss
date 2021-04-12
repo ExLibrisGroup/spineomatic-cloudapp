@@ -1,5 +1,11 @@
-.mat-form-field {
-  width: 100%;
-  max-width: 400px;
-  display: block;
+.config { 
+  .mat-checkbox {
+    margin-top: 15px;
+    display: block;
+  }
+  .mat-form-field {
+    width: 100%;
+    max-width: 400px;
+    display: block;
+  }
 }

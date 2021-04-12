@@ -12,6 +12,8 @@
     "Next": "Next",
     "Clear": "Clear",
     "SelectedIds": "{length} records selected",
+    "NoEntities": "Please navigate to a screen with items.",
+    "File": "Load barcodes from a file",
     "Scan": "Go",
     "ScanLabel": "Scan/type a barcode and press enter",
     "ScannedBarcodes": "Scanned barcodes",
@@ -26,6 +28,9 @@
     "Print": "Print {length} labels",
     "SelectLayout": "Select a layout",
     "SelectTemplate": "Select a template",
+    "Offset": "Offset",
+    "OffsetHint": "Skip this number of slots on first page of labels",
+    "Gridlines": "Print gridlines",
     "Dialog": {
       "title": "Print completed",
       "text": "Were the labels printed successfully?",
@@ -67,7 +72,8 @@
         "height": "Label height",
         "horizontalGap": "Horizontal gap",
         "verticalGap": "Vertical gap",
-        "perPage": "Labels per page"
+        "perPage": "Labels per page",
+        "leftPadding": "Left padding"
       }
     },
     "Templates": {

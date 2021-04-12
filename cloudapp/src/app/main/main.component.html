@@ -1,6 +1,6 @@
 <div class="cloudapp-actions">
-  <button mat-flat-button color="secondary" (click)="scannedEntities = [];printService.clear()">{{'Main.Clear' | translate}}</button>
-  <button mat-flat-button [disabled]="!isValid" color="primary" [routerLink]="['labels']">
+  <button mat-flat-button color="secondary" (click)="clear()">{{'Main.Clear' | translate}}</button>
+  <button mat-flat-button [disabled]="!isValid" color="primary" (click)="next()">
     {{'Main.Next' | translate}}
     <mat-icon>arrow_forward_ios</mat-icon>
   </button>
@@ -10,31 +10,35 @@
   <mat-radio-group aria-label="Select an option" [(ngModel)]="listType" (ngModelChange)="onListTypeChange()">
     <mat-radio-button value="SCAN">{{'Main.ScanItems' | translate}}</mat-radio-button>
     <mat-radio-button value="SET">{{'Main.SelectSet' | translate}}</mat-radio-button>
-    <mat-radio-button value="SELECT" *ngIf="entities.length>0">{{'Main.SelectRecords' | translate}}</mat-radio-button>
+    <mat-radio-button value="SELECT">{{'Main.SelectRecords' | translate}}</mat-radio-button>
   </mat-radio-group>
 </div>
-<div [ngSwitch]="listType">
-  <div *ngSwitchCase="'SELECT'">
-    <mat-label translate [translateParams]="{length: printService.items.size}">Main.SelectedIds</mat-label>
-    <app-select-entities #selectEntities
-      (entitySelected)="onItemSelected($event)"
-      [entityList]="entities"
-      [selectedEntities]="printService.items">
-    </app-select-entities>
+<div>
+  <div [style.display]="listType == 'SELECT' ? 'block' : 'none'">
+    <p *ngIf="count == 0" translate>Main.NoEntities</p>
+    <mat-label *ngIf="count >  0" translate [translateParams]="{length: selectedEntities.length}">Main.SelectedIds</mat-label>
+    <eca-select-entities #selectEntities
+      [(selected)]="selectedEntities"
+      [entityTypes]="entityTypes"
+      (count)="count=$event"
+      >
+    </eca-select-entities>
   </div>
-  <div *ngSwitchCase="'SET'">
+  <div [style.display]="listType == 'SET' ? 'block' : 'none'">
     <app-select-set #selectSet
       (setSelected)=onSetSelected($event)>
     </app-select-set>
   </div>
-  <div *ngSwitchCase="'SCAN'">
+  <div [style.display]="listType == 'SCAN' ? 'block' : 'none'">
     <mat-form-field>
       <mat-label translate>Main.ScanLabel</mat-label>
       <input matInput #barcode (keyup.enter)="scan()" autocomplete="off">
-      <i matSuffix class="uxf-icon uxf-right eca-button" (click)="scan()"></i>
+      <i matSuffix class="uxf-icon uxf-right eca-button" (click)="scan()" title="{{'Main.Scan' | translate}}"></i>
+      <i matSuffix class="uxf-icon uxf-doc eca-button" (click)="file.click()" title="{{'Main.File' | translate}}"></i>
     </mat-form-field>
+    <input type="file" #file id="file" class="hidden" (change)="readFile($event.target.files)" accept="text/*" style="display: none;"/>
     <div *ngIf="scannedEntities.length>0 || loading.size > 0">
-      <div><p translate>Main.ScannedBarcodes</p></div>
+      <h2 translate>Main.ScannedBarcodes</h2>
       <mat-list>
         <mat-list-item role="listitem" *ngFor="let b of loading">
           {{b}} <mat-spinner diameter=15></mat-spinner>
@@ -48,4 +52,7 @@
       </mat-list>
     </div>
   </div>
+</div>
+<div class="loading-shade" *ngIf="scanning">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
 </div>

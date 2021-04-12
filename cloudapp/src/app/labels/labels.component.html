@@ -11,7 +11,7 @@
   </button>
   <button mat-flat-button type="button" color="primary" [disabled]="!valid" (click)="print()">{{ 'Labels.Print' | translate:{length: printService.items.size} }}</button>
 </div>
-<div *ngIf="config">
+<div class="config" *ngIf="config">
   <mat-form-field>
     <mat-label translate>Labels.SelectLayout</mat-label>
     <mat-select [(ngModel)]="printService.layout" [compareWith]="isEqual" (selectionChange)="onSettingsChanged($event, 'layout')">
@@ -24,5 +24,11 @@
       <mat-option *ngFor="let template of config.templates | keyvalue" [value]="template.value">{{startCase(template.key)}}</mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label translate>Labels.Offset</mat-label>
+    <input matInput [(ngModel)]="printService.offset" type="number" min="0" [max]="printService.layout?.perPage">
+    <mat-hint translate>Labels.OffsetHint</mat-hint>
+  </mat-form-field>
+  <mat-checkbox labelPosition="before" [(ngModel)]="printService.gridlines">{{'Labels.Gridlines' | translate}}</mat-checkbox>
 </div>
 <iframe style="visibility: hidden;" #iframe></iframe>

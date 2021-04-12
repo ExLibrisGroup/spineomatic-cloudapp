@@ -5,19 +5,17 @@ import { PrintService } from '../services/print.service';
 import { snakeCase, startCase, isEqual } from 'lodash';
 import { AlertService, CloudAppStoreService } from '@exlibris/exl-cloudapp-angular-lib';
 import { PrintComponent } from '../print/print.component';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { DialogService } from '../dialogs/dialog.service';
-import { DialogData, DialogType } from '../dialogs/dialog';
+import { DialogService, PromptDialogData } from 'eca-components';
 
 const LABELS_STICKY = "labelsSticky";
-const dialogData: DialogData = {
+const dialogData: PromptDialogData = {
   title: 'Labels.Dialog.title',
   text: 'Labels.Dialog.text',
   cancel: 'Labels.Dialog.cancel',
   ok: 'Labels.Dialog.ok',
-  type: DialogType.OK_CANCEL
 }
 
 @Component({
@@ -75,7 +73,9 @@ export class LabelsComponent implements OnInit {
   get valid() {
     return !!this.printService.layout && 
       !!this.printService.template &&
-      this.printService.items.size > 0;
+      this.printService.items.size > 0 &&
+      this.printService.offset >= 0 &&
+      this.printService.offset <= this.printService.layout.perPage;
   }
 
   print() {
@@ -84,10 +84,10 @@ export class LabelsComponent implements OnInit {
     doc.body.appendChild(this.printComponent.location.nativeElement);
     this.loading = true;
     this.printComponent.instance.load()
+    .pipe(finalize(() => this.loading = false))
     .subscribe({
       next: () => setTimeout(this.printIt),
       error: e => this.alert.error('An error occurred: ' + e.message),
-      complete: () => this.loading = false
     });
   }
 
@@ -97,11 +97,11 @@ export class LabelsComponent implements OnInit {
 
   printIt = () => {
     this.iframe.nativeElement.contentWindow.print();
-    const dialogRef = this.dialog.confirm(dialogData);
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialog.confirm(dialogData)
+    .subscribe(result => {
       if (!result) return;
-      this.printService.clear();
-      this.router.navigate(['/']);
+      this.printService.clear()
+      .then(() => this.router.navigate(['/']));
     });
   }
 

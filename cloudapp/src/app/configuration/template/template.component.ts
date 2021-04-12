@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { startCase } from 'lodash';
 import * as dot from 'dot-object'
 import { Editor } from '../../../assets/tinymce/tinymce';
-import { DialogService } from '../../dialogs/dialog.service';
+import { DialogService } from 'eca-components';
 import { barcodeFormats, Images, templateFormGroup } from '../../models/configuration';
 import { LABEL_FIELDS } from '../../models/item';
 import { ConfigurationBaseComponent } from '../configuration-base.component';

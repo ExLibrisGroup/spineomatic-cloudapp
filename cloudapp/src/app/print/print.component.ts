@@ -31,7 +31,7 @@ export class PrintComponent implements OnInit {
     try {
       const scale = PREVIEW_WIDTH / (val.pageWidth * (val.measure == 'in' ? INCH_IN_PIXELS : CM_IN_PIXELS));
       let newval = {...val};
-      ['topMargin', 'leftMargin', 'pageWidth', 'width', 'height', 'horizontalGap', 'verticalGap']
+      ['topMargin', 'leftMargin', 'pageWidth', 'width', 'height', 'horizontalGap', 'verticalGap', 'leftPadding']
       .forEach(m=>newval[m]=newval[m]*scale);
       this._preview = newval;
       const perPage = (typeof this.layout.perPage == 'string') ? parseInt(this.layout.perPage) || 0 : this.layout.perPage;
@@ -57,6 +57,7 @@ export class PrintComponent implements OnInit {
     .pipe(
       tap(config=>this.config = config),
       switchMap(()=>forkJoin(Array.from(this.printService.items).map(i=>this.getItem(i)))),
+      tap(items => items.unshift(...new Array(this.printService.offset))),
       tap(items => this.items = chunk(items, this.layout.perPage)),
       finalize(()=>{
         this.percentLoaded = 0; this.itemsLoaded = 0;
@@ -85,6 +86,7 @@ export class PrintComponent implements OnInit {
 
   contents(item: Item) {
     if (this._preview) return '<p>X</p>';
+    else if (!item) return '';
     let body = this.printService.template.contents
     .replace(/{{ *(\S*:\S*) *}}/g, (match, str) => {
       const [ cmd, detail ] = str.split(':');
@@ -122,8 +124,10 @@ export class PrintComponent implements OnInit {
     if (callNumberParsers[this.template.callNumberParser]) {
       val = callNumberParsers[this.template.callNumberParser](val);
     }
-    if (!Array.isArray(val)) return val;
-    return val.join(this.template.callNumberLineBreaks ? '<br>' : ' ');
+    return Array.isArray(val) ?
+      val.filter(v=>!!v) /* Suppress blank lines */
+      .join(this.template.callNumberLineBreaks ? '<br>' : ' ') : 
+      val;
   }
 
   getImage(key: string) {

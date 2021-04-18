@@ -40,13 +40,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    //this.translate.addLangs(["zh", "en"]);  
-    // this.translate.setDefaultLang("zh");
-    // const browserLang = this.translate.getBrowserLang();
-     //this.translate.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
-   //  this.translate.use('zh');
-   //   console.log('browserLang',browserLang);
-
     /* Check if app is configured */
     this.configService.get().subscribe(config=>{
       if (Object.keys(config.layouts).length==0 ||

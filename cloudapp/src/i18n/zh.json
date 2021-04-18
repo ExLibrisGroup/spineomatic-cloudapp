@@ -1,0 +1,109 @@
+{
+  "Back": "返回",
+  "Save": "保存",
+  "OK": "确定",
+  "Cancel": "取消",
+  "Blank": "空",
+	"Main": {
+    "SelectRecords": "选择单册",
+    "ScanItems": "扫描单册",
+		"Intro": "要开始打印书标，请扫描/输入条码（或者从文件加载）,从单册列表选择打印条码或者选择一个结果集.",
+    "SelectSet": "结果集",
+    "Next": "下一步",
+    "Clear": "清空",
+    "SelectedIds": "{length} 条记录被选择",
+    "NoEntities": "请导航到一个有单册的页面.",
+    "File": "从每行一个条码的文本文件中加载条码.",
+    "Scan": "添加",
+    "ScanLabel": "扫描/输入条码并回车",
+    "ScannedBarcodes": "已扫描的条码",
+    "BarcodeError": "条码 {barcode} 不能被加载: {message}",
+    "BarcodeAlreadyLoaded": "条码 {barcode} 已经被添加",
+    "NoConfig": "未配置模板或布局. {isAdmin, select, true {<a href=\"./#/configuration\">点击这里配置.</a>} false {请联系管理员进行配置.}"
+  },  
+	"SetSelect": {
+		"SelectSet": "开始从结果集列表中选择"
+  },
+  "Labels": {
+    "Print": "打印 {length} 个书标",
+    "SelectLayout": "选择一个样式",
+    "SelectTemplate": "选择一个模板",
+    "Offset": "偏移量",
+    "OffsetHint": "跳过标签第一页的位数",
+    "Gridlines": "打印网格线",
+    "Dialog": {
+      "title": "打印完成",
+      "text": "所有书标都打印完成了吗?",
+      "ok": "是, 清除并重新打印",
+      "cancel": "否"
+    }
+  },
+  "Configuration": {
+    "Title": "配置",
+    "Success": "配置保存成功.",
+    "Discard": "确定要放弃更改吗?",
+    "DiscardOk": "是, 放弃修改",
+    "Add": "添加",
+    "Rename": "重命名",
+    "Delete": "删除",
+    "Name": "名称",
+    "Exists": "\"{name}\" 已经存在.",
+    "ConfirmDelete": "是否确定删除 \"{name}\"",
+    "Layouts": {
+      "Title": "样式",
+      "SelectLayout": "选择一个样式",
+      "ExampleLayout": "样式基于",
+      "Preview": "预览",
+      "Fields": {
+        "measure": {
+          "Title": "计量单位",
+          "in": "英寸",
+          "cm": "厘米"
+        },
+        "topMargin": "上边距",
+        "leftMargin": "左边距",
+        "pageWidth": "纸张宽度",
+        "orientation": {
+          "Title": "方向",
+          "portrait": "纵向",
+          "landscape": "横向"
+        },
+        "width": "标签宽度",
+        "height": "标签高度",
+        "horizontalGap": "水平间距",
+        "verticalGap": "垂直间距",
+        "perPage": "每页标签个数",
+        "leftPadding": "左侧填充"
+      }
+    },
+    "Templates": {
+      "Title": "模板",
+      "SelectTemplate": "选择一个模板",
+      "AddImage": "添加图片",
+      "AddField": "添加字段",
+      "Contents": "标签内容",
+      "OtherOptions": "其他选项",
+      "BarcodeOptions": "条码选项",
+      "CallNoOptions": "索书号选项",
+      "Fields": {
+        "item_data.barcode": "Barcode",
+        "item_data.call_no": "Parsed call number",
+        "item_data.alt_call_no": "Parsed alternative call number",
+        "item_data.issue_level_description": "Issue level descrition",
+        "item_data.edition": "Edition",
+        "item_data.imprint": "Imprint",
+        "item_data.language": "Language",
+        "asBarcode": "显示为条形码",
+        "showBarcodeValue": "显示条码值",
+        "barcodeEncoding": "条形码的编码",
+        "callNumberLineBreaks": "在索书号的各部分之间换行",
+        "callNumberParser": "索书号解析",
+        "defaultCallNumberParser": "默认 (Alma)"
+      }
+    },
+    "Images": {
+      "Title": "图片",
+      "EditImage": "替换图片"
+    }
+  }
+}

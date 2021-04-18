@@ -4,7 +4,7 @@ import { Set } from '../models/set';
 import { SelectSetComponent } from '../select-set/select-set.component';
 import { SelectEntitiesComponent } from 'eca-components';
 import { ConfigService } from '../services/config.service';
-import { PrintService, STORE_SCANNED_BARCODES } from '../services/print.service';
+import { PrintService, STORE_SCANNED_BARCODES, STORE_SELECTED_ENTITIES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, switchMap } from 'rxjs/operators';
@@ -30,10 +30,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(
     private eventsService: CloudAppEventsService,
-    public configService: ConfigService,
+    public  configService: ConfigService,
     private alert: AlertService,
     private alma: AlmaService,
-    public printService: PrintService,
+    public  printService: PrintService,
     private translate: TranslateService,
     private router: Router,
     private store: CloudAppStoreService,
@@ -54,6 +54,9 @@ export class MainComponent implements OnInit, OnDestroy {
     /* Reload scanned barcodes */
     this.store.get(STORE_SCANNED_BARCODES)
     .subscribe(barcodes => this.scannedEntities = barcodes || []);
+    /* Reload selected entities */
+    this.store.get(STORE_SELECTED_ENTITIES)
+    .subscribe(entities => this.selectedEntities = entities || []);
   }
 
   ngOnDestroy(): void {
@@ -161,6 +164,7 @@ export class MainComponent implements OnInit, OnDestroy {
       this.printService.items = new Set(this.scannedEntities.map(e=>e.link));
     } else if (this.listType == ListType.SELECT) {
       this.printService.items = new Set(this.selectedEntities.map(e=>e.link));
+      this.store.set(STORE_SELECTED_ENTITIES, this.selectedEntities).subscribe();
     }
     this.router.navigate(['labels']);
   }

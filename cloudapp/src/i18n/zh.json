@@ -19,6 +19,7 @@
     "ScannedBarcodes": "已扫描的条码",
     "BarcodeError": "条码 {barcode} 不能被加载: {message}",
     "BarcodeAlreadyLoaded": "条码 {barcode} 已经被添加",
+    "SelectLan":"语言",
     "NoConfig": "未配置模板或布局. {isAdmin, select, true {<a href=\"./#/configuration\">点击这里配置.</a>} false {请联系管理员进行配置.}"
   },  
 	"SetSelect": {
@@ -85,6 +86,7 @@
       "OtherOptions": "其他选项",
       "BarcodeOptions": "条码选项",
       "CallNoOptions": "索书号选项",
+      "TitleOptions": "书名选项",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -98,7 +100,9 @@
         "barcodeEncoding": "条形码的编码",
         "callNumberLineBreaks": "在索书号的各部分之间换行",
         "callNumberParser": "索书号解析",
-        "defaultCallNumberParser": "默认 (Alma)"
+        "defaultCallNumberParser": "默认 (Alma)",
+        "truncateTitle": "截取题名",
+        "truncateTitleCharacters": "截取题名位数" 
       }
     },
     "Images": {

@@ -19,6 +19,7 @@
     "ScannedBarcodes": "Scanned barcodes",
     "BarcodeError": "Barcode {barcode} could not be loaded: {message}",
     "BarcodeAlreadyLoaded": "Barcode {barcode} already added",
+    "SelectLan":"Language",
     "NoConfig": "No templates or layouts have been configured. {isAdmin, select, true {<a href=\"./#/configuration\">Click here to configure.</a>} false {Please ask an administrator to configure.}"
   },  
 	"SetSelect": {
@@ -85,6 +86,7 @@
       "OtherOptions": "Other options",
       "BarcodeOptions": "Barcode",
       "CallNoOptions": "Call number",
+      "TitleOptions": "Title",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -98,7 +100,9 @@
         "barcodeEncoding": "Barcode encoding",
         "callNumberLineBreaks": "Line breaks between call number parts",
         "callNumberParser": "Call Number Parser",
-        "defaultCallNumberParser": "Default (Alma)"
+        "defaultCallNumberParser": "Default (Alma)",
+        "truncateTitle": "Truncate title",
+        "truncateTitleCharacters": "Truncate title characters" 
       }
     },
     "Images": {

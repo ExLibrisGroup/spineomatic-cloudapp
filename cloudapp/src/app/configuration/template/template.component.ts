@@ -5,7 +5,7 @@ import { startCase } from 'lodash';
 import * as dot from 'dot-object'
 import { Editor } from '../../../assets/tinymce/tinymce';
 import { DialogService } from 'eca-components';
-import { barcodeFormats, Images, templateFormGroup,titleCharacters } from '../../models/configuration';
+import { barcodeFormats, Images, templateFormGroup } from '../../models/configuration';
 import { LABEL_FIELDS } from '../../models/item';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
 import { itemExample } from '../../models/item-example';
@@ -25,7 +25,6 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   defaultForm = templateFormGroup;
   barcodeFormats = barcodeFormats;
   callNumberParsers = callNumberParsers;
-  titleCharacters = titleCharacters;
   
   constructor(
     private translate: TranslateService,
@@ -112,10 +111,6 @@ export class TemplateComponent extends ConfigurationBaseComponent {
 
   get callNumberLineBreaks(): boolean {
     return (this.form.get(this.selected) as FormGroup).controls.callNumberLineBreaks.value
-  }
-
-  get truncateTitle(): boolean {
-    return (this.form.get(this.selected) as FormGroup).controls.truncateTitle.value
   }
 }
 

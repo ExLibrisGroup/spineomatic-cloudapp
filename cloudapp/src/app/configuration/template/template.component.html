@@ -68,12 +68,9 @@
           Configuration.Templates.TitleOptions
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-checkbox labelPosition="before" formControlName="truncateTitle">{{'Configuration.Templates.Fields.truncateTitle' | translate}}</mat-checkbox>
-       <mat-form-field appearance="standard" [ngClass]="{'readonly': !truncateTitle}">
+      <mat-form-field appearance="standard">
         <mat-label translate>Configuration.Templates.Fields.truncateTitleCharacters</mat-label>
-        <mat-select formControlName="truncateTitleCharacters">
-          <mat-option *ngFor="let character of titleCharacters" [value]="character">{{character}}</mat-option>
-        </mat-select>     
+        <input matInput formControlName="truncateTitleCharacters" type="number">  
       </mat-form-field>
     </mat-expansion-panel>
   </mat-accordion>

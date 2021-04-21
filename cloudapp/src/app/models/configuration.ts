@@ -17,9 +17,6 @@ export class Templates {
 export const barcodeFormats = ['CODE128' , 'CODE128A' , 'CODE128B' , 'CODE128C' , 'EAN13' , 'UPC' , 'EAN8' , 'EAN5' , 'EAN2' , 'CODE39' , 'ITF14' , 'MSI' , 'MSI10' , 'MSI11' , 'MSI1010' , 'MSI1110' , 'pharmacode' , 'codabar'] as const;
 type BarcodeFormats = typeof barcodeFormats[number];
 
-export const titleCharacters = ['10' , '20' , '30' , '40' , '50' ] as const;
-type TitleCharacters = typeof titleCharacters[number];
-
 export class Template {
   contents: string = "";
   asBarcode: boolean = false;
@@ -27,8 +24,7 @@ export class Template {
   barcodeEncoding: BarcodeFormats = 'codabar';
   callNumberLineBreaks: boolean = false;
   callNumberParser: string = "";
-  truncateTitle: boolean = false;
-  truncateTitleCharacters: TitleCharacters = '50';
+  truncateTitleCharacters: number = null;
 }
 
 export class Images {

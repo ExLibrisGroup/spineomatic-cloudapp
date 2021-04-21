@@ -104,7 +104,7 @@ export class PrintComponent implements OnInit {
           case 'holding_data.temp_call_number':
             return this.getCallNo(val);
           case 'bib_data.title':
-            return this.getTrunTitle(val);
+            return this.getTitle(val);
           default:
             return val;
         }
@@ -132,9 +132,12 @@ export class PrintComponent implements OnInit {
       val;
   }
 
-  getTrunTitle(val: string){
-    if (!this.printService.template.truncateTitle) return val; 
-    return val.substr(0,Number(this.template.truncateTitleCharacters));
+  getTitle(val: string) {
+    const chars = Number(this.template.truncateTitleCharacters);
+    if (chars > 0) {
+      return val.substr(0, chars);
+    }
+    return val;
   }
 
   getImage(key: string) {

@@ -8,7 +8,7 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { getTranslateModuleWithICU } from './utils';
-import { SelectEntitiesModule } from 'eca-components';
+import { AutoCompleteModule, SelectEntitiesModule } from 'eca-components';
 import { AppDialogModule } from './app-dialogs.module';
 
 import { AppComponent } from './app.component';
@@ -19,7 +19,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutComponent } from './configuration/layout/layout.component';
 import { TemplateComponent } from './configuration/template/template.component';
 import { ImageComponent } from './configuration/image/image.component'; 
-import { SelectSetComponent } from './select-set/select-set.component';
 import { LabelsComponent } from './labels/labels.component';
 import { PrintComponent } from './print/print.component';
 import { ConfigurationBaseComponent } from './configuration/configuration-base.component';
@@ -33,7 +32,6 @@ import { ConfigurationBaseComponent } from './configuration/configuration-base.c
     LayoutComponent,
     TemplateComponent,
     ImageComponent,
-    SelectSetComponent,
     LabelsComponent,
     PrintComponent,
    ],
@@ -51,6 +49,7 @@ import { ConfigurationBaseComponent } from './configuration/configuration-base.c
     ReactiveFormsModule,    
     EditorModule,  
     SelectEntitiesModule,
+    AutoCompleteModule,
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } },

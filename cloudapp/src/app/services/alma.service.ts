@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SetMembers, Sets } from '../models/set';
-import { forkJoin, iif, of } from 'rxjs';
+import { forkJoin, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { CloudAppRestService, Request } from '@exlibris/exl-cloudapp-angular-lib';
+import { Option } from 'eca-components';
 import { Item } from '../models/item';
 import { cloneDeep } from 'lodash';
 
@@ -17,13 +18,14 @@ export class AlmaService {
     private restService: CloudAppRestService,
   ) {  }
 
-  searchSets(name: string = null, type: string = 'ITEM') {
+  searchSets = (name: string = null, type: string = 'ITEM'): Observable<Option[]> => {
     let params = { 'content_type': type }
     if (name) params['q'] = `name~${name}`;
-    return this.restService.call( {
+    return this.restService.call<Sets>( {
       url: '/conf/sets',
       queryParams: params
-    }).pipe(map( results => results as Sets))
+    })
+    .pipe(map(results => results.set.map(s=>({ name: s.name, value: s }))))
   }
 
   getBarcode(barcode:string) {

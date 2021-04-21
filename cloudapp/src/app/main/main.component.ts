@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AlertService, CloudAppEventsService, CloudAppStoreService, Entity, EntityType } from '@exlibris/exl-cloudapp-angular-lib';
 import { Set } from '../models/set';
-import { SelectSetComponent } from '../select-set/select-set.component';
-import { SelectEntitiesComponent } from 'eca-components';
+import { AutoCompleteComponent, SelectEntitiesComponent } from 'eca-components';
 import { ConfigService } from '../services/config.service';
 import { PrintService, STORE_SCANNED_BARCODES, STORE_SELECTED_ENTITIES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
@@ -21,7 +20,7 @@ export class MainComponent implements OnInit, OnDestroy {
   scannedEntities: Entity[] = [];
   selectedEntities = new Array<Entity>();
   listType: ListType = ListType.SCAN;
-  @ViewChild('selectSet', {static: false}) selectSetComponent: SelectSetComponent;
+  @ViewChild(AutoCompleteComponent) selectSet: AutoCompleteComponent;
   @ViewChild('selectEntities', {static: false}) selectEntitiesComponent: SelectEntitiesComponent;
   @ViewChild('barcode', {static: false}) barcode: ElementRef;
   entityTypes = [ EntityType.ITEM ];
@@ -32,7 +31,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private eventsService: CloudAppEventsService,
     public  configService: ConfigService,
     private alert: AlertService,
-    private alma: AlmaService,
+    public  alma: AlmaService,
     public  printService: PrintService,
     private translate: TranslateService,
     private router: Router,
@@ -74,7 +73,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onSetSelected(set: Set) {
     this.printService.clear();
-    this.printService.setId = set.id;
+    if (set) this.printService.setId = set.id;
   }
 
   readFile(files: File[]) {
@@ -150,6 +149,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   clear() {
     this.scannedEntities = [];
+    this.selectSet.clear();
     this.printService.clear();
     if (this.selectEntitiesComponent) this.selectEntitiesComponent.clear();
   }
@@ -171,7 +171,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   get isValid() {
     return (
-      ( (this.listType==ListType.SET && this.printService.setId != null) ||
+      ( (this.listType==ListType.SET && !!this.printService.setId) ||
         (this.listType==ListType.SELECT && this.selectedEntities.length != 0) ||
         (this.listType==ListType.SCAN && this.scannedEntities.length != 0) 
       ) 

@@ -25,9 +25,11 @@
     </eca-select-entities>
   </div>
   <div [style.display]="listType == 'SET' ? 'block' : 'none'">
-    <app-select-set #selectSet
-      (setSelected)=onSetSelected($event)>
-    </app-select-set>
+    <eca-auto-complete
+      (onOptionSelected)="onSetSelected($event)"
+      [lazy]="alma.searchSets"
+      label="SetSelect.SelectSet"
+    ></eca-auto-complete>
   </div>
   <div [style.display]="listType == 'SCAN' ? 'block' : 'none'">
     <mat-form-field>

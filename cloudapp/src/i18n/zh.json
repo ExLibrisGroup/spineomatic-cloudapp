@@ -85,6 +85,7 @@
       "OtherOptions": "其他选项",
       "BarcodeOptions": "条码选项",
       "CallNoOptions": "索书号选项",
+      "TitleOptions": "书名选项",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -98,7 +99,8 @@
         "barcodeEncoding": "条形码的编码",
         "callNumberLineBreaks": "在索书号的各部分之间换行",
         "callNumberParser": "索书号解析",
-        "defaultCallNumberParser": "默认 (Alma)"
+        "defaultCallNumberParser": "默认 (Alma)",
+        "truncateTitleCharacters": "截取题名位数" 
       }
     },
     "Images": {

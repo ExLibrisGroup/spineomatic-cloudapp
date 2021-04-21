@@ -85,6 +85,7 @@
       "OtherOptions": "Other options",
       "BarcodeOptions": "Barcode",
       "CallNoOptions": "Call number",
+      "TitleOptions": "Title",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -98,7 +99,8 @@
         "barcodeEncoding": "Barcode encoding",
         "callNumberLineBreaks": "Line breaks between call number parts",
         "callNumberParser": "Call Number Parser",
-        "defaultCallNumberParser": "Default (Alma)"
+        "defaultCallNumberParser": "Default (Alma)",
+        "truncateTitleCharacters": "Truncate title characters" 
       }
     },
     "Images": {

@@ -24,6 +24,7 @@ export class Template {
   barcodeEncoding: BarcodeFormats = 'codabar';
   callNumberLineBreaks: boolean = false;
   callNumberParser: string = "";
+  truncateTitleCharacters: number = null;
 }
 
 export class Images {

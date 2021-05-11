@@ -17,6 +17,7 @@ export const itemExample = {
       "value" : "#"
     },
     "call_number" : "string",    
+    "accession_number": "string",
     "in_temp_location" : false,
     "temp_library" : {
       "value" : "string"

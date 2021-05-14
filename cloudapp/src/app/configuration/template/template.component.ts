@@ -112,5 +112,9 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   get callNumberLineBreaks(): boolean {
     return (this.form.get(this.selected) as FormGroup).controls.callNumberLineBreaks.value
   }
+
+  get selectedTemplate() {
+    return this.form.get(this.selected) as FormGroup;
+  }
 }
 

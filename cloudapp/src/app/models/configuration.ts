@@ -25,6 +25,13 @@ export class Template {
   callNumberLineBreaks: boolean = false;
   callNumberParser: string = "";
   truncateTitleCharacters: number = null;
+  prefixes: Prefix[] = [];
+}
+
+export class Prefix {
+  library: string = '';
+  location: string = '';
+  text: string = '';
 }
 
 export class Images {

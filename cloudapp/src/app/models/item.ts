@@ -3,6 +3,12 @@ export interface Item {
     call_no: string[];
     barcode: string;
     pid: string;
+    library: {
+      value: string;
+    };
+    location: {
+      value: string;
+    }
   },
   link: string,
 }

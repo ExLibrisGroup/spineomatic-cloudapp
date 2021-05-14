@@ -29,6 +29,7 @@ export class PrefixComponent {
       val: this.prefixes.at(index).value,
     })
       .subscribe((prefix: Prefix) => {
+        if (!prefix) return;
         if (prefix.library && prefix.text)
           this.prefixes.at(index).patchValue(prefix);
         this.form.markAsDirty();
@@ -40,6 +41,7 @@ export class PrefixComponent {
       title: 'Configuration.Templates.AddPrefix',
     })
       .subscribe((prefix: Prefix) => {
+        if (!prefix) return;
         if (prefix.library && prefix.text)
           this.prefixes.push(FormGroupUtil.toFormGroup(prefix));
         this.form.markAsDirty();

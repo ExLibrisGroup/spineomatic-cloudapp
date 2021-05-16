@@ -7,7 +7,7 @@ import { Item } from '../models/item';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { chunk } from 'lodash';
 import { ConfigService } from '../services/config.service';
-import { Config, Layout } from '../models/configuration';
+import { Config, Layout, Prefix } from '../models/configuration';
 import * as dot from 'dot-object';
 import { NgxBarcodeComponent } from 'ngx-barcode';
 import { itemExample } from '../models/item-example';
@@ -110,6 +110,7 @@ export class PrintComponent implements OnInit {
         }
       }
     })
+    body = this.getPrefix(item) + body;
     return this.sanitizer.bypassSecurityTrustHtml(body);
   }
 
@@ -144,5 +145,21 @@ export class PrintComponent implements OnInit {
     return this.config.images[key] 
       ? `<img src="${this.config.images[key].url}" style="max-height: ${this.printService.layout.height*.25}${this.printService.layout.measure}">`
       : '';  
+  }
+
+  getPrefix(item: Item) {
+    let val = '';
+    if (
+        this.template.prefixes 
+        && this.template.prefixes.length > 0
+        && item.item_data.library
+        && item.item_data.location
+    ) {
+      const library = item.item_data.library.value;
+      const location = item.item_data.location.value;
+      const prefix = this.template.prefixes.find(p => p.library == library && (p.location == location || !!!p.location))
+      if (prefix) val = `<p>${prefix.text}</p>`;
+    }
+    return val;
   }
 }

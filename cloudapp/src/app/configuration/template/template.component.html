@@ -73,5 +73,13 @@
         <input matInput formControlName="truncateTitleCharacters" type="number">  
       </mat-form-field>
     </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title translate>
+          Configuration.Templates.Prefixes
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-prefix [form]="selectedTemplate"></app-prefix>
+    </mat-expansion-panel>
   </mat-accordion>
 </div>

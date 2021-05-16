@@ -3,7 +3,7 @@ import { CloudAppConfigService } from "@exlibris/exl-cloudapp-angular-lib";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { Config, Layout, Template } from "../models/configuration";
-import { merge } from 'lodash';
+import { merge, cloneDeep } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -43,12 +43,12 @@ export class ConfigService {
       /* Update layouts */
       const defaultLayout = new Layout();
       Object.keys(config.layouts).forEach(key=>{
-        config.layouts[key] = merge({...defaultLayout}, config.layouts[key])
+        config.layouts[key] = merge(cloneDeep(defaultLayout), config.layouts[key])
       });
       /* Update templates */
       const defaultTemplate = new Template();
       Object.keys(config.templates).forEach(key=>{
-        config.templates[key] = merge({...defaultTemplate}, config.templates[key])
+        config.templates[key] = merge(cloneDeep(defaultTemplate), config.templates[key])
       });
       return config;
     }

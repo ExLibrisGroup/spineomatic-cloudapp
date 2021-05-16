@@ -1,0 +1,9 @@
+<div *ngIf="prefixes.value.length > 0" cdkDropList class="drag-drop-list" (cdkDropListDropped)="drop($event)">
+  <div class="drag-drop-box" *ngFor="let prefix of prefixes.value; index as i" cdkDrag>
+    <mat-icon>drag_indicator</mat-icon>
+    {{prefix.library}} / {{prefix.location || '*'}} / {{prefix.text}}
+    <i class="uxf-icon uxf-pencil eca-button" (click)="editPrefix(i)" attr.aria-label="{{'Configuration.Edit'|translate}}" title="{{'Configuration.Edit'|translate}}"></i>
+    <i class="uxf-icon uxf-trash eca-button" (click)="deletePrefix(i)" attr.aria-label="{{'Configuration.Delete'|translate}}" title="{{'Configuration.Delete'|translate}}"></i>
+  </div>
+</div>
+<button mat-flat-button type="button" color="secondary" (click)="addPrefix()">{{ 'Configuration.Add' | translate}}</button>

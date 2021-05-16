@@ -1,0 +1,17 @@
+<h2 mat-dialog-title translate>{{data.title}}</h2>
+<mat-dialog-content>
+  <p *ngIf="text">{{text}}</p>
+  <eca-auto-complete [data]='getLibraries' [control]="result.controls.library" label='Configuration.Templates.Library'
+    (onOptionSelected)="librarySelected($event)"></eca-auto-complete>
+  <eca-auto-complete #locations [control]="result.controls.location" label='Configuration.Templates.Location'>
+  </eca-auto-complete>
+  <mat-form-field>
+    <mat-label>{{'Configuration.Templates.Text' | translate}}</mat-label>
+    <input matInput required [formControl]="result.controls.text">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="secondary" *ngIf="data.type=='ok-cancel'" mat-dialog-close><span [translate]='data.cancel'></span></button>
+  <button mat-flat-button color="secondary" [disabled]="!result.valid" [mat-dialog-close]="result.value"
+    cdkFocusInitial><span [translate]='data.ok'></span></button>
+</mat-dialog-actions>

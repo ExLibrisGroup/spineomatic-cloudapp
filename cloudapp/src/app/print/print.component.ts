@@ -105,12 +105,13 @@ export class PrintComponent implements OnInit {
             return this.getCallNo(val);
           case 'bib_data.title':
             return this.getTitle(val);
+          case 'prefix':
+           return this.getPrefix(item);
           default:
             return val;
         }
       }
     })
-    body = this.getPrefix(item) + body;
     return this.sanitizer.bypassSecurityTrustHtml(body);
   }
 
@@ -158,7 +159,7 @@ export class PrintComponent implements OnInit {
       const library = item.item_data.library.value;
       const location = item.item_data.location.value;
       const prefix = this.template.prefixes.find(p => p.library == library && (p.location == location || !!!p.location))
-      if (prefix) val = `<p>${prefix.text}</p>`;
+      if (prefix) val = prefix.text;
     }
     return val;
   }

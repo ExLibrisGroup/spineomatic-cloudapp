@@ -32,29 +32,8 @@
     ></eca-auto-complete>
   </div>
   <div [style.display]="listType == 'SCAN' ? 'block' : 'none'">
-    <mat-form-field>
-      <mat-label translate>Main.ScanLabel</mat-label>
-      <input matInput #barcode (keyup.enter)="scan()" autocomplete="off">
-      <i matSuffix class="uxf-icon uxf-right eca-button" (click)="scan()" title="{{'Main.Scan' | translate}}"></i>
-      <i matSuffix class="uxf-icon uxf-doc eca-button" (click)="file.click()" title="{{'Main.File' | translate}}"></i>
-    </mat-form-field>
-    <input type="file" #file id="file" class="hidden" (change)="readFile($event.target.files)" accept="text/*" style="display: none;"/>
-    <div *ngIf="scannedEntities.length>0 || loading.size > 0">
-      <h2 translate>Main.ScannedBarcodes</h2>
-      <mat-list>
-        <mat-list-item role="listitem" *ngFor="let b of loading">
-          {{b}} <mat-spinner diameter=15></mat-spinner>
-        </mat-list-item>
-      </mat-list>      
-      <mat-list>
-        <mat-list-item role="listitem" *ngFor="let entity of scannedEntities; index as i">
-          {{entity.description}}
-          <i class="uxf-icon uxf-trash eca-button" (click)="remove(i)"></i>
-        </mat-list-item>
-      </mat-list>
-    </div>
+    <app-scan
+      [scannedEntities]="scannedEntities"
+    ></app-scan>
   </div>
-</div>
-<div class="loading-shade" *ngIf="scanning">
-  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
 </div>

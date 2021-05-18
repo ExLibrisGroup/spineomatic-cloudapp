@@ -6,9 +6,9 @@ import { ConfigService } from '../services/config.service';
 import { PrintService, STORE_SCANNED_BARCODES, STORE_SELECTED_ENTITIES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, switchMap } from 'rxjs/operators';
-import { Item } from '../models/item';
+import { switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ScanComponent } from './scan/scan.component';
 
 @Component({
   selector: 'app-main',
@@ -22,10 +22,9 @@ export class MainComponent implements OnInit, OnDestroy {
   listType: ListType = ListType.SCAN;
   @ViewChild(AutoCompleteComponent) selectSet: AutoCompleteComponent;
   @ViewChild('selectEntities', {static: false}) selectEntitiesComponent: SelectEntitiesComponent;
-  @ViewChild('barcode', {static: false}) barcode: ElementRef;
+  @ViewChild(ScanComponent) scanComponent: ScanComponent;
   entityTypes = [ EntityType.ITEM ];
-  count = 0;
-  scanning = false;
+  private _count = 0;
 
   constructor(
     private eventsService: CloudAppEventsService,
@@ -66,8 +65,8 @@ export class MainComponent implements OnInit, OnDestroy {
       if (this.listType!=ListType.SET) {
         this.printService.setId = null;
       }
-      if (this.barcode && this.listType==ListType.SCAN)
-        this.barcode.nativeElement.focus();
+      if (this.scanComponent && this.listType==ListType.SCAN)
+        this.scanComponent.focus();
      });
   }
 
@@ -76,87 +75,11 @@ export class MainComponent implements OnInit, OnDestroy {
     if (set) this.printService.setId = set.id;
   }
 
-  readFile(files: File[]) {
-    const file = files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const file = event.target.result;
-      if (typeof file != 'string') return;
-      const barcodes = file.split(/\r\n|\n/)
-      .reverse() /* Preserve order */
-      .filter(barcode => !!barcode); /* Skip blank lines */
-      /* Scan synchronously to preserve order of file */  
-      this.scanning = true;
-      for (let barcode of barcodes) {
-        await this.alma.getBarcode(barcode.trim()).toPromise()
-          .then(this.onItemScanned)
-          .catch(e => this.scanBarcodeError(e, barcode))
-      }
-      this.scanning = false;
-      (document.getElementById('file') as HTMLInputElement).value = null;
-    };
-    reader.onerror = (event) => {
-        console.error(event.target.error.name);
-    };
-    reader.readAsText(file);
-  }
-
-  scan() {
-    const barcode = this.barcode.nativeElement.value;
-    if (barcode) {
-      this.loading.add(barcode);
-      this.alma.getBarcode(barcode)
-      .pipe(finalize(()=>this.loading.delete(barcode)))
-      .subscribe({
-        next: this.onItemScanned,
-        error: e => this.scanBarcodeError(e, barcode),
-      })
-      this.barcode.nativeElement.value = "";
-    }
-  }
-
-  scanBarcodeError(e: Error, barcode: string) {
-    console.error('e', e);
-    this.alert.warn(this.translate.instant('Main.BarcodeError', 
-      { barcode: barcode, message: e.message }), { autoClose: true });
-  }
-
-  onItemScanned = (item: Item) => {
-    if (!this.scannedEntities.find(e=>e.link==item.link)) {
-      this.scannedEntities.unshift(this.itemToEntity(item));
-    } else {
-      this.alert.warn(this.translate.instant('Main.BarcodeAlreadyLoaded', 
-        { barcode: item.item_data.barcode }), { autoClose: true });
-    }
-    this.saveScannedBarcodes();
-  }
-
-  itemToEntity = (item: Item): Entity => (
-    {
-      id: item.item_data.pid,
-      link: item.link,
-      description: item.item_data.barcode,
-      type: EntityType.ITEM
-    }
-  )
-  
-  remove(i: number) {
-    this.scannedEntities.splice(i, 1);
-    this.saveScannedBarcodes();
-    if (this.barcode) this.barcode.nativeElement.focus();
-  }
-
   clear() {
     this.scannedEntities = [];
     this.selectSet.clear();
     this.printService.clear();
     if (this.selectEntitiesComponent) this.selectEntitiesComponent.clear();
-  }
-
-  saveScannedBarcodes() {
-    this.store.set(STORE_SCANNED_BARCODES, this.scannedEntities)
-    .subscribe();
   }
 
   next() {
@@ -179,6 +102,16 @@ export class MainComponent implements OnInit, OnDestroy {
     );
   }
 
+  set count(val: number) { 
+    this._count = val;
+    this.listType = val > 0
+      ? ListType.SELECT
+      : ListType.SCAN;
+  }
+
+  get count() {
+    return this._count;
+  }
 }
 
 export enum ListType {

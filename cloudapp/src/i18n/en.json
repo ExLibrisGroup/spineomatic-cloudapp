@@ -101,6 +101,7 @@
         "item_data.edition": "Edition",
         "item_data.imprint": "Imprint",
         "item_data.language": "Language",
+        "prefix": "Label Prefix",
         "asBarcode": "Show as barcode",
         "showBarcodeValue": "Show barcode value",
         "barcodeEncoding": "Barcode encoding",

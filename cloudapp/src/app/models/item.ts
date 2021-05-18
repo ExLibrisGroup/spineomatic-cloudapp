@@ -21,4 +21,5 @@ export const LABEL_FIELDS = [
   'item_data.edition',
   'item_data.imprint',
   'item_data.language',
+  'prefix',
 ]

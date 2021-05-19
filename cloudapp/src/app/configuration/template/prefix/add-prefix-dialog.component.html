@@ -11,7 +11,7 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-flat-button color="secondary" *ngIf="data.type=='ok-cancel'" mat-dialog-close>{{'Cancel' | translate}}</button>
+  <button mat-flat-button color="secondary" mat-dialog-close>{{'Cancel' | translate}}</button>
   <button mat-flat-button color="secondary" [disabled]="!result.valid" [mat-dialog-close]="result.value"
     cdkFocusInitial>{{'OK' | translate}}</button>
 </mat-dialog-actions>

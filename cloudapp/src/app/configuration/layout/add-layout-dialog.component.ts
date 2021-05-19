@@ -19,7 +19,7 @@ export class AddLayoutDialog extends PromptDialog {
   baseLayouts = BaseLayouts;
   startCase = (str: string) => str.replace(/_/g, ' ').replace(/\w+/g, capitalize);
   @ViewChild('input') inputElement: ElementRef;
-  result: AddLayoutDialogResult = { name: "", basedOn: ""};
+  result: AddLayoutDialogResult = { basedOn: "", name: this.data.val };
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Partial<PromptDialogData>,
@@ -27,10 +27,6 @@ export class AddLayoutDialog extends PromptDialog {
     public dialogRef: MatDialogRef<PromptDialog>
   ) {
     super(data,translate,dialogRef);
-  }
-
-  onNgInit() {
-    this.result = { basedOn: "", name: this.data.val };
   }
 
   ngAfterViewInit() {

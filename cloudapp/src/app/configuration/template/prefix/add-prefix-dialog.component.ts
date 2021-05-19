@@ -2,7 +2,7 @@ import { Inject, ViewChild } from "@angular/core";
 import { Component } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from "@ngx-translate/core";
-import { AutoCompleteComponent, GetAllOptionsSettings, PromptDialog, PromptDialogData  } from "eca-components";
+import { AutoCompleteComponent, GetAllOptionsSettings, PromptDialog, PromptDialogData } from "eca-components";
 import { Prefix } from "../../../models/configuration";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
@@ -32,9 +32,6 @@ export class AddPrefixDialog extends PromptDialog {
     public dialogRef: MatDialogRef<PromptDialog>
   ) {
     super(data,translate,dialogRef);
-  }
-
-  onNgInit() {
   }
 
   ngAfterViewInit() {

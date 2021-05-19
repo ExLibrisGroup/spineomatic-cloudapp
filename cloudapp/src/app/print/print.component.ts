@@ -108,7 +108,7 @@ export class PrintComponent implements OnInit {
           case 'prefix':
            return this.getPrefix(item);
           default:
-            return val;
+            return val == undefined ? '' : val;
         }
       }
     })

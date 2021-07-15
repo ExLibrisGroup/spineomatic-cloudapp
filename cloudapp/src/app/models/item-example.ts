@@ -90,6 +90,9 @@ export const itemExample = {
     "statistics_note_3" : "string",
     "physical_condition" : {
       "value" : "#"
+    },
+    "location": {
+      "value": "string"
     }
   }
 }

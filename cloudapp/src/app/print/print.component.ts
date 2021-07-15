@@ -112,6 +112,7 @@ export class PrintComponent implements OnInit {
         }
       }
     })
+    .replace(/(<br\s*\/?>){2,}/gmi, '<br>'); /* Suppress multiple line breaks */
     return this.sanitizer.bypassSecurityTrustHtml(body);
   }
 

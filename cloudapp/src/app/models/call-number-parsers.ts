@@ -10,6 +10,6 @@ export const callNumberParsers: CallNumberParsers = {
   'remove_shelving_info': val => {
     if (Array.isArray(val)) val = val.join(' ');
     const matches = val.match(/^[\w\s]*\/[\w\s]*\b/g);
-    return (matches && matches[0]) || val;
+    return ((matches && matches[0]) || val).split('/');
   }
 }

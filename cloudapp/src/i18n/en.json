@@ -108,7 +108,9 @@
         "callNumberLineBreaks": "Line breaks between call number parts",
         "callNumberParser": "Call Number Parser",
         "defaultCallNumberParser": "Default (Alma)",
-        "truncateTitleCharacters": "Truncate title characters" 
+        "truncateTitleCharacters": "Truncate title characters",
+        "barcodeWidth": "Barcode width",
+        "barcodeHeight": "Barcdoe height"
       }
     },
     "Images": {

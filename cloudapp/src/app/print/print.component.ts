@@ -119,6 +119,25 @@ export class PrintComponent implements OnInit {
   getBarCode(val: string) {
     if (!this.printService.template.asBarcode) return val; 
     this.barcodeComponent.value = val;
+    let chars = Number(this.template.barcodeWidth);
+    if (chars > 0) {
+      this.barcodeComponent.width = chars;
+    }
+    chars = Number(this.template.barcodeHeight);
+    if (chars > 0) {
+      this.barcodeComponent.height = chars;
+    }
+    let barcodeFontSizeStart = this.printService.template.contents.indexOf("font-size");
+    if (barcodeFontSizeStart > -1) {
+       barcodeFontSizeStart = barcodeFontSizeStart + 11;
+       let barcodeFontSizeEnd =  this.printService.template.contents.indexOf("pt;");
+       if (barcodeFontSizeEnd > -1) {
+          let barcodeFontSize = this.printService.template.contents.substr(barcodeFontSizeStart, barcodeFontSizeEnd - barcodeFontSizeStart);
+          if (!isNaN(Number(barcodeFontSize))) {
+             this.barcodeComponent.fontSize = Number(barcodeFontSize);
+          }
+       }
+    }
     this.barcodeComponent.bcElement.nativeElement.innerHTML = "";
     this.barcodeComponent.createBarcode();
     return this.barcodeComponent.bcElement.nativeElement.innerHTML;

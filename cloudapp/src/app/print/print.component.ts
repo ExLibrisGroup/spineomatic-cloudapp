@@ -138,6 +138,8 @@ export class PrintComponent implements OnInit {
           }
        }
     }
+    //force left margin - URM-159857
+    this.barcodeComponent.marginLeft = 1;
     this.barcodeComponent.bcElement.nativeElement.innerHTML = "";
     this.barcodeComponent.createBarcode();
     return this.barcodeComponent.bcElement.nativeElement.innerHTML;

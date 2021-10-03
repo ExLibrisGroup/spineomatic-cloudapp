@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, of } from 'rxjs';
 import { AlmaService } from '../services/alma.service';
@@ -18,6 +18,10 @@ const INCH_IN_PIXELS = 96, CM_IN_PIXELS = 37.8, PREVIEW_WIDTH = 250;
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
+  styles: [
+    'p { margin-top: 0; }',
+  ],
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class PrintComponent implements OnInit {
   items = new Array<Array<Item>>();

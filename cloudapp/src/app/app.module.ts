@@ -7,7 +7,7 @@ import { MaterialModule, AlertModule } from '@exlibris/exl-cloudapp-angular-lib'
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { getTranslateModuleWithICU } from './utils';
+import { CloudAppTranslateModuleWithICU } from './utils';
 import { AutoCompleteModule, SelectEntitiesModule } from 'eca-components';
 import { AppDialogModule } from './app-dialogs.module';
 
@@ -46,7 +46,7 @@ import { ScanComponent } from './main/scan/scan.component';
     AppRoutingModule,
     HttpClientModule,
     AlertModule,
-    getTranslateModuleWithICU(),
+    CloudAppTranslateModuleWithICU(),
     NgxBarcodeModule,
     AppDialogModule,
     FormsModule,

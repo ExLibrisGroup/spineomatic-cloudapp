@@ -110,7 +110,7 @@
         "defaultCallNumberParser": "Default (Alma)",
         "truncateTitleCharacters": "Truncate title characters",
         "barcodeWidth": "Barcode width",
-        "barcodeHeight": "Barcdoe height"
+        "barcodeHeight": "Barcode height"
       }
     },
     "Images": {

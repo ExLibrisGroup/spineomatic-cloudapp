@@ -60,6 +60,13 @@
           <mat-option *ngFor="let format of barcodeFormats" [value]="format">{{format}}</mat-option>
         </mat-select>     
       </mat-form-field>
+      <mat-form-field appearance="standard" [ngClass]="{'readonly': !asBarcode}">
+        <mat-label translate>Configuration.Templates.Fields.checksum</mat-label>
+        <mat-select formControlName="barcodeChecksum">
+          <mat-option value="">{{'None' | translate}}</mat-option>
+          <mat-option *ngFor="let checksum of checksums" [value]="checksum">{{startCase(checksum)}}</mat-option>
+        </mat-select>  
+      </mat-form-field>      
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -72,7 +79,7 @@
         <mat-label translate>Configuration.Templates.Fields.callNumberParser</mat-label>
         <mat-select formControlName="callNumberParser">
           <mat-option value="">{{'Configuration.Templates.Fields.defaultCallNumberParser' | translate}}</mat-option>
-          <mat-option *ngFor="let parser of callNumberParsers | keyvalue" [value]="parser.key">{{startCase(parser.key)}}</mat-option>
+          <mat-option *ngFor="let parser of callNumberParsers" [value]="parser">{{startCase(parser)}}</mat-option>
         </mat-select>  
       </mat-form-field>
     </mat-expansion-panel>

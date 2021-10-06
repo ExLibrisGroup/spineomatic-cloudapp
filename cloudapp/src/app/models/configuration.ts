@@ -26,6 +26,7 @@ export class Template {
   barcodeEncoding: BarcodeFormats = 'codabar';
   callNumberLineBreaks: boolean = false;
   callNumberParser: string = "";
+  barcodeChecksum: string = "";
   truncateTitleCharacters: number = null;
   prefixes: Prefix[] = [];
 }

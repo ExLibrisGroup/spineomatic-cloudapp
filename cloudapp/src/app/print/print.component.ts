@@ -12,6 +12,7 @@ import * as dot from 'dot-object';
 import { NgxBarcodeComponent } from 'ngx-barcode';
 import { itemExample } from '../models/item-example';
 import { callNumberParsers } from '../models/call-number-parsers';
+import { checksums } from '../models/checksums';
 
 const INCH_IN_PIXELS = 96, CM_IN_PIXELS = 37.8, PREVIEW_WIDTH = 250;
 
@@ -122,6 +123,9 @@ export class PrintComponent implements OnInit {
 
   getBarCode(val: string) {
     if (!this.printService.template.asBarcode) return val; 
+    if (checksums[this.template.barcodeChecksum]) {
+      val = val.concat(checksums[this.template.barcodeChecksum](val));
+    }
     this.barcodeComponent.value = val;
     let chars = Number(this.template.barcodeWidth);
     if (chars > 0) {

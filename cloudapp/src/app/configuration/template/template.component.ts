@@ -11,6 +11,7 @@ import { ConfigurationBaseComponent } from '../configuration-base.component';
 import { itemExample } from '../../models/item-example';
 import { resizeImage } from '../image/image-utils';
 import { callNumberParsers } from '../../models/call-number-parsers';
+import { checksums } from '../../models/checksums';
 
 @Component({
   selector: 'app-template',
@@ -24,7 +25,8 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   startCase = startCase;
   defaultForm = templateFormGroup;
   barcodeFormats = barcodeFormats;
-  callNumberParsers = callNumberParsers;
+  callNumberParsers = Object.keys(callNumberParsers);
+  checksums = Object.keys(checksums);
   
   constructor(
     private translate: TranslateService,

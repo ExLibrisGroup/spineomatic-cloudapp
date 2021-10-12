@@ -103,6 +103,7 @@
         "item_data.imprint": "Imprint",
         "item_data.language": "Language",
         "prefix": "Label Prefix",
+        "raw_barcode": "Raw barcode",
         "asBarcode": "Show as barcode",
         "showBarcodeValue": "Show barcode value",
         "barcodeEncoding": "Barcode encoding",

@@ -22,4 +22,5 @@ export const LABEL_FIELDS = [
   'item_data.imprint',
   'item_data.language',
   'prefix',
+  'raw_barcode',
 ]

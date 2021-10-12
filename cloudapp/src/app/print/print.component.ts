@@ -7,9 +7,9 @@ import { Item } from '../models/item';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { chunk } from 'lodash';
 import { ConfigService } from '../services/config.service';
-import { Config, Layout, Prefix } from '../models/configuration';
+import { Config, Layout } from '../models/configuration';
 import * as dot from 'dot-object';
-import { NgxBarcodeComponent } from 'ngx-barcode';
+import { NgxBarcodeComponent } from '@joshmweisman/ngx-barcode';
 import { itemExample } from '../models/item-example';
 import { callNumberParsers } from '../models/call-number-parsers';
 import { checksums } from '../models/checksums';
@@ -100,6 +100,9 @@ export class PrintComponent implements OnInit {
       } else {
         const val = dot.pick(detail, item);
         switch (detail) {
+          case 'raw_barcode':
+            /* Return barcode without processing; allows printing text and code on label */
+            return dot.pick('item_data.barcode', item);          
           case 'item_data.barcode':
             return this.getBarCode(val);
           case 'item_data.alt_call_no':
@@ -123,10 +126,10 @@ export class PrintComponent implements OnInit {
 
   getBarCode(val: string) {
     if (!this.printService.template.asBarcode) return val; 
-    if (checksums[this.template.barcodeChecksum]) {
-      val = val.concat(checksums[this.template.barcodeChecksum](val));
-    }
-    this.barcodeComponent.value = val;
+    this.barcodeComponent.value = !!checksums[this.template.barcodeChecksum]
+      ? val.concat(checksums[this.template.barcodeChecksum](val))
+      : val;
+    this.barcodeComponent.text = val;
     let chars = Number(this.template.barcodeWidth);
     if (chars > 0) {
       this.barcodeComponent.width = chars;

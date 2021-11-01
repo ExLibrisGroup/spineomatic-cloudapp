@@ -1,14 +1,17 @@
 import { Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Config } from '../models/configuration';
+import { Config, Layout } from '../models/configuration';
 import { ConfigService } from '../services/config.service';
 import { PrintService } from '../services/print.service';
 import { snakeCase, startCase, isEqual } from 'lodash';
 import { AlertService, CloudAppStoreService } from '@exlibris/exl-cloudapp-angular-lib';
 import { PrintComponent } from '../print/print.component';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { DialogService, PromptDialogData } from 'eca-components';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 const LABELS_STICKY = "labelsSticky";
 const dialogData: PromptDialogData = {
@@ -30,6 +33,10 @@ export class LabelsComponent implements OnInit {
   loading = false;
   isEqual = isEqual;
   printComponent: ComponentRef<PrintComponent>;
+  layoutControl = new FormControl();
+  filteredLayouts: Observable<string[]>;
+  templateControl = new FormControl();
+  filteredTemplates: Observable<string[]>;
 
   constructor(
     public printService: PrintService,
@@ -51,9 +58,25 @@ export class LabelsComponent implements OnInit {
       switchMap(() => this.store.get(LABELS_STICKY)),
       tap(sticky => {
         if (sticky) {
-          if (sticky.template) this.printService.template = this.config.templates[sticky.template];
-          if (sticky.layout) this.printService.layout = this.config.layouts[sticky.layout];
-        }
+          if (sticky.template) {
+            this.printService.template = this.config.templates[sticky.template];
+            this.templateControl.setValue(sticky.template);
+          }
+          if (sticky.layout) {
+            this.printService.layout = this.config.layouts[sticky.layout];
+            this.layoutControl.setValue(sticky.layout);
+          }
+        };
+        this.filteredLayouts = this.layoutControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(name => name ? this._filter(name, 'layouts') : Object.keys(this.config.layouts).slice())
+        );
+        this.filteredTemplates = this.templateControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(name => name ? this._filter(name, 'templates') : Object.keys(this.config.templates).slice())
+        );
       }),
     )
     .subscribe();
@@ -105,11 +128,22 @@ export class LabelsComponent implements OnInit {
     });
   }
 
-  onSettingsChanged(event: MatSelectChange, val: string) {
+  onSelected(event: MatAutocompleteSelectedEvent, type: string) {
+    const name = event.option.value;
+    this.printService[type] = this.config[type + 's'][name];
+    this.storeSticky(name, type);
+  }
+
+  storeSticky(val: string, prop: string) {
     this.store.get(LABELS_STICKY).pipe(
-      map(sticky=>Object.assign(sticky || {}, { [val]: snakeCase(event.source.triggerValue) })),
+      map(sticky=>Object.assign(sticky || {}, { [prop]: snakeCase(val) })),
       switchMap(sticky=>this.store.set(LABELS_STICKY, sticky))
     )
     .subscribe();
+  }
+
+  private _filter(name: string, obj: string): string[] {
+    const filterValue = name.toLowerCase();
+    return Object.keys(this.config[obj]).filter(key => key.toLowerCase().indexOf(filterValue) === 0);
   }
 }

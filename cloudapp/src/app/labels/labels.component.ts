@@ -143,7 +143,6 @@ export class LabelsComponent implements OnInit {
   }
 
   private _filter(name: string, obj: string): string[] {
-    const filterValue = name.toLowerCase();
-    return Object.keys(this.config[obj]).filter(key => key.toLowerCase().indexOf(filterValue) === 0);
+    return Object.keys(this.config[obj]).filter(key => startCase(key).toLowerCase().includes(name.toLowerCase()));
   }
 }

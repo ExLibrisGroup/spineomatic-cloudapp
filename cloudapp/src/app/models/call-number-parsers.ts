@@ -1,5 +1,7 @@
+import { Item } from "./item";
+
 export interface CallNumberParsers {
-  [key: string]: (val: string | Array<string>) => string | Array<string>
+  [key: string]: (val: string | Array<string>, item: Item) => string | Array<string>
 }
 
 export const callNumberParsers: CallNumberParsers = {
@@ -27,5 +29,10 @@ export const callNumberParsers: CallNumberParsers = {
       return ((matches && matches[0]) || val).split('/');
     }
     
+  },
+  '852_subfields': (val, item) => {
+    const location = item.holding_record?.datafields.find(f => f.tag == '852');
+    if (!location) return val;
+    return location.subfields.filter(s => ['h', 'i', 'j', 'k', 'l', 'm'].includes(s.code)).map(s => s.value);
   }
 }

@@ -1,3 +1,5 @@
+import { MarcRecord } from "./marc";
+
 export interface Item {
   item_data: {
     call_no: string[];
@@ -10,7 +12,16 @@ export interface Item {
       value: string;
     }
   },
+  holding_data: {
+    link: string;
+  },
+  holding_record?: MarcRecord,
   link: string,
+}
+
+export interface Holding {
+  holding_id: string;
+  anies: string[];
 }
 
 export const LABEL_FIELDS = [

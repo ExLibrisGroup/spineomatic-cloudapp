@@ -6,6 +6,8 @@ import { CloudAppRestService, Request } from '@exlibris/exl-cloudapp-angular-lib
 import { Option } from 'eca-components';
 import { Item } from '../models/item';
 import { cloneDeep } from 'lodash';
+import { marcToJson } from '../utils';
+import { Holding } from '../models/item';
 
 const DEFAULT_MAX_ITEMS_IN_SET = 500;
 
@@ -30,6 +32,27 @@ export class AlmaService {
 
   getBarcode(barcode:string) {
     return this.restService.call<Item>(`/items?item_barcode=${barcode.trim()}`);
+  }
+
+  getItemForLabel(link: string) {
+    return this.getItem(link)
+    .pipe(
+      switchMap(item => this.addHoldingToItem(item))
+    )
+  }
+
+  addHoldingToItem(item: Item) {
+    return this.getHolding(item.holding_data.link)
+    .pipe(
+      map(holding => {
+        item.holding_record = marcToJson(holding.anies);
+        return item;
+      })
+    )
+  }
+
+  getHolding(link: string) {
+    return this.restService.call<Holding>(link);
   }
 
   getItem(link: string) {

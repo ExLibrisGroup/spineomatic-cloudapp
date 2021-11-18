@@ -71,7 +71,7 @@ export class PrintComponent implements OnInit {
   }
 
   getItem(link: string) {
-    return this.alma.getItem(link).pipe(
+    return this.alma.getItemForLabel(link).pipe(
       tap(()=>{
         this.itemsLoaded++
         this.percentLoaded = 
@@ -110,7 +110,7 @@ export class PrintComponent implements OnInit {
           case 'holding_data.call_number':
           case 'holding_data.permanent_call_number':
           case 'holding_data.temp_call_number':
-            return this.getCallNo(val);
+            return this.getCallNo(val, item);
           case 'bib_data.title':
             return this.getTitle(val);
           case 'prefix':
@@ -156,10 +156,10 @@ export class PrintComponent implements OnInit {
     return this.barcodeComponent.bcElement.nativeElement.innerHTML;
   }
 
-  getCallNo(val: string | Array<string>) {
+  getCallNo(val: string | Array<string>, item: Item) {
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
-      val = callNumberParsers[this.template.callNumberParser](val);
+      val = callNumberParsers[this.template.callNumberParser](val, item);
     }
     return Array.isArray(val) ?
       val.filter(v=>!!v) /* Suppress blank lines */

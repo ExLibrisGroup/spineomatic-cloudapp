@@ -7,6 +7,8 @@ import { InitService } from '@exlibris/exl-cloudapp-angular-lib';
 })
 export class AppService {
 
+    canConfigure = false;
+    
     constructor(private initService: InitService) {}
 
 }

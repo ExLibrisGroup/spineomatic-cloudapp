@@ -8,6 +8,7 @@ import { Item } from '../models/item';
 import { cloneDeep } from 'lodash';
 import { marcToJson } from '../utils';
 import { Holding } from '../models/item';
+import { User } from '../models/alma';
 
 const DEFAULT_MAX_ITEMS_IN_SET = 500;
 
@@ -64,6 +65,10 @@ export class AlmaService {
 
   getItemsFromSet(setId: string, max: number = DEFAULT_MAX_ITEMS_IN_SET) {
     return this.getAll<SetMembers>(`/conf/sets/${setId}/members`, { max: max })
+  }
+
+  getUser(primaryId: string) {
+    return this.restService.call<User>(`/users/${primaryId}`)
   }
 
   /** Use Alma default parameters to retrieve all items in pages */

@@ -59,7 +59,7 @@ export class MainComponent implements OnInit, OnDestroy {
       switchMap(initData => iif(
         () => initData.user.isAdmin,
         of(true),
-        this.alma.getUser(initData.user.primaryId)
+        this.alma.getCurrentUser()
         .pipe(map(user => canConfigure(user)))
       ))
     )

@@ -14,6 +14,7 @@ export interface Item {
   },
   holding_data: {
     link: string;
+    call_number: string;
   },
   holding_record?: MarcRecord,
   link: string,

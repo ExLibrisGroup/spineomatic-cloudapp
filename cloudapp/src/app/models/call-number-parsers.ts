@@ -34,5 +34,10 @@ export const callNumberParsers: CallNumberParsers = {
     const location = item.holding_record?.datafields.find(f => f.tag == '852');
     if (!location) return val;
     return location.subfields.filter(s => ['h', 'i', 'j', 'k', 'l', 'm'].includes(s.code)).map(s => s.value);
+  },
+  'holding_call_number': (val, item) => {
+    /* Issue #56 */
+    const item_call_number = Array.isArray(val) || !!val;
+    return item_call_number ? val : item.holding_data.call_number;
   }
 }

@@ -29,6 +29,8 @@ export const canConfigure = (user: User) => {
     UserRoleTypes.CATALOG_ADMINISTRATOR, 
     UserRoleTypes.GENERAL_ADMINISTRATOR,
   ];
-  return user.user_role.some(r => roles.includes(parseInt(r.role_type.value)));
+  return user.user_role
+    .filter(r => r.status.value == 'ACTIVE')
+    .some(r => roles.includes(parseInt(r.role_type.value)));
 }
   

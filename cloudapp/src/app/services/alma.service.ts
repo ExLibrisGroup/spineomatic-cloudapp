@@ -71,6 +71,10 @@ export class AlmaService {
     return this.restService.call<User>(`/users/${primaryId}`)
   }
 
+  getCurrentUser() {
+    return this.getUser('ME');
+  }
+
   /** Use Alma default parameters to retrieve all items in pages */
   getAll<T=any>( request: string | Request, 
     options: { arrayName?: string; chunkSize?: number, max?: number } = {}) {

@@ -35,9 +35,9 @@ export const callNumberParsers: CallNumberParsers = {
     if (!location) return val;
     return location.subfields.filter(s => ['h', 'i', 'j', 'k', 'l', 'm'].includes(s.code)).map(s => s.value);
   },
-  'holding_call_number': (val, item) => {
-    /* Issue #56 */
-    const item_call_number = Array.isArray(val) || !!val;
-    return item_call_number ? val : item.holding_data.call_number;
+  'item_call_number': (val, item) => {
+    /* Issue #56 - Use item call number (alternate call number) if exists */
+    const item_call_number = item.item_data.alternative_call_number;
+    return item_call_number || val;
   }
 }

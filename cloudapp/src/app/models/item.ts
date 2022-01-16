@@ -3,6 +3,7 @@ import { MarcRecord } from "./marc";
 export interface Item {
   item_data: {
     call_no: string[];
+    alternative_call_number: string;
     barcode: string;
     pid: string;
     library: {
@@ -14,7 +15,6 @@ export interface Item {
   },
   holding_data: {
     link: string;
-    call_number: string;
   },
   holding_record?: MarcRecord,
   link: string,

@@ -201,7 +201,10 @@ export class PrintComponent implements OnInit {
 
   getCopyNumber(copyNumber: string) {
     var suppressCopyNumbersArray = this.template.suppressCopyNumbers.split(',');
-    if (suppressCopyNumbersArray.indexOf(copyNumber) == -1)
+    for (var index in suppressCopyNumbersArray) {
+      suppressCopyNumbersArray[index] = suppressCopyNumbersArray[index].trim();
+    }
+    if (suppressCopyNumbersArray.indexOf(copyNumber.trim()) == -1)
       return this.template.copyNumberLabel + copyNumber;
     return "";
   }

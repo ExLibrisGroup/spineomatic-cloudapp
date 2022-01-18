@@ -102,5 +102,20 @@
       </mat-expansion-panel-header>
       <app-prefix [form]="selectedTemplate"></app-prefix>
     </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title translate>
+          Configuration.Templates.CopyNumberOptions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.copyNumberLabel</mat-label>
+        <input matInput formControlName="copyNumberLabel" type="string">  
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.suppressCopyNumbers</mat-label>
+        <input matInput formControlName="suppressCopyNumbers" type="string">  
+      </mat-form-field>  
+    </mat-expansion-panel>
   </mat-accordion>
 </div>

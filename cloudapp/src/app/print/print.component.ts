@@ -115,6 +115,8 @@ export class PrintComponent implements OnInit {
             return this.getTitle(val);
           case 'prefix':
            return this.getPrefix(item);
+          case 'holding_data.copy_id':
+            return this.getCopyNumber(val);
           default:
             return val == undefined ? '' : val;
         }
@@ -195,5 +197,15 @@ export class PrintComponent implements OnInit {
       if (prefix) val = prefix.text;
     }
     return val;
+  }
+
+  getCopyNumber(copyNumber: string) {
+    var suppressCopyNumbersArray = this.template.suppressCopyNumbers.split(',');
+    for (var index in suppressCopyNumbersArray) {
+      suppressCopyNumbersArray[index] = suppressCopyNumbersArray[index].trim();
+    }
+    if (suppressCopyNumbersArray.indexOf(copyNumber.trim()) == -1)
+      return this.template.copyNumberLabel + copyNumber;
+    return "";
   }
 }

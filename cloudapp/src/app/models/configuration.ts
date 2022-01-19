@@ -29,6 +29,8 @@ export class Template {
   barcodeChecksum: string = "";
   truncateTitleCharacters: number = null;
   prefixes: Prefix[] = [];
+  copyNumberLabel: string = "";
+  suppressCopyNumbers: string = "";
 }
 
 export class Prefix {

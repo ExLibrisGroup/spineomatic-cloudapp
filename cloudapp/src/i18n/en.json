@@ -94,6 +94,7 @@
       "Library": "Library",
       "Location": "Location",
       "Text": "Text",
+      "CopyNumberOptions": "Copy number",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -113,7 +114,9 @@
         "checksum": "Append checksum",
         "truncateTitleCharacters": "Truncate title characters",
         "barcodeWidth": "Barcode width",
-        "barcodeHeight": "Barcode height"
+        "barcodeHeight": "Barcode height",
+        "copyNumberLabel": "Copy number label",
+        "suppressCopyNumbers": "Suppress copy numbers, comma separated"
       }
     },
     "Images": {

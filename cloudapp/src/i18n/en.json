@@ -116,7 +116,7 @@
         "barcodeWidth": "Barcode width",
         "barcodeHeight": "Barcode height",
         "copyNumberLabel": "Copy number label",
-        "suppressCopyNumbers": "Suppress copy numbers"
+        "suppressCopyNumbers": "Suppress copy numbers, comma separated"
       }
     },
     "Images": {

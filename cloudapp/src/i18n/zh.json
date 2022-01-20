@@ -111,7 +111,7 @@
         "callNumberLineBreaks": "在索书号的各部分之间换行",
         "callNumberParser": "索书号解析",
         "defaultCallNumberParser": "默认 (Alma)",
-        "checksum": "追加校验总和",
+        "checksum": "附加校验和",
         "truncateTitleCharacters": "截取题名位数",
         "barcodeWidth": "条码宽度",
         "barcodeHeight": "条码高度",

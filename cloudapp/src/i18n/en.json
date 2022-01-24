@@ -107,6 +107,7 @@
         "raw_barcode": "Raw barcode",
         "asBarcode": "Show as barcode",
         "showBarcodeValue": "Show barcode value",
+        "barcodeFontSize": "Barcode font size",
         "barcodeEncoding": "Barcode encoding",
         "callNumberLineBreaks": "Line breaks between call number parts",
         "callNumberParser": "Call Number Parser",

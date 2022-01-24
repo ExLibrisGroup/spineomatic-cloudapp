@@ -140,6 +140,7 @@ export class PrintComponent implements OnInit {
     if (chars > 0) {
       this.barcodeComponent.height = chars;
     }
+    //Keep original barcode font size code....but it gets overridden in the new code.
     let barcodeFontSizeStart = this.printService.template.contents.indexOf("font-size");
     if (barcodeFontSizeStart > -1) {
        barcodeFontSizeStart = barcodeFontSizeStart + 11;
@@ -150,6 +151,13 @@ export class PrintComponent implements OnInit {
              this.barcodeComponent.fontSize = Number(barcodeFontSize);
           }
        }
+    }
+    //New barcode font size code. 
+    if (this.printService.template.showBarcodeValue) {
+      if (!isNaN(Number(this.printService.template.barcodeFontSize))) {
+        if (Number(this.printService.template.barcodeFontSize) > 0) 
+          this.barcodeComponent.fontSize = Number(this.printService.template.barcodeFontSize);
+      }
     }
     //force left margin - URM-159857
     this.barcodeComponent.marginLeft = 1;

@@ -21,6 +21,7 @@ export class Template {
   contents: string = "";
   asBarcode: boolean = false;
   showBarcodeValue: boolean = true;
+  barcodeFontSize: number = null;
   barcodeWidth: number = null;
   barcodeHeight: number = null;
   barcodeEncoding: BarcodeFormats = 'codabar';

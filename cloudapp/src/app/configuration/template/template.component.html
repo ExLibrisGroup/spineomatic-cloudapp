@@ -46,6 +46,10 @@
       </mat-expansion-panel-header>
       <mat-checkbox labelPosition="before" formControlName="asBarcode">{{'Configuration.Templates.Fields.asBarcode' | translate}}</mat-checkbox>
       <mat-checkbox labelPosition="before" [ngClass]="{'readonly': !asBarcode}" formControlName="showBarcodeValue">{{'Configuration.Templates.Fields.showBarcodeValue' | translate}}</mat-checkbox>
+      <mat-form-field appearance="standard" [ngClass]="{'readonly': !showBarcodeValue}">
+        <mat-label translate>Configuration.Templates.Fields.barcodeFontSize</mat-label>
+        <input matInput formControlName="barcodeFontSize" type="number">  
+      </mat-form-field>
       <mat-form-field appearance="standard" [ngClass]="{'readonly': !asBarcode}">
         <mat-label translate>Configuration.Templates.Fields.barcodeWidth</mat-label>
         <input matInput formControlName="barcodeWidth" type="number">  

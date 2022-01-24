@@ -107,6 +107,7 @@
         "raw_barcode": "原始条码",
         "asBarcode": "显示为条形码",
         "showBarcodeValue": "显示条码值",
+        "barcodeFontSize": "条码字体大小",
         "barcodeEncoding": "条形码的编码",
         "callNumberLineBreaks": "在索书号的各部分之间换行",
         "callNumberParser": "索书号解析",
@@ -116,7 +117,7 @@
         "barcodeWidth": "条码宽度",
         "barcodeHeight": "条码高度",
         "copyNumberLabel": "复本数标签",
-        "suppressCopyNumbers": "抑制的复本数"
+        "suppressCopyNumbers": "抑制的复本数，以逗号分隔"
       }
     },
     "Images": {

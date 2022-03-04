@@ -5,6 +5,35 @@ export interface CallNumberParsers {
 }
 
 export const callNumberParsers: CallNumberParsers = {
+  'long_dewey': val => {
+    if (Array.isArray(val)) val = val.join(' ');
+    let workingString = val;
+    let period = workingString.indexOf('.');
+    if (period == -1)
+      return workingString.split(' ');
+    let lead = workingString.substring(0, period);
+    let remainder = workingString.substring(period + 1);
+    let cutter = remainder.indexOf(' ');
+    let longDigits;
+    if (cutter == -1)
+      longDigits = remainder;
+    else
+      longDigits = remainder.substring(0, cutter);
+    let splitElements = longDigits.match(/.{1,4}/g);
+    if (Array.isArray(splitElements)) {
+      splitElements.splice(0, 0, lead);
+      splitElements[1] = '.' + splitElements[1];
+    }
+    if (cutter != -1) {
+      remainder = remainder.substring(cutter + 1);
+      let splitRemainder = remainder.split(' ');
+      splitRemainder.forEach ((element) => {
+        splitElements.push(element);
+        }
+      )
+    }
+    return splitElements;
+  },
   'split_by_slash': val => {
     if (Array.isArray(val)) val = val.join(' ');
     return val.split('/');

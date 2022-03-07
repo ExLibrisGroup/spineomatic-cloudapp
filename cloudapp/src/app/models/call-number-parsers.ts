@@ -15,14 +15,28 @@ export const callNumberParsers: CallNumberParsers = {
     let remainder = workingString.substring(period + 1);
     let cutter = remainder.indexOf(' ');
     let longDigits;
+    let splitElements;
     if (cutter == -1)
       longDigits = remainder;
     else
       longDigits = remainder.substring(0, cutter);
-    let splitElements = longDigits.match(/.{1,4}/g);
+    let tail = longDigits;
+    if (longDigits.length > 4) {
+      tail = longDigits.substring(0, 4);
+      longDigits = longDigits.substring(4);
+    }
+    else {
+        tail = longDigits;
+        longDigits = "";
+    }
+    splitElements = longDigits.match(/.{1,5}/g);
     if (Array.isArray(splitElements)) {
       splitElements.splice(0, 0, lead);
-      splitElements[1] = '.' + splitElements[1];
+      tail = '.' + tail;
+      splitElements.splice(1, 0, tail);
+    }
+    else {
+      splitElements = [lead, '.' + tail];
     }
     if (cutter != -1) {
       remainder = remainder.substring(cutter + 1);

@@ -31,7 +31,8 @@
     "rxjs": "~6.5.5",
     "tinymce": "^5.8.2",
     "uuid": "^8.0.0",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.10.3",
+    "url-parse": "~1.5.9"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.14",

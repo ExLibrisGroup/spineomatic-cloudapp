@@ -99,7 +99,7 @@
         "item_data.barcode": "条码",
         "item_data.call_no": "已解析索书号",
         "item_data.alt_call_no": "已解析可供替代索书号",
-        "item_data.issue_level_description": "年卷期描述",
+        "item_data.description": "年卷期描述",
         "item_data.edition": "版次",
         "item_data.imprint": "印次",
         "item_data.language": "语种",

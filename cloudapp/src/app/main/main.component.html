@@ -20,6 +20,7 @@
     <mat-label *ngIf="count >  0" translate [translateParams]="{length: selectedEntities.length}">Main.SelectedIds</mat-label>
     <eca-select-entities #selectEntities
       [(selected)]="selectedEntities"
+      [lineNumbers]="true"
       [entityTypes]="entityTypes"
       (count)="count=$event"
       >

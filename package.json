@@ -18,8 +18,8 @@
     "@angular/platform-browser": "~11.2.14",
     "@angular/platform-browser-dynamic": "~11.2.14",
     "@angular/router": "~11.2.14",
-    "@exlibris/exl-cloudapp-angular-lib": "^1.4.1",
-    "@exlibris/exl-cloudapp-base": "^1.4.1",
+    "@exlibris/exl-cloudapp-angular-lib": "^1.4.3",
+    "@exlibris/exl-cloudapp-base": "^1.4.3",
     "@ngx-translate/core": "~13.0.0",
     "@tinymce/tinymce-angular": "^4.2.0",
     "dot-object": "^2.1.4",
@@ -32,7 +32,8 @@
     "tinymce": "^5.8.2",
     "uuid": "^8.0.0",
     "zone.js": "~0.10.3",
-    "url-parse": "~1.5.9"
+    "url-parse": "~1.5.9",
+    "minimist": "~1.2.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.14",

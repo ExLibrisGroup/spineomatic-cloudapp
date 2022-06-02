@@ -19,6 +19,7 @@
     "ScannedBarcodes": "Scanned barcodes",
     "BarcodeError": "Barcode {barcode} could not be loaded: {message}",
     "BarcodeAlreadyLoaded": "Barcode {barcode} already added",
+    "allowDuplicateCallNumber":"Allow duplicate call number input",
     "NoConfig": "No templates or layouts have been configured. {isAdmin, select, true {<a href=\"./#/configuration\">Click here to configure.</a>} false {Please ask an administrator to configure.}"
   },  
 	"SetSelect": {

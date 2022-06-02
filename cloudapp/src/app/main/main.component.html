@@ -1,4 +1,5 @@
 <div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" *ngIf="appService.canConfigure" [routerLink]="['/configuration']">{{'Configuration.Title' | translate}}</button>
   <button mat-flat-button color="secondary" (click)="clear()">{{'Main.Clear' | translate}}</button>
   <button mat-flat-button [disabled]="!isValid" color="primary" (click)="next()">
     {{'Main.Next' | translate}}
@@ -19,6 +20,7 @@
     <mat-label *ngIf="count >  0" translate [translateParams]="{length: selectedEntities.length}">Main.SelectedIds</mat-label>
     <eca-select-entities #selectEntities
       [(selected)]="selectedEntities"
+      [lineNumbers]="true"
       [entityTypes]="entityTypes"
       (count)="count=$event"
       >

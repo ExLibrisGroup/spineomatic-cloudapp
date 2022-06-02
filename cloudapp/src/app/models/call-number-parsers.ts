@@ -1,8 +1,53 @@
+import { Item } from "./item";
+
 export interface CallNumberParsers {
-  [key: string]: (val: string | Array<string>) => string | Array<string>
+  [key: string]: (val: string | Array<string>, item: Item) => string | Array<string>
 }
 
 export const callNumberParsers: CallNumberParsers = {
+  'long_dewey': val => {
+    if (Array.isArray(val)) val = val.join(' ');
+    let workingString = val;
+    let period = workingString.indexOf('.');
+    if (period == -1)
+      return workingString.split(' ');
+    let lead = workingString.substring(0, period);
+    let remainder = workingString.substring(period + 1);
+    let cutter = remainder.indexOf(' ');
+    let longDigits;
+    let splitElements;
+    if (cutter == -1)
+      longDigits = remainder;
+    else
+      longDigits = remainder.substring(0, cutter);
+    let tail = longDigits;
+    if (longDigits.length > 4) {
+      tail = longDigits.substring(0, 4);
+      longDigits = longDigits.substring(4);
+    }
+    else {
+        tail = longDigits;
+        longDigits = "";
+    }
+    splitElements = longDigits.match(/.{1,5}/g);
+    if (Array.isArray(splitElements)) {
+      splitElements.splice(0, 0, lead);
+      tail = '.' + tail;
+      splitElements.splice(1, 0, tail);
+    }
+    else {
+      splitElements = [lead, '.' + tail];
+    }
+    if (cutter != -1) {
+      remainder = remainder.substring(cutter + 1);
+      let splitRemainder = remainder.split(' ');
+      splitRemainder.forEach ((element) => {
+        splitElements.push(element);
+        }
+      )
+    }
+    return splitElements;
+  },
   'split_by_slash': val => {
     if (Array.isArray(val)) val = val.join(' ');
     return val.split('/');
@@ -27,5 +72,15 @@ export const callNumberParsers: CallNumberParsers = {
       return ((matches && matches[0]) || val).split('/');
     }
     
+  },
+  '852_subfields': (val, item) => {
+    const location = item.holding_record?.datafields.find(f => f.tag == '852');
+    if (!location) return val;
+    return location.subfields.filter(s => ['h', 'i', 'j', 'k', 'l', 'm'].includes(s.code)).map(s => s.value);
+  },
+  'item_call_number': (val, item) => {
+    /* Issue #56 - Use item call number (alternate call number) if exists */
+    const item_call_number = item.item_data.alternative_call_number;
+    return item_call_number || val;
   }
 }

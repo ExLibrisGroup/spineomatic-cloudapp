@@ -47,7 +47,8 @@ export class ScanComponent implements OnInit, OnDestroy {
       /* Scan synchronously to preserve order of file */  
       this.scanning = true;
       for (let barcode of barcodes) {
-        await this.alma.getBarcode(barcode.trim()).toPromise()
+        let fixedBarcode = encodeURIComponent(barcode);   //URM-159774
+        await this.alma.getBarcode(fixedBarcode.trim()).toPromise()
           .then(this.onItemScanned)
           .catch(e => this.scanBarcodeError(e, barcode))
       }
@@ -62,9 +63,10 @@ export class ScanComponent implements OnInit, OnDestroy {
 
   scan() {
     const barcode = this.barcode.nativeElement.value;
-    if (barcode) {
+    const fixedBarcode = encodeURIComponent(barcode);  //URM-159774
+    if (fixedBarcode) {
       this.loading.add(barcode);
-      this.alma.getBarcode(barcode)
+      this.alma.getBarcode(fixedBarcode)
       .pipe(finalize(()=>this.loading.delete(barcode)))
       .subscribe({
         next: this.onItemScanned,

@@ -6,9 +6,12 @@ import { ConfigService } from '../services/config.service';
 import { PrintService, STORE_SCANNED_BARCODES, STORE_SELECTED_ENTITIES } from '../services/print.service';
 import { AlmaService } from '../services/alma.service';
 import { TranslateService } from '@ngx-translate/core';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ScanComponent } from './scan/scan.component';
+import { canConfigure } from '../models/alma';
+import { AppService } from '../app.service';
+import { iif, of } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -35,6 +38,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private router: Router,
     private store: CloudAppStoreService,
+    public appService: AppService,
   ) { }
 
   ngOnInit() {
@@ -49,6 +53,17 @@ export class MainComponent implements OnInit, OnDestroy {
         .subscribe(text=>this.alert.warn(text));
       }
     })
+    /* Check if user has admin role */
+    this.eventsService.getInitData()
+    .pipe(
+      switchMap(initData => iif(
+        () => initData.user.isAdmin,
+        of(true),
+        this.alma.getCurrentUser()
+        .pipe(map(user => canConfigure(user)))
+      ))
+    )
+    .subscribe(result => this.appService.canConfigure = result);
     /* Reload scanned barcodes */
     this.store.get(STORE_SCANNED_BARCODES)
     .subscribe(barcodes => this.scannedEntities = barcodes || []);

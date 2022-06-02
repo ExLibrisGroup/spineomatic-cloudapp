@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CanDeactivate } from '@angular/router';
+import { CanActivate, CanDeactivate } from '@angular/router';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { TranslateService } from '@ngx-translate/core';
 import { startCase } from 'lodash';
@@ -9,6 +9,7 @@ import { DialogService } from 'eca-components';
 import { configFormGroup } from '../models/configuration';
 import { ConfigService } from '../services/config.service';
 import { MatTabChangeEvent } from '@angular/material/tabs'
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-configuration',
@@ -64,7 +65,7 @@ export class ConfigurationComponent implements OnInit {
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigurationGuard implements CanDeactivate<ConfigurationComponent> {
+export class CanDeactivateConfiguration implements CanDeactivate<ConfigurationComponent> {
   constructor(
     private dialog: DialogService,
   ) {}
@@ -75,5 +76,18 @@ export class ConfigurationGuard implements CanDeactivate<ConfigurationComponent>
       text: 'Configuration.Discard',
       ok: 'Configuration.DiscardOk'
     });
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CanActivateConfiguration implements CanActivate {
+  constructor(
+    private appService: AppService,
+  ) {}
+
+  canActivate(): boolean {
+    return this.appService.canConfigure;
   }
 }

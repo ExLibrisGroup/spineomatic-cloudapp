@@ -20,8 +20,8 @@
       height: 300,
       menubar: false,
       setup: initmce,
-      fontsize_formats: '8pt 10pt 12pt 13pt 14pt 15pt 18pt 24pt 36pt',
-      font_formats: 'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Arial Narrow=arial narrow,sans-serif; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+      fontsize_formats: '8pt 10pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 24pt 36pt',
+      font_formats: 'ALA BT Courier=ala bt courier,courier; Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Arial Narrow=arial narrow,sans-serif; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft YaHei=microsoft yahei,gothic,sans-serif; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
       content_style: 'body, p {font-size: 14px;font-weight: 300;color: #5e5e5e;}',
       plugins: 'table',
       toolbar:
@@ -46,6 +46,10 @@
       </mat-expansion-panel-header>
       <mat-checkbox labelPosition="before" formControlName="asBarcode">{{'Configuration.Templates.Fields.asBarcode' | translate}}</mat-checkbox>
       <mat-checkbox labelPosition="before" [ngClass]="{'readonly': !asBarcode}" formControlName="showBarcodeValue">{{'Configuration.Templates.Fields.showBarcodeValue' | translate}}</mat-checkbox>
+      <mat-form-field appearance="standard" [ngClass]="{'readonly': !showBarcodeValue}">
+        <mat-label translate>Configuration.Templates.Fields.barcodeFontSize</mat-label>
+        <input matInput formControlName="barcodeFontSize" type="number">  
+      </mat-form-field>
       <mat-form-field appearance="standard" [ngClass]="{'readonly': !asBarcode}">
         <mat-label translate>Configuration.Templates.Fields.barcodeWidth</mat-label>
         <input matInput formControlName="barcodeWidth" type="number">  
@@ -60,6 +64,13 @@
           <mat-option *ngFor="let format of barcodeFormats" [value]="format">{{format}}</mat-option>
         </mat-select>     
       </mat-form-field>
+      <mat-form-field appearance="standard" [ngClass]="{'readonly': !asBarcode}">
+        <mat-label translate>Configuration.Templates.Fields.checksum</mat-label>
+        <mat-select formControlName="barcodeChecksum">
+          <mat-option value="">{{'None' | translate}}</mat-option>
+          <mat-option *ngFor="let checksum of checksums" [value]="checksum">{{startCase(checksum)}}</mat-option>
+        </mat-select>  
+      </mat-form-field>      
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -72,7 +83,7 @@
         <mat-label translate>Configuration.Templates.Fields.callNumberParser</mat-label>
         <mat-select formControlName="callNumberParser">
           <mat-option value="">{{'Configuration.Templates.Fields.defaultCallNumberParser' | translate}}</mat-option>
-          <mat-option *ngFor="let parser of callNumberParsers | keyvalue" [value]="parser.key">{{startCase(parser.key)}}</mat-option>
+          <mat-option *ngFor="let parser of callNumberParsers" [value]="parser">{{startCase(parser)}}</mat-option>
         </mat-select>  
       </mat-form-field>
     </mat-expansion-panel>
@@ -94,6 +105,21 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <app-prefix [form]="selectedTemplate"></app-prefix>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title translate>
+          Configuration.Templates.CopyNumberOptions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.copyNumberLabel</mat-label>
+        <input matInput formControlName="copyNumberLabel" type="string">  
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.suppressCopyNumbers</mat-label>
+        <input matInput formControlName="suppressCopyNumbers" type="string">  
+      </mat-form-field>  
     </mat-expansion-panel>
   </mat-accordion>
 </div>

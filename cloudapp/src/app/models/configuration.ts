@@ -21,13 +21,17 @@ export class Template {
   contents: string = "";
   asBarcode: boolean = false;
   showBarcodeValue: boolean = true;
+  barcodeFontSize: number = null;
   barcodeWidth: number = null;
   barcodeHeight: number = null;
   barcodeEncoding: BarcodeFormats = 'codabar';
   callNumberLineBreaks: boolean = false;
   callNumberParser: string = "";
+  barcodeChecksum: string = "";
   truncateTitleCharacters: number = null;
   prefixes: Prefix[] = [];
+  copyNumberLabel: string = "";
+  suppressCopyNumbers: string = "";
 }
 
 export class Prefix {

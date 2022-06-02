@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, of } from 'rxjs';
 import { AlmaService } from '../services/alma.service';
@@ -7,17 +7,22 @@ import { Item } from '../models/item';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { chunk } from 'lodash';
 import { ConfigService } from '../services/config.service';
-import { Config, Layout, Prefix } from '../models/configuration';
+import { Config, Layout } from '../models/configuration';
 import * as dot from 'dot-object';
-import { NgxBarcodeComponent } from 'ngx-barcode';
+import { NgxBarcodeComponent } from '@joshmweisman/ngx-barcode';
 import { itemExample } from '../models/item-example';
 import { callNumberParsers } from '../models/call-number-parsers';
+import { checksums } from '../models/checksums';
 
 const INCH_IN_PIXELS = 96, CM_IN_PIXELS = 37.8, PREVIEW_WIDTH = 250;
 
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
+  styles: [
+    'p { margin-top: 0; }',
+  ],
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class PrintComponent implements OnInit {
   items = new Array<Array<Item>>();
@@ -66,7 +71,7 @@ export class PrintComponent implements OnInit {
   }
 
   getItem(link: string) {
-    return this.alma.getItem(link).pipe(
+    return this.alma.getItemForLabel(link).pipe(
       tap(()=>{
         this.itemsLoaded++
         this.percentLoaded = 
@@ -95,6 +100,9 @@ export class PrintComponent implements OnInit {
       } else {
         const val = dot.pick(detail, item);
         switch (detail) {
+          case 'raw_barcode':
+            /* Return barcode without processing; allows printing text and code on label */
+            return dot.pick('item_data.barcode', item);          
           case 'item_data.barcode':
             return this.getBarCode(val);
           case 'item_data.alt_call_no':
@@ -102,11 +110,13 @@ export class PrintComponent implements OnInit {
           case 'holding_data.call_number':
           case 'holding_data.permanent_call_number':
           case 'holding_data.temp_call_number':
-            return this.getCallNo(val);
+            return this.getCallNo(val, item);
           case 'bib_data.title':
             return this.getTitle(val);
           case 'prefix':
            return this.getPrefix(item);
+          case 'holding_data.copy_id':
+            return this.getCopyNumber(val);
           default:
             return val == undefined ? '' : val;
         }
@@ -118,7 +128,10 @@ export class PrintComponent implements OnInit {
 
   getBarCode(val: string) {
     if (!this.printService.template.asBarcode) return val; 
-    this.barcodeComponent.value = val;
+    this.barcodeComponent.value = !!checksums[this.template.barcodeChecksum]
+      ? val.concat(checksums[this.template.barcodeChecksum](val))
+      : val;
+    this.barcodeComponent.text = val;
     let chars = Number(this.template.barcodeWidth);
     if (chars > 0) {
       this.barcodeComponent.width = chars;
@@ -127,6 +140,7 @@ export class PrintComponent implements OnInit {
     if (chars > 0) {
       this.barcodeComponent.height = chars;
     }
+    //Keep original barcode font size code....but it gets overridden in the new code.
     let barcodeFontSizeStart = this.printService.template.contents.indexOf("font-size");
     if (barcodeFontSizeStart > -1) {
        barcodeFontSizeStart = barcodeFontSizeStart + 11;
@@ -138,15 +152,24 @@ export class PrintComponent implements OnInit {
           }
        }
     }
+    //New barcode font size code. 
+    if (this.printService.template.showBarcodeValue) {
+      if (!isNaN(Number(this.printService.template.barcodeFontSize))) {
+        if (Number(this.printService.template.barcodeFontSize) > 0) 
+          this.barcodeComponent.fontSize = Number(this.printService.template.barcodeFontSize);
+      }
+    }
+    //force left margin - URM-159857
+    this.barcodeComponent.marginLeft = 1;
     this.barcodeComponent.bcElement.nativeElement.innerHTML = "";
     this.barcodeComponent.createBarcode();
     return this.barcodeComponent.bcElement.nativeElement.innerHTML;
   }
 
-  getCallNo(val: string | Array<string>) {
+  getCallNo(val: string | Array<string>, item: Item) {
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
-      val = callNumberParsers[this.template.callNumberParser](val);
+      val = callNumberParsers[this.template.callNumberParser](val, item);
     }
     return Array.isArray(val) ?
       val.filter(v=>!!v) /* Suppress blank lines */
@@ -182,5 +205,15 @@ export class PrintComponent implements OnInit {
       if (prefix) val = prefix.text;
     }
     return val;
+  }
+
+  getCopyNumber(copyNumber: string) {
+    var suppressCopyNumbersArray = this.template.suppressCopyNumbers.split(',');
+    for (var index in suppressCopyNumbersArray) {
+      suppressCopyNumbersArray[index] = suppressCopyNumbersArray[index].trim();
+    }
+    if (suppressCopyNumbersArray.indexOf(copyNumber.trim()) == -1)
+      return this.template.copyNumberLabel + copyNumber;
+    return "";
   }
 }

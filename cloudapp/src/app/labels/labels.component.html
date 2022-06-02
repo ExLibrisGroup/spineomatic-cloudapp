@@ -14,21 +14,43 @@
 <div class="config" *ngIf="config">
   <mat-form-field>
     <mat-label translate>Labels.SelectLayout</mat-label>
-    <mat-select [(ngModel)]="printService.layout" [compareWith]="isEqual" (selectionChange)="onSettingsChanged($event, 'layout')">
-      <mat-option *ngFor="let layout of config.layouts | keyvalue" [value]="layout.value">{{startCase(layout.key)}}</mat-option>
-    </mat-select>
+    <input type="text"
+      placeholder=""
+      matInput
+      [formControl]="layoutControl"
+      [matAutocomplete]="autoLayout">
+    <mat-autocomplete autoActiveFirstOption 
+      #autoLayout="matAutocomplete" 
+      (optionSelected)="onSelected($event, 'layout')"
+      [displayWith]="startCase"
+      >
+      <mat-option *ngFor="let layout of filteredLayouts | async" [value]="layout">
+        {{startCase(layout)}}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
   <mat-form-field>
     <mat-label translate>Labels.SelectTemplate</mat-label>
-    <mat-select [(ngModel)]="printService.template" [compareWith]="isEqual" (selectionChange)="onSettingsChanged($event, 'template')">
-      <mat-option *ngFor="let template of config.templates | keyvalue" [value]="template.value">{{startCase(template.key)}}</mat-option>
-    </mat-select>
+    <input type="text"
+      placeholder=""
+      matInput
+      [formControl]="templateControl"
+      [matAutocomplete]="autoTemplate">
+    <mat-autocomplete autoActiveFirstOption 
+      #autoTemplate="matAutocomplete" 
+      (optionSelected)="onSelected($event, 'template')"
+      [displayWith]="startCase"
+      >
+      <mat-option *ngFor="let template of filteredTemplates | async" [value]="template">
+        {{startCase(template)}}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
   <mat-form-field>
     <mat-label translate>Labels.Offset</mat-label>
     <input matInput [(ngModel)]="printService.offset" type="number" min="0" [max]="printService.layout?.perPage">
     <mat-hint translate>Labels.OffsetHint</mat-hint>
   </mat-form-field>
-  <mat-checkbox labelPosition="before" [(ngModel)]="printService.gridlines">{{'Labels.Gridlines' | translate}}</mat-checkbox>
+  <mat-slide-toggle labelPosition="before" [(ngModel)]="printService.gridlines">{{'Labels.Gridlines' | translate}}</mat-slide-toggle>
 </div>
 <iframe style="visibility: hidden;" #iframe></iframe>

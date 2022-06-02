@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ConfigurationComponent, ConfigurationGuard } from './configuration/configuration.component';
+import { ConfigurationComponent, CanDeactivateConfiguration, CanActivateConfiguration } from './configuration/configuration.component';
 import { LabelsComponent } from './labels/labels.component';
 import { MainComponent } from './main/main.component';
 import { PrintComponent } from './print/print.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'configuration', component: ConfigurationComponent, canDeactivate: [ConfigurationGuard] },
+  { path: 'configuration', component: ConfigurationComponent, canDeactivate: [CanDeactivateConfiguration], canActivate: [CanActivateConfiguration]},
   { path: 'labels', component: LabelsComponent },
   { path: 'print', component: PrintComponent },
 ];

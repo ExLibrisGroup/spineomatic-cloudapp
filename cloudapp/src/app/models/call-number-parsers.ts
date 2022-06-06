@@ -82,5 +82,17 @@ export const callNumberParsers: CallNumberParsers = {
     /* Issue #56 - Use item call number (alternate call number) if exists */
     const item_call_number = item.item_data.alternative_call_number;
     return item_call_number || val;
+  },
+  'item_call_number_split_by_slash': (val, item) => {
+    /* Issue #56 - Use item call number (alternate call number) if exists.
+    else use holding call number and split by slash */
+    const item_call_number = item.item_data.alternative_call_number.split('/');
+    if(item_call_number[0] == ""){
+      if (Array.isArray(val)){
+        val = val.join(' ')
+        return val.split('/');
+      }
+    }
+    return item_call_number;
   }
 }

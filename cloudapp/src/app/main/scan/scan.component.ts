@@ -108,6 +108,8 @@ export class ScanComponent implements OnInit, OnDestroy {
   }
 
   saveScannedBarcodes() {
+    //Keep input and print in the same order
+    this.scannedEntities.reverse();
     this.store.set(STORE_SCANNED_BARCODES, this.scannedEntities)
     .subscribe();
   }

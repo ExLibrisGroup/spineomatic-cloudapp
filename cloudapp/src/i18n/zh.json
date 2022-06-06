@@ -20,6 +20,7 @@
     "ScannedBarcodes": "已扫描的条码",
     "BarcodeError": "条码 {barcode} 不能被加载: {message}",
     "BarcodeAlreadyLoaded": "条码 {barcode} 已经被添加",
+    "allowDuplicateCallNumber":"允许输入重复的条码",
     "NoConfig": "未配置模板或布局. {isAdmin, select, true {<a href=\"./#/configuration\">点击这里配置.</a>} false {请联系管理员进行配置.}"
   },  
 	"SetSelect": {

@@ -84,7 +84,7 @@ export class ScanComponent implements OnInit, OnDestroy {
 
   onItemScanned = (item: Item) => {
     if (!this.scannedEntities.find(e=>e.link==item.link)) {
-      this.scannedEntities.unshift(this.itemToEntity(item));
+      this.scannedEntities.push(this.itemToEntity(item));
     } else {
       this.alert.warn(this.translate.instant('Main.BarcodeAlreadyLoaded', 
         { barcode: item.item_data.barcode }), { autoClose: true });
@@ -108,8 +108,6 @@ export class ScanComponent implements OnInit, OnDestroy {
   }
 
   saveScannedBarcodes() {
-    //Keep input and print in the same order
-    this.scannedEntities.reverse();
     this.store.set(STORE_SCANNED_BARCODES, this.scannedEntities)
     .subscribe();
   }

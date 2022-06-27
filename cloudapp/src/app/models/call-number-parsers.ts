@@ -101,5 +101,9 @@ export const callNumberParsers: CallNumberParsers = {
       }
     }
     return item_call_number;
+  },
+  'split_by_space': (val, item) => {
+    if (Array.isArray(val)) val = val.join(' ');
+    return val.split(' ');
   }
 }

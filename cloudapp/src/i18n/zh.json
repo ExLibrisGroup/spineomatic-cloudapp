@@ -106,6 +106,7 @@
         "item_data.language": "语种",
         "prefix": "标签前缀",
         "raw_barcode": "原始条码",
+        "raw_call_no": "未经加工的索书号",
         "asBarcode": "显示为条形码",
         "showBarcodeValue": "显示条码值",
         "barcodeFontSize": "条码字体大小",

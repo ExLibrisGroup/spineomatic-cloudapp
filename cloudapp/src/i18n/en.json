@@ -106,6 +106,7 @@
         "item_data.language": "Language",
         "prefix": "Label Prefix",
         "raw_barcode": "Raw barcode",
+        "raw_call_no": "Raw call number",
         "asBarcode": "Show as barcode",
         "showBarcodeValue": "Show barcode value",
         "barcodeFontSize": "Barcode font size",

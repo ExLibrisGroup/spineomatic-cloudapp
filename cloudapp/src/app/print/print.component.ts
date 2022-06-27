@@ -117,6 +117,8 @@ export class PrintComponent implements OnInit {
            return this.getPrefix(item);
           case 'holding_data.copy_id':
             return this.getCopyNumber(val);
+          case 'raw_call_no':
+            return this.getRawCallNo(val, item);
           default:
             return val == undefined ? '' : val;
         }
@@ -174,6 +176,18 @@ export class PrintComponent implements OnInit {
     return Array.isArray(val) ?
       val.filter(v=>!!v) /* Suppress blank lines */
       .join(this.template.callNumberLineBreaks ? '<br>' : ' ') : 
+      val;
+  }
+
+  getRawCallNo(val: string | Array<string>, item: Item) {
+    val = dot.pick('holding_data.call_number', item);
+    if (!val) return "";
+    if (callNumberParsers[this.template.callNumberParser]) {
+      val = callNumberParsers[this.template.callNumberParser](val, item);
+    }
+    return Array.isArray(val) ?
+      val.filter(v=>!!v) /* Suppress blank lines */
+      .join(' ') : 
       val;
   }
 

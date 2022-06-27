@@ -35,4 +35,5 @@ export const LABEL_FIELDS = [
   'item_data.language',
   'prefix',
   'raw_barcode',
+  'raw_call_no',
 ]

@@ -42,7 +42,6 @@ export class ScanComponent implements OnInit, OnDestroy {
       const file = event.target.result;
       if (typeof file != 'string') return;
       const barcodes = file.split(/\r\n|\n/)
-      .reverse() /* Preserve order */
       .filter(barcode => !!barcode); /* Skip blank lines */
       /* Scan synchronously to preserve order of file */  
       this.scanning = true;

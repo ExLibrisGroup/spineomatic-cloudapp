@@ -96,7 +96,7 @@ export const callNumberParsers: CallNumberParsers = {
     const item_call_number = item.item_data.alternative_call_number.split('/');
     if(item_call_number[0] == ""){
       if (Array.isArray(val)){
-        val = val.join(' ')
+        val = val.join('')
         return val.split('/');
       }
     }

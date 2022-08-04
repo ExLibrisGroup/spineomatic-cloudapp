@@ -80,9 +80,9 @@ export const callNumberParsers: CallNumberParsers = {
   },
   'item_call_number': (val, item) => {
     /* Issue #56 - Use item call number (alternate call number) if exists */
-    const item_call_number = item.item_data.alternative_call_number;
-    //console.log(item_call_number);
-    if(item_call_number== ""){
+    const item_call_number = item.item_data.alternative_call_number.split(' ');
+    console.log(item_call_number);
+    if(item_call_number[0]== ""){
       if (Array.isArray(val)){
         val = val.join(' ')
         return val.split(' ');

@@ -173,6 +173,57 @@ export class PrintComponent implements OnInit {
     if (callNumberParsers[this.template.callNumberParser]) {
       val = callNumberParsers[this.template.callNumberParser](val, item);
     }
+    //If characters are to be removed, split them into groups and remove each sequentially
+    let charactersToRemove = this.template.removeCharactersFromCallNo;
+    if (charactersToRemove.length > 0) {
+      let segments = charactersToRemove.split(' ');
+      let wasArray = false;
+      if (Array.isArray(val)) {
+        val = val.join(' ');
+        wasArray = true;
+      }
+      for (const i in segments) {
+        const pattern = new RegExp(segments[i],'g');
+        //console.log ('Pattern to replace =  ' + pattern);
+        val = val.replace(pattern, "");
+      }
+      if (wasArray) {
+        val = val.split(' ');
+      }
+    } 
+
+    //Remove each individual character.
+    //This was replaced by replace groups of characters (space separated) above.
+    //if (charactersToRemove.length > 0) {
+    //  charactersToRemove = "[" + charactersToRemove + "]";
+    //  const pattern =  new RegExp(charactersToRemove,'g');
+    //  if (!Array.isArray(val)) {
+    //    val = val.replace(pattern, "");
+    //  }
+    //  else {
+    //    for (let index = 0; index < val.length; index++) {
+    //      val[index] = val[index].replace(pattern, "");
+    //    }
+    //  }  
+    //} 
+
+    if (this.template.hideCutterDecimal) {
+      let wasArray = false;
+      if (Array.isArray(val)) {
+        val = val.join(' ');
+        wasArray = true;
+      }
+      let workingString = val;
+      let period = workingString.indexOf('.');
+      if (period != -1) {
+        workingString = workingString.substring(0, period) + workingString.substring(period + 1);
+      }
+      if (wasArray)
+        val = workingString.split(' ');
+      else
+        val = workingString;
+    }
+
     return Array.isArray(val) ?
       val.filter(v=>!!v) /* Suppress blank lines */
       .join(this.template.callNumberLineBreaks ? '<br>' : ' ') : 

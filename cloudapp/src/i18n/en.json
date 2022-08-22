@@ -112,6 +112,8 @@
         "barcodeFontSize": "Barcode font size",
         "barcodeEncoding": "Barcode encoding",
         "callNumberLineBreaks": "Line breaks between call number parts",
+        "removeCharactersFromCallNo": "Remove characters from call number",
+        "hideCutterDecimal": "Hide cutter decimal",
         "callNumberParser": "Call Number Parser",
         "defaultCallNumberParser": "Default (Alma)",
         "checksum": "Append checksum",

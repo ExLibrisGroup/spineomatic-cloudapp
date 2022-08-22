@@ -87,6 +87,11 @@
           <mat-option *ngFor="let parser of callNumberParsers" [value]="parser">{{startCase(parser)}}</mat-option>
         </mat-select>  
       </mat-form-field>
+      <mat-checkbox labelPosition="before" formControlName="hideCutterDecimal">{{'Configuration.Templates.Fields.hideCutterDecimal' | translate}}</mat-checkbox>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.removeCharactersFromCallNo</mat-label>
+        <input matInput formControlName="removeCharactersFromCallNo" type="string">  
+      </mat-form-field>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

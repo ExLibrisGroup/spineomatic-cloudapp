@@ -112,6 +112,8 @@
         "barcodeFontSize": "条码字体大小",
         "barcodeEncoding": "条形码的编码",
         "callNumberLineBreaks": "在索书号的各部分之间换行",
+        "hideCutterDecimal": "Hide cutter decimal",
+        "removeCharactersFromCallNo": "Remove characters from call number",
         "callNumberParser": "索书号解析",
         "defaultCallNumberParser": "默认 (Alma)",
         "checksum": "附加校验和",

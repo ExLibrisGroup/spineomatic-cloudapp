@@ -163,6 +163,12 @@ export class PrintComponent implements OnInit {
     }
     //force left margin - URM-159857
     this.barcodeComponent.marginLeft = 1;
+    // CIL additions to override default settings in barcode. 
+    // TODO implement these in settings in the template interface
+    this.barcodeComponent.marginTop = this.printService.CIL ? 1 : 10;
+    this.barcodeComponent.marginRight = this.printService.CIL ? 1 : 10;
+    this.barcodeComponent.marginBottom = this.printService.CIL ? 1 : 10;
+    this.barcodeComponent.textMargin = this.printService.CIL ? 1 : 2;
     this.barcodeComponent.bcElement.nativeElement.innerHTML = "";
     this.barcodeComponent.createBarcode();
     return this.barcodeComponent.bcElement.nativeElement.innerHTML;

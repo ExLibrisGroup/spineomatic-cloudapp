@@ -3,8 +3,11 @@
   https://boulderinformationservices.com/blog/print-avery-labels-using-css-and-html/
 -->
 <div *ngIf="layout && items">
+  <!-- CIL addition: 'min-height' and overflow prevents paging to break when margin is set to 0 -->
   <div *ngFor="let page of items; let last = last" class="page" 
     [ngStyle]="{
+      'min-height': printService.CIL ? '1px' : '',
+       overflow: this.printService.CIL ? 'hidden' : 'visible',
       margin: 0,
       'font-family': 'arial',
       'text-align': 'center',
@@ -13,7 +16,9 @@
       padding:layout.topMargin + layout.measure + ' 0 0 ' + layout.leftMargin + layout.measure
     }"
   >
-
+    <!-- CIL change: removes 0.05in padding from the first label 
+      (not sure why this affects only first label so there might be a bug somewhere else)
+    -->
     <div class='label'
       [ngStyle]="{
         'box-sizing': 'border-box',
@@ -23,9 +28,9 @@
         outline: printService.gridlines ? '1px dotted #ccc' : '',
         width: layout.width + layout.measure,
         height: layout.height + layout.measure,
-        padding: layout.orientation == 'landscape' ? 
+        padding: printService.CIL ? layout.leftPadding + layout.measure : (layout.orientation == 'landscape' ? 
           layout.leftPadding + layout.measure + ' 0.05in 0.05in 0.05in' : 
-          '0.05in 0.05in 0.05in ' + layout.leftPadding + layout.measure,
+          '0.05in 0.05in 0.05in ' + layout.leftPadding + layout.measure) ,
         'margin-right': layout.horizontalGap + layout.measure,
         'margin-bottom': layout.verticalGap + layout.measure,
         'writing-mode': layout.orientation == 'landscape' ? 'vertical-rl' : 'horizontal-tb'

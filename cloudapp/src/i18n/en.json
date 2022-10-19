@@ -33,6 +33,7 @@
     "Offset": "Offset",
     "OffsetHint": "Skip this number of slots on first page of labels",
     "Gridlines": "Print gridlines",
+    "CIL": "Enable marginless templates and layouts",
     "Dialog": {
       "title": "Print completed",
       "text": "Were the labels printed successfully?",

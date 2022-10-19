@@ -16,7 +16,9 @@ export class PrintService {
   layout: Layout;
   template: Template;
   offset: number = 0;
-  gridlines = false;
+  gridlines = false;  
+  //CIL addition - flag whether to use the old (default) setting or the CIL settings
+  CIL: boolean = false;
 
   constructor( 
     private alma: AlmaService,

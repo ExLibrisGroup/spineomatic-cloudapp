@@ -103,7 +103,9 @@ export class LabelsComponent implements OnInit {
 
   print() {
     const doc = this.iframe.nativeElement.contentDocument || this.iframe.nativeElement.contentWindow;
-    doc.body.innerHTML = "";
+    // CIL change: margin of 0px on html body to prevent default 8px margins
+    const CIL_style = "<style>@media print {html, body {margin: 0px;} }</style>";
+    doc.body.innerHTML = this.printService.CIL ? CIL_style : "";
     doc.body.appendChild(this.printComponent.location.nativeElement);
     this.loading = true;
     this.printComponent.instance.load()

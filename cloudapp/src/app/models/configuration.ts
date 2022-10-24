@@ -26,6 +26,7 @@ export class Template {
   barcodeHeight: number = null;
   barcodeEncoding: BarcodeFormats = 'codabar';
   callNumberLineBreaks: boolean = false;
+  numberOfCallNumberLines: number = null;
   hideCutterDecimal: boolean = false;
   removeCharactersFromCallNo: string = "";
   callNumberParser: string = "";

@@ -33,6 +33,7 @@
     "Offset": "偏移量",
     "OffsetHint": "跳过标签第一页的位数",
     "Gridlines": "打印网格线",
+    "CIL": "启用无页边距的模板和布局",
     "Dialog": {
       "title": "打印完成",
       "text": "所有书标都打印完成了吗?",
@@ -112,6 +113,7 @@
         "barcodeFontSize": "条码字体大小",
         "barcodeEncoding": "条形码的编码",
         "callNumberLineBreaks": "在索书号的各部分之间换行",
+        "numberOfCallNumberLines": "索书号部分打印最大数量",
         "hideCutterDecimal": "隐藏小数点",
         "removeCharactersFromCallNo": "从索书号中移除字符",
         "callNumberParser": "索书号解析",

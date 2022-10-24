@@ -119,6 +119,10 @@ export class TemplateComponent extends ConfigurationBaseComponent {
     return (this.form.get(this.selected) as FormGroup).controls.callNumberLineBreaks.value
   }
 
+  get numberOfCallNumberLines(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.numberOfCallNumberLines.value
+  }
+  
   get hideCutterDecimal(): boolean {
     return (this.form.get(this.selected) as FormGroup).controls.hideCutterDecimal.value
   }

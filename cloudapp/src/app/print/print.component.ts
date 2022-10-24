@@ -198,21 +198,6 @@ export class PrintComponent implements OnInit {
       }
     } 
 
-    //Remove each individual character.
-    //This was replaced by replace groups of characters (space separated) above.
-    //if (charactersToRemove.length > 0) {
-    //  charactersToRemove = "[" + charactersToRemove + "]";
-    //  const pattern =  new RegExp(charactersToRemove,'g');
-    //  if (!Array.isArray(val)) {
-    //    val = val.replace(pattern, "");
-    //  }
-    //  else {
-    //    for (let index = 0; index < val.length; index++) {
-    //      val[index] = val[index].replace(pattern, "");
-    //    }
-    //  }  
-    //} 
-
     if (this.template.hideCutterDecimal) {
       let wasArray = false;
       if (Array.isArray(val)) {
@@ -230,10 +215,21 @@ export class PrintComponent implements OnInit {
         val = workingString;
     }
 
-    return Array.isArray(val) ?
-      val.filter(v=>!!v) /* Suppress blank lines */
-      .join(this.template.callNumberLineBreaks ? '<br>' : ' ') : 
-      val;
+    /* Start of GitHub issue #94 */
+    if (Array.isArray(val)) {
+      if (this.template.callNumberLineBreaks) {
+        if (this.template.numberOfCallNumberLines > 0 && this.template.numberOfCallNumberLines < val.length) {
+          return val.filter(v=>!!v) /* Suppress blank lines */
+          .slice(0, this.template.numberOfCallNumberLines).join ('<br>')
+        }
+        else return val.filter(v=>!!v) /* Suppress blank lines */
+        .join ('<br>')
+      }
+      else return val.filter(v=>!!v) /* Suppress blank lines */
+      .join(' ')
+    }
+    else return val;
+    /* End of GitHub issue #94 */
   }
 
   getRawCallNo(val: string | Array<string>, item: Item) {

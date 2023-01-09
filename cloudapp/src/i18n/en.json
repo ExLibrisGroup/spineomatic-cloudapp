@@ -123,7 +123,8 @@
         "barcodeWidth": "Barcode width",
         "barcodeHeight": "Barcode height",
         "copyNumberLabel": "Copy number label",
-        "suppressCopyNumbers": "Suppress copy numbers, comma separated"
+        "suppressCopyNumbers": "Suppress copy numbers, comma separated",
+        "decimalCharacter":"Decimal character"
       }
     },
     "Images": {

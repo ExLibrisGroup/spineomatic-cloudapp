@@ -28,6 +28,7 @@ export class Template {
   callNumberLineBreaks: boolean = false;
   numberOfCallNumberLines: number = null;
   hideCutterDecimal: boolean = false;
+  decimalCharacter: string = "";
   removeCharactersFromCallNo: string = "";
   callNumberParser: string = "";
   barcodeChecksum: string = "";

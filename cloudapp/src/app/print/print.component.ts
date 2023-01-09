@@ -199,20 +199,24 @@ export class PrintComponent implements OnInit {
     } 
 
     if (this.template.hideCutterDecimal) {
+      let decimalCharacter = this.template.decimalCharacter;
+      if (decimalCharacter.length == 0) {
+        decimalCharacter = '.';
+      }
       let wasArray = false;
       if (Array.isArray(val)) {
         val = val.join(' ');
         wasArray = true;
       }
       let workingString = val;
-      let period = workingString.indexOf('.');
+      let period = workingString.indexOf(decimalCharacter);
       while (period != -1) {
         if (/^[a-z]/i.test(workingString.charAt(period + 1)) && /^[0-9]$/.test(workingString.charAt(period + 2))) {
           //We found the cutter
           workingString = workingString.substring(0, period) + workingString.substring(period + 1);
           period = -1;
         } else {
-          period = workingString.indexOf('.', period + 1);
+          period = workingString.indexOf(decimalCharacter, period + 1);
         }
       }
       if (wasArray)

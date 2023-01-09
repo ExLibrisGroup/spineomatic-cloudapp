@@ -127,6 +127,10 @@ export class TemplateComponent extends ConfigurationBaseComponent {
     return (this.form.get(this.selected) as FormGroup).controls.hideCutterDecimal.value
   }
 
+  get decimalCharacter(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.decimalCharacter.value
+  }
+
   get removeCharactersFromCallNo(): string {
     return (this.form.get(this.selected) as FormGroup).controls.removeCharactersFromCallNo.value
   }

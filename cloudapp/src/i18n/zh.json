@@ -124,7 +124,7 @@
         "barcodeHeight": "条码高度",
         "copyNumberLabel": "复本数标签",
         "suppressCopyNumbers": "抑制的复本数，以逗号分隔",
-        "decimalCharacter":"Decimal character"
+        "decimalCharacter":"小数的字符"
       }
     },
     "Images": {

@@ -135,5 +135,13 @@
         <input matInput formControlName="suppressCopyNumbers" type="string">  
       </mat-form-field>  
     </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title translate>
+          Configuration.Templates.DescOptions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-checkbox labelPosition="before" formControlName="descriptionLineBreaks">{{'Configuration.Templates.Fields.descriptionLineBreaks' | translate}}</mat-checkbox>
+    </mat-expansion-panel>
   </mat-accordion>
 </div>

@@ -97,6 +97,7 @@
       "Location": "馆藏地",
       "Text": "文本",
       "CopyNumberOptions": "复本数",
+      "DescOptions":"简介/描述",
       "Fields": {
         "item_data.barcode": "条码",
         "item_data.call_no": "已解析索书号",
@@ -124,7 +125,8 @@
         "barcodeHeight": "条码高度",
         "copyNumberLabel": "复本数标签",
         "suppressCopyNumbers": "抑制的复本数，以逗号分隔",
-        "decimalCharacter":"小数点字符"
+        "decimalCharacter":"小数点字符",
+        "descriptionLineBreaks":"简介/描述字段间换行"
       }
     },
     "Images": {

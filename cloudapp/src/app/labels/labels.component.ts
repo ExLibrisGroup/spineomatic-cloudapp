@@ -12,6 +12,7 @@ import { DialogService, PromptDialogData } from 'eca-components';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 const LABELS_STICKY = "labelsSticky";
 const dialogData: PromptDialogData = {
@@ -65,6 +66,12 @@ export class LabelsComponent implements OnInit {
           if (sticky.layout) {
             this.printService.layout = this.config.layouts[sticky.layout];
             this.layoutControl.setValue(sticky.layout);
+          }
+          if (sticky.marginless) {
+            this.printService.CIL = sticky.marginless
+          }
+          if (sticky.gridlines) {
+            this.printService.gridlines = sticky.gridlines;
           }
         };
         this.filteredLayouts = this.layoutControl.valueChanges
@@ -139,6 +146,15 @@ export class LabelsComponent implements OnInit {
   storeSticky(val: string, prop: string) {
     this.store.get(LABELS_STICKY).pipe(
       map(sticky=>Object.assign(sticky || {}, { [prop]: snakeCase(val) })),
+      switchMap(sticky=>this.store.set(LABELS_STICKY, sticky))
+    )
+    .subscribe();
+  }
+
+  //onChange(event: MatSlideToggleChange, prop: string, val: string) {
+  onChange(prop: string, val: boolean) {
+    this.store.get(LABELS_STICKY).pipe(
+      map(sticky=>Object.assign(sticky || {}, { [prop]: val })),
       switchMap(sticky=>this.store.set(LABELS_STICKY, sticky))
     )
     .subscribe();

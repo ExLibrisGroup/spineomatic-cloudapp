@@ -119,6 +119,8 @@ export class PrintComponent implements OnInit {
             return this.getCopyNumber(val);
           case 'raw_call_no':
             return this.getRawCallNo(val, item);
+          case 'item_data.description':
+            return this.getDescription(val);
           default:
             return val == undefined ? '' : val;
         }
@@ -293,4 +295,17 @@ export class PrintComponent implements OnInit {
       return this.template.copyNumberLabel + copyNumber;
     return "";
   }
+  
+  getDescription(val: string) {
+    if (!val) return "";
+    if (this.template.descriptionLineBreaks) {
+      //Replace all whitespace with single blank
+      val = val.replace(/\s\s+/g, ' ');
+      //Now replace single space with a break
+      val = val.replace(/\s/g, '<br>');
+    }
+    return val;
+  }
+  
+
 }

@@ -36,6 +36,7 @@ export class Template {
   prefixes: Prefix[] = [];
   copyNumberLabel: string = "";
   suppressCopyNumbers: string = "";
+  descriptionLineBreaks: boolean = false;
 }
 
 export class Prefix {

@@ -135,6 +135,10 @@ export class TemplateComponent extends ConfigurationBaseComponent {
     return (this.form.get(this.selected) as FormGroup).controls.removeCharactersFromCallNo.value
   }
 
+  get descriptionLineBreaks(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.descriptionLineBreaks.value
+  }
+  
   get selectedTemplate() {
     return this.form.get(this.selected) as FormGroup;
   }

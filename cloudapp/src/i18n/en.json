@@ -97,6 +97,7 @@
       "Location": "Location",
       "Text": "Text",
       "CopyNumberOptions": "Copy number",
+      "DescOptions":"Description",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -124,7 +125,8 @@
         "barcodeHeight": "Barcode height",
         "copyNumberLabel": "Copy number label",
         "suppressCopyNumbers": "Suppress copy numbers, comma separated",
-        "decimalCharacter":"Decimal character"
+        "decimalCharacter":"Decimal character",
+        "descriptionLineBreaks":"Line breaks between description parts"
       }
     },
     "Images": {

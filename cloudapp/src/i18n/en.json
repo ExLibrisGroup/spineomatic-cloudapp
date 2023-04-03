@@ -98,6 +98,7 @@
       "Text": "Text",
       "CopyNumberOptions": "Copy number",
       "DescOptions":"Description",
+      "blankFields":"Keep label spacing when field emtpy",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",

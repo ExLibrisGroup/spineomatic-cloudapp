@@ -142,5 +142,9 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   get selectedTemplate() {
     return this.form.get(this.selected) as FormGroup;
   }
+
+  get blankFields(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.blankFields.value  
+  }
 }
 

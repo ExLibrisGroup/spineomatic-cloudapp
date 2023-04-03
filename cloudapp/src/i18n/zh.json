@@ -98,6 +98,7 @@
       "Text": "文本",
       "CopyNumberOptions": "复本数",
       "DescOptions":"简介/描述",
+      "blankFields":"当字段值为空时保留标签间距",
       "Fields": {
         "item_data.barcode": "条码",
         "item_data.call_no": "已解析索书号",

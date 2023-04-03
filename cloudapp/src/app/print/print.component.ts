@@ -102,6 +102,8 @@ export class PrintComponent implements OnInit {
         switch (detail) {
           case 'raw_barcode':
             /* Return barcode without processing; allows printing text and code on label */
+            let val2 = dot.pick('item_data.barcode', item);
+            if (this.template.blankFields && !val2) return "<BR>";
             return dot.pick('item_data.barcode', item);          
           case 'item_data.barcode':
             return this.getBarCode(val);
@@ -122,7 +124,13 @@ export class PrintComponent implements OnInit {
           case 'item_data.description':
             return this.getDescription(val);
           default:
-            return val == undefined ? '' : val;
+            let rdata;
+            if (val == undefined) 
+              rdata = '';
+            else
+              rdata = val;
+            if (this.template.blankFields && rdata.length == 0) return "<BR>";
+            return rdata;
         }
       }
     })
@@ -131,6 +139,7 @@ export class PrintComponent implements OnInit {
   }
 
   getBarCode(val: string) {
+    if (this.template.blankFields && !val) return "<BR>";
     if (!this.printService.template.asBarcode) return val; 
     this.barcodeComponent.value = !!checksums[this.template.barcodeChecksum]
       ? val.concat(checksums[this.template.barcodeChecksum](val))
@@ -177,6 +186,7 @@ export class PrintComponent implements OnInit {
   }
 
   getCallNo(val: string | Array<string>, item: Item) {
+    if (this.template.blankFields && !val) return "<BR>";
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
       val = callNumberParsers[this.template.callNumberParser](val, item);
@@ -246,6 +256,7 @@ export class PrintComponent implements OnInit {
 
   getRawCallNo(val: string | Array<string>, item: Item) {
     val = dot.pick('holding_data.call_number', item);
+    if (this.template.blankFields && !val) return "<BR>";
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
       val = callNumberParsers[this.template.callNumberParser](val, item);
@@ -257,6 +268,7 @@ export class PrintComponent implements OnInit {
   }
 
   getTitle(val: string) {
+    if (this.template.blankFields && !val) return "<BR>";
     const chars = Number(this.template.truncateTitleCharacters);
     if (chars > 0) {
       return val.substr(0, chars);
@@ -287,6 +299,7 @@ export class PrintComponent implements OnInit {
   }
 
   getCopyNumber(copyNumber: string) {
+    if (this.template.blankFields && !copyNumber.length) return "<BR>";
     if (!copyNumber.length)
       return "";
     var suppressCopyNumbersArray = this.template.suppressCopyNumbers.split(',');
@@ -299,6 +312,7 @@ export class PrintComponent implements OnInit {
   }
   
   getDescription(val: string) {
+    if (this.template.blankFields && !val) return "<BR>";
     if (!val) return "";
     if (this.template.descriptionLineBreaks) {
       //Replace all whitespace with single blank

@@ -5,7 +5,7 @@ import { startCase } from 'lodash';
 import * as dot from 'dot-object'
 import { Editor } from '../../../assets/tinymce/tinymce';
 import { DialogService } from 'eca-components';
-import { barcodeFormats, Images, templateFormGroup } from '../../models/configuration';
+import { barcodeFormats, Images, templateFormGroup, dateFormats, dateSeparators } from '../../models/configuration';
 import { LABEL_FIELDS } from '../../models/item';
 import { ConfigurationBaseComponent } from '../configuration-base.component';
 import { itemExample } from '../../models/item-example';
@@ -27,6 +27,8 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   barcodeFormats = barcodeFormats;
   callNumberParsers = Object.keys(callNumberParsers);
   checksums = Object.keys(checksums);
+  dateFormats = dateFormats;
+  dateSeparators = dateSeparators;
   
   constructor(
     private translate: TranslateService,

@@ -99,6 +99,7 @@
       "CopyNumberOptions": "复本数",
       "DescOptions":"简介/描述",
       "blankFields":"当字段值为空时保留标签间距",
+      "DateOptions":"Date options",
       "Fields": {
         "item_data.barcode": "条码",
         "item_data.call_no": "已解析索书号",
@@ -127,12 +128,35 @@
         "copyNumberLabel": "复本数标签",
         "suppressCopyNumbers": "抑制的复本数，以逗号分隔",
         "decimalCharacter":"小数点字符",
-        "descriptionLineBreaks":"简介/描述字段间换行"
+        "descriptionLineBreaks":"简介/描述字段间换行",
+        "item_data.call_no_1":"Parsed call number part one",
+        "item_data.call_no_2":"Parsed call number part two",
+        "item_data.call_no_3":"Parsed call number part three",
+        "item_data.call_no_4":"Parsed call number part four",
+        "item_data.call_no_5":"Parsed call number part five",
+        "item_data.call_no_6":"Parsed call number part six",
+        "item_data.call_no_7":"Parsed call number part seven",
+        "dateFormat":"Date format",
+        "dateSeparator":"Date separator character"
       }
     },
     "Images": {
       "Title": "图片",
       "EditImage": "替换图片"
+    },
+    "Months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
     }
   }
 }

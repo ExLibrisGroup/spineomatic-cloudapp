@@ -36,4 +36,11 @@ export const LABEL_FIELDS = [
   'prefix',
   'raw_barcode',
   'raw_call_no',
+  'item_data.call_no_1',
+  'item_data.call_no_2',
+  'item_data.call_no_3',
+  'item_data.call_no_4',
+  'item_data.call_no_5',
+  'item_data.call_no_6',
+  'item_data.call_no_7'
 ]

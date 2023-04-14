@@ -13,6 +13,8 @@ import { NgxBarcodeComponent } from '@joshmweisman/ngx-barcode';
 import { itemExample } from '../models/item-example';
 import { callNumberParsers } from '../models/call-number-parsers';
 import { checksums } from '../models/checksums';
+import { getLocaleDateFormat } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 const INCH_IN_PIXELS = 96, CM_IN_PIXELS = 37.8, PREVIEW_WIDTH = 250;
 
@@ -52,6 +54,7 @@ export class PrintComponent implements OnInit {
     private alma: AlmaService,
     private configService: ConfigService,
     private sanitizer: DomSanitizer,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -123,6 +126,34 @@ export class PrintComponent implements OnInit {
             return this.getRawCallNo(val, item);
           case 'item_data.description':
             return this.getDescription(val);
+          case 'item_data.call_no_1':
+          case 'item_data.call_no_2':
+          case 'item_data.call_no_3':
+          case 'item_data.call_no_4':
+          case 'item_data.call_no_5':
+          case 'item_data.call_no_6':
+          case 'item_data.call_no_7':
+            const callNoVal = dot.pick('item_data.call_no', item);
+            if (!callNoVal || !Array.isArray(callNoVal)) {
+              if (this.template.blankFields) 
+                return "<BR>";
+              else 
+                return '';
+            }
+            if (detail.substring(18) - 1 < callNoVal.length)
+              return this.getCallNoPart(callNoVal, detail.substring (18) - 1);  
+            else {
+              if (this.template.blankFields) 
+                return "<BR>";
+              else 
+                return '';   
+            }
+          case 'holdings_data.due_back_date:':
+          case 'item_data.arrival_date':
+          case 'item_data.expected_arrival_date':
+          case 'item_data.inventory_date':
+          case 'item_data.weeding_date':
+            return this.getFormattedDate(val);
           default:
             let rdata;
             if (val == undefined) 
@@ -183,6 +214,75 @@ export class PrintComponent implements OnInit {
     this.barcodeComponent.bcElement.nativeElement.innerHTML = "";
     this.barcodeComponent.createBarcode();
     return this.barcodeComponent.bcElement.nativeElement.innerHTML;
+  }
+
+  getCallNoPart(val: Array<string>, part_number) {
+    if (val[part_number] != undefined) {
+      if (this.template.blankFields && val[part_number] == '') {
+        return "<BR>";
+      }
+      return val[part_number];
+    }
+    else {
+      if (this.template.blankFields) {
+        return "<BR>";
+      }
+      else 
+        return '';
+    }
+  }
+
+  getFormattedDate(val) {
+    //Keep only numbers and hyphen
+    let dateString = val.replace(/[^\d-]/g, '')
+    let dateParts = dateString.split('-');
+    if (dateParts.length != 3) {
+      // If we don't have year-month-day, just return value
+      return val;
+    }
+    // Assume 3 parts are year-month-day 
+    // dateParts[0]  year
+    // dateParts[1]  month
+    // dateParts[2]  day
+
+    //Set which month to translate in case we need it.
+    const transMonth = "Configuration.Months." + dateParts[1] * 1;
+
+    switch (this.template.dateFormat) {
+      case 'd m yyyy':
+        val = dateParts[2] * 1 + this.template.dateSeparator + dateParts[1] * 1 + this.template.dateSeparator + dateParts[0]; 
+        return val;
+      case 'dd mm yyyy': 
+        //Alma should be returning two character days and months...no need to pad
+        val = dateParts[2] + this.template.dateSeparator + dateParts[1] + this.template.dateSeparator + dateParts[0]; 
+        return val;
+      case 'yyyy m d':
+        val = dateParts[0] + this.template.dateSeparator + dateParts[1] * 1 + this.template.dateSeparator + dateParts[2] * 1; 
+        return val;
+      case 'yyyy mm dd':
+        //Alma should be returning two character days and months...no need to pad
+        val = dateParts[0] + this.template.dateSeparator + dateParts[1] + this.template.dateSeparator + dateParts[2];
+        return val;
+      case 'm d yyyy':
+        val = dateParts[1] * 1 + this.template.dateSeparator + dateParts[2] * 1 + this.template.dateSeparator + dateParts[0];
+        return val;
+      case 'mm dd yyyy':
+        //Alma should be returning two character days and months...no need to pad
+        val = dateParts[1] + this.template.dateSeparator + dateParts[2] + this.template.dateSeparator + dateParts[0];        
+        return val;
+      case 'd mmm yyyy':
+        let truncMonth = this.translate.instant (transMonth).substring(0,3);
+        val = dateParts[2] * 1 + this.template.dateSeparator + truncMonth + this.template.dateSeparator + dateParts[0];
+        return val;
+      case 'd mmmmm yyyy':
+        val = dateParts[2] * 1 + this.template.dateSeparator + this.translate.instant (transMonth) + this.template.dateSeparator + dateParts[0];
+        return val;
+      case 'mmmmm d yyyy':
+        val = this.translate.instant (transMonth) + ' ' + dateParts[2] * 1 + this.template.dateSeparator + ' '  + dateParts[0];
+        return val;
+      default:
+        return val;     
+    }
   }
 
   getCallNo(val: string | Array<string>, item: Item) {

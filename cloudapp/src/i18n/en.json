@@ -99,6 +99,7 @@
       "CopyNumberOptions": "Copy number",
       "DescOptions":"Description",
       "blankFields":"Keep label spacing when field emtpy",
+      "DateOptions":"Date options",
       "Fields": {
         "item_data.barcode": "Barcode",
         "item_data.call_no": "Parsed call number",
@@ -127,12 +128,35 @@
         "copyNumberLabel": "Copy number label",
         "suppressCopyNumbers": "Suppress copy numbers, comma separated",
         "decimalCharacter":"Decimal character",
-        "descriptionLineBreaks":"Line breaks between description parts"
+        "descriptionLineBreaks":"Line breaks between description parts",
+        "item_data.call_no_1":"Parsed call number part one",
+        "item_data.call_no_2":"Parsed call number part two",
+        "item_data.call_no_3":"Parsed call number part three",
+        "item_data.call_no_4":"Parsed call number part four",
+        "item_data.call_no_5":"Parsed call number part five",
+        "item_data.call_no_6":"Parsed call number part six",
+        "item_data.call_no_7":"Parsed call number part seven",
+        "dateFormat":"Date format",
+        "dateSeparator":"Date separator character"
       }
     },
     "Images": {
       "Title": "Images",
       "EditImage": "Replace image"
+    },
+    "Months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
     }
   }
 }

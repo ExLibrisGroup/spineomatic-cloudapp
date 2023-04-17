@@ -17,7 +17,7 @@ export class Templates {
 export const barcodeFormats = ['CODE128' , 'CODE128A' , 'CODE128B' , 'CODE128C' , 'EAN13' , 'UPC' , 'EAN8' , 'EAN5' , 'EAN2' , 'CODE39' , 'ITF14' , 'MSI' , 'MSI10' , 'MSI11' , 'MSI1010' , 'MSI1110' , 'pharmacode' , 'codabar'] as const;
 type BarcodeFormats = typeof barcodeFormats[number];
 
-export const dateSeparators = ['/' , '-' , '.' , ',' , ' '] as const;
+export const dateSeparators = ['/' , '-' , '.' , ',' , ':' , ' '] as const;
 type DateSeparators = typeof dateSeparators[number];
 
 export const dateFormats = ['d m yyyy' , 'dd mm yyyy' , 'yyyy m d' , 'yyyy mm dd', 'm d yyyy', 'mm dd yyyy', 'd mmm yyyy', 'd mmmmm yyyy', 'mmmmm d yyyy'] as const;

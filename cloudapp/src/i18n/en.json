@@ -136,6 +136,9 @@
         "item_data.call_no_5":"Parsed call number part five",
         "item_data.call_no_6":"Parsed call number part six",
         "item_data.call_no_7":"Parsed call number part seven",
+        "item_data.call_no_8":"Parsed call number part eight",
+        "item_data.call_no_9":"Parsed call number part nine",
+        "item_data.call_no_10":"Parsed call number part ten",                        
         "dateFormat":"Date format",
         "dateSeparator":"Date separator character"
       }

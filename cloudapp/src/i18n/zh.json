@@ -136,6 +136,9 @@
         "item_data.call_no_5":"解析过的索书号第五部分",
         "item_data.call_no_6":"解析过的索书号第六部分",
         "item_data.call_no_7":"解析过的索书号第七部分",
+        "item_data.call_no_8":"解析过的索书号第八部分",
+        "item_data.call_no_9":"解析过的索书号第九部分",
+        "item_data.call_no_10":"解析过的索书号第十部分",
         "dateFormat":"日期格式",
         "dateSeparator":"日期分隔符"
       }

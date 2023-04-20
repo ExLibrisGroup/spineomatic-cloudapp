@@ -133,6 +133,9 @@ export class PrintComponent implements OnInit {
           case 'item_data.call_no_5':
           case 'item_data.call_no_6':
           case 'item_data.call_no_7':
+          case 'item_data.call_no_8':
+          case 'item_data.call_no_9':
+          case 'item_data.call_no_10':            
             const callNoVal = dot.pick('item_data.call_no', item);
             if (!callNoVal || !Array.isArray(callNoVal)) {
               if (this.template.blankFields) 

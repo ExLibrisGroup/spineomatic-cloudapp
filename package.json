@@ -1,6 +1,6 @@
 {
   "name": "spineomatic-cloudapp",
-  "version": "v1.3.2-beta",
+  "version": "v1.3.2",
   "private": true,
   "scripts": {
     "start": "eca start --disable-host-check",

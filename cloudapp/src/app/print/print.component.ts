@@ -146,9 +146,10 @@ export class PrintComponent implements OnInit {
             if (detail.substring(18) - 1 < callNoVal.length)
               return this.getCallNoPart(callNoVal, detail.substring (18) - 1);  
             else {
-              if (this.template.blankFields) 
-                return " <BR>";
-              else 
+              //Remove this "if" statement to try to get alignment better for call number parts
+              //if (this.template.blankFields) 
+              //  return " <BR>";
+              //else 
                 return '';   
             }
           case 'holdings_data.due_back_date:':

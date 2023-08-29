@@ -327,7 +327,8 @@ export class PrintComponent implements OnInit {
       let workingString = val;
       let period = workingString.indexOf(decimalCharacter);
       while (period != -1) {
-        if (/^[a-z]/i.test(workingString.charAt(period + 1)) && /^[0-9]$/.test(workingString.charAt(period + 2))) {
+        // Cutter defined to be decimal followed by an alphabetic followed by either an alphabetic or a digit
+        if (/^[a-z]/i.test(workingString.charAt(period + 1)) &&  (/^[a-z]/i.test(workingString.charAt(period + 2)) || /^[0-9]$/.test(workingString.charAt(period + 2)))) {
           //We found the cutter
           workingString = workingString.substring(0, period) + workingString.substring(period + 1);
           period = -1;

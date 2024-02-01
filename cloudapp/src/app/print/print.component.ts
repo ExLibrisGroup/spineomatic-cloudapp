@@ -111,6 +111,7 @@ export class PrintComponent implements OnInit {
           case 'item_data.barcode':
             return this.getBarCode(val);
           case 'item_data.alt_call_no':
+          case 'item_data.alternative_call_number':
           case 'item_data.call_no':
           case 'holding_data.call_number':
           case 'holding_data.permanent_call_number':
@@ -137,6 +138,7 @@ export class PrintComponent implements OnInit {
           case 'item_data.call_no_9':
           case 'item_data.call_no_10':            
             const callNoVal = dot.pick('item_data.call_no', item);
+            console.log ('callNoVal = ' + callNoVal);
             if (!callNoVal || !Array.isArray(callNoVal)) {
               if (this.template.blankFields) 
                 return " <BR>";
@@ -292,7 +294,7 @@ export class PrintComponent implements OnInit {
     if (this.template.blankFields && !val) return " <BR>";
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
-      val = callNumberParsers[this.template.callNumberParser](val, item);
+      val = callNumberParsers[this.template.callNumberParser](val, item, this.template.callNumberPattern, this.template.callNumberPatternFlags, this.template.callNumberReplacement);
     }
     //If characters are to be removed, split them into groups and remove each sequentially
     let charactersToRemove = this.template.removeCharactersFromCallNo;
@@ -362,7 +364,7 @@ export class PrintComponent implements OnInit {
     if (this.template.blankFields && !val) return " <BR>";
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
-      val = callNumberParsers[this.template.callNumberParser](val, item);
+      val = callNumberParsers[this.template.callNumberParser](val, item, this.template.callNumberPattern, this.template.callNumberPatternFlags, this.template.callNumberReplacement);
     }
     return Array.isArray(val) ?
       val.filter(v=>!!v) /* Suppress blank lines */

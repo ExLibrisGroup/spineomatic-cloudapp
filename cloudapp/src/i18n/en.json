@@ -115,6 +115,7 @@
         "showBarcodeValue": "Show barcode value",
         "barcodeFontSize": "Barcode font size",
         "barcodeEncoding": "Barcode encoding",
+        "callNumberAsBarcode": "Show call number as barcode (using Barcode settings)",
         "callNumberLineBreaks": "Line breaks between call number parts",
         "numberOfCallNumberLines": "Maximum call number parts",
         "removeCharactersFromCallNo": "Remove characters from call number",

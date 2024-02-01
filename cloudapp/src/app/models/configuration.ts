@@ -31,6 +31,7 @@ export class Template {
   barcodeWidth: number = null;
   barcodeHeight: number = null;
   barcodeEncoding: BarcodeFormats = 'codabar';
+  callNumberAsBarcode: boolean = false;
   callNumberLineBreaks: boolean = false;
   numberOfCallNumberLines: number = null;
   hideCutterDecimal: boolean = false;

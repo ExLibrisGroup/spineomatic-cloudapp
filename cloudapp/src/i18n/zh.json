@@ -115,6 +115,7 @@
         "showBarcodeValue": "显示条码值",
         "barcodeFontSize": "条码字体大小",
         "barcodeEncoding": "条形码的编码",
+        "callNumberAsBarcode": "Show call number as barcode (using Barcode settings)",
         "callNumberLineBreaks": "在索书号的各部分之间换行",
         "numberOfCallNumberLines": "索书号部分打印最大数量",
         "hideCutterDecimal": "隐藏小数点",

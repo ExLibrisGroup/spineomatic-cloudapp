@@ -141,7 +141,10 @@
         "item_data.call_no_9":"解析过的索书号第九部分",
         "item_data.call_no_10":"解析过的索书号第十部分",
         "dateFormat":"日期格式",
-        "dateSeparator":"日期分隔符"
+        "dateSeparator":"日期分隔符",
+        "pattern": "Call number pattern (Reg Exp)",
+        "flags": "Call number flags (Reg Exp)",
+        "replacement": "Call number replacement (Reg Exp)"
       }
     },
     "Images": {

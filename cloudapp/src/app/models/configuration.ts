@@ -47,6 +47,9 @@ export class Template {
   blankFields: boolean = false;
   dateFormat: DateFormats = 'yyyy mm dd'
   dateSeparator: DateSeparators = '-';
+  callNumberPattern: string = "";
+  callNumberPatternFlags: string = "";
+  callNumberReplacement: string = "";
 }
 
 export class Prefix {

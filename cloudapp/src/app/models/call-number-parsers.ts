@@ -1,7 +1,7 @@
 import { Item } from "./item";
 
 export interface CallNumberParsers {
-  [key: string]: (val: string | Array<string>, item: Item) => string | Array<string>
+  [key: string]: (val: string | Array<string>, item: Item, decimalChar: string, pattern: string, flags: string, replacement: string) => string | Array<string>
 }
 
 export const callNumberParsers: CallNumberParsers = {
@@ -105,5 +105,25 @@ export const callNumberParsers: CallNumberParsers = {
   'split_by_space': (val, item) => {
     if (Array.isArray(val)) val = val.join(' ');
     return val.split(' ');
+  },
+  'dividing_decimals': (val, item, decimalChar) => {
+    if (Array.isArray(val)) val = val.join('');
+    if (!isNaN(Number(val))) {
+      val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, decimalChar);
+    }
+    return val;
+  },
+  'reg_exp': (val, item, decimalChar, pattern, flags, replacement) => {
+    let wasArray = false;
+    if (Array.isArray(val)) {
+      val = val.join(' ');
+      wasArray = true;
+    }
+    const reg = new RegExp (pattern, flags);
+    val = val.replace (reg, replacement);
+    if (wasArray)
+      return val.split(" ");
+    else 
+      return val;
   }
 }

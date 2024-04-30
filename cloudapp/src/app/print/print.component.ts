@@ -109,8 +109,9 @@ export class PrintComponent implements OnInit {
             if (this.template.blankFields && !val2) return " <BR>";
             return dot.pick('item_data.barcode', item);          
           case 'item_data.barcode':
-            return this.getBarCode(val);
+            return this.getBarCode(val, null);
           case 'item_data.alt_call_no':
+          case 'item_data.alternative_call_number':
           case 'item_data.call_no':
           case 'holding_data.call_number':
           case 'holding_data.permanent_call_number':
@@ -173,13 +174,16 @@ export class PrintComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(body);
   }
 
-  getBarCode(val: string) {
+  getBarCode(val: string, displayString: string) {
     if (this.template.blankFields && !val) return " <BR>";
     if (!this.printService.template.asBarcode) return val; 
     this.barcodeComponent.value = !!checksums[this.template.barcodeChecksum]
       ? val.concat(checksums[this.template.barcodeChecksum](val))
       : val;
-    this.barcodeComponent.text = val;
+    if (displayString) 
+      this.barcodeComponent.text = displayString;
+    else
+      this.barcodeComponent.text = val;
     let chars = Number(this.template.barcodeWidth);
     if (chars > 0) {
       this.barcodeComponent.width = chars;
@@ -292,9 +296,21 @@ export class PrintComponent implements OnInit {
   getCallNo(val: string | Array<string>, item: Item) {
     if (this.template.blankFields && !val) return " <BR>";
     if (!val) return "";
+    let originalCallNumber = "";
+    if (Array.isArray(val)) 
+      originalCallNumber = val.join('');
+    else
+      originalCallNumber = val;
     if (callNumberParsers[this.template.callNumberParser]) {
-      val = callNumberParsers[this.template.callNumberParser](val, item);
+      val = callNumberParsers[this.template.callNumberParser](val, item, this.template.decimalCharacter, this.template.callNumberPattern, this.template.callNumberPatternFlags, this.template.callNumberReplacement);
     }
+    // If displaying call number as a barcode... 
+    if (this.template.callNumberAsBarcode) {
+      let workingString2 = "";
+      workingString2 = this.getBarCode(originalCallNumber, val.toString());
+      return workingString2;
+    }
+
     //If characters are to be removed, split them into groups and remove each sequentially
     let charactersToRemove = this.template.removeCharactersFromCallNo;
     if (charactersToRemove.length > 0) {
@@ -364,7 +380,7 @@ export class PrintComponent implements OnInit {
     if (this.template.blankFields && !val) return " <BR>";
     if (!val) return "";
     if (callNumberParsers[this.template.callNumberParser]) {
-      val = callNumberParsers[this.template.callNumberParser](val, item);
+      val = callNumberParsers[this.template.callNumberParser](val, item, this.template.decimalCharacter,  this.template.callNumberPattern, this.template.callNumberPatternFlags, this.template.callNumberReplacement);
     }
     return Array.isArray(val) ?
       val.filter(v=>!!v) /* Suppress blank lines */

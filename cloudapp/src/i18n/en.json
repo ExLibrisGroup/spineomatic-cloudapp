@@ -115,6 +115,7 @@
         "showBarcodeValue": "Show barcode value",
         "barcodeFontSize": "Barcode font size",
         "barcodeEncoding": "Barcode encoding",
+        "callNumberAsBarcode": "Show call number as barcode (using Barcode settings)",
         "callNumberLineBreaks": "Line breaks between call number parts",
         "numberOfCallNumberLines": "Maximum call number parts",
         "removeCharactersFromCallNo": "Remove characters from call number",
@@ -140,7 +141,10 @@
         "item_data.call_no_9":"Parsed call number part nine",
         "item_data.call_no_10":"Parsed call number part ten",                        
         "dateFormat":"Date format",
-        "dateSeparator":"Date separator character"
+        "dateSeparator":"Date separator character",
+        "pattern": "Call number pattern (Reg Exp)",
+        "flags": "Call number flags (Reg Exp)",
+        "replacement": "Call number replacement (Reg Exp)"
       }
     },
     "Images": {

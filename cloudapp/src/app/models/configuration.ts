@@ -31,6 +31,7 @@ export class Template {
   barcodeWidth: number = null;
   barcodeHeight: number = null;
   barcodeEncoding: BarcodeFormats = 'codabar';
+  callNumberAsBarcode: boolean = false;
   callNumberLineBreaks: boolean = false;
   numberOfCallNumberLines: number = null;
   hideCutterDecimal: boolean = false;
@@ -46,6 +47,9 @@ export class Template {
   blankFields: boolean = false;
   dateFormat: DateFormats = 'yyyy mm dd'
   dateSeparator: DateSeparators = '-';
+  callNumberPattern: string = "";
+  callNumberPatternFlags: string = "";
+  callNumberReplacement: string = "";
 }
 
 export class Prefix {

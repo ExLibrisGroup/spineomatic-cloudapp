@@ -79,6 +79,7 @@
           Configuration.Templates.CallNoOptions
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-checkbox labelPosition="before" formControlName="callNumberAsBarcode">{{'Configuration.Templates.Fields.callNumberAsBarcode' | translate}}</mat-checkbox>
       <mat-checkbox labelPosition="before" formControlName="callNumberLineBreaks">{{'Configuration.Templates.Fields.callNumberLineBreaks' | translate}}</mat-checkbox>
       <mat-form-field appearance="standard" [ngClass]="{'readonly': !callNumberLineBreaks}">
         <mat-label translate>Configuration.Templates.Fields.numberOfCallNumberLines</mat-label>
@@ -90,6 +91,18 @@
           <mat-option value="">{{'Configuration.Templates.Fields.defaultCallNumberParser' | translate}}</mat-option>
           <mat-option *ngFor="let parser of callNumberParsers" [value]="parser">{{startCase(parser)}}</mat-option>
         </mat-select>  
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.pattern</mat-label>
+        <input matInput formControlName="callNumberPattern" type="string">  
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.flags</mat-label>
+        <input matInput formControlName="callNumberPatternFlags" type="string">  
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label translate>Configuration.Templates.Fields.replacement</mat-label>
+        <input matInput formControlName="callNumberReplacement" type="string">  
       </mat-form-field>
       <mat-checkbox labelPosition="before" formControlName="hideCutterDecimal">{{'Configuration.Templates.Fields.hideCutterDecimal' | translate}}</mat-checkbox>
       <mat-form-field appearance="standard">

@@ -306,14 +306,10 @@ export class PrintComponent implements OnInit {
     }
     // If displaying call number as a barcode... 
     if (this.template.callNumberAsBarcode) {
-      console.log ('Show call number as barcode checked.')
-      console.log ('OriginalCallNumber = ' + originalCallNumber);
       let workingString2 = "";
       workingString2 = this.getBarCode(originalCallNumber, val.toString());
       return workingString2;
     }
-
-    console.log ('Do not show call number as barcode.');
 
     //If characters are to be removed, split them into groups and remove each sequentially
     let charactersToRemove = this.template.removeCharactersFromCallNo;

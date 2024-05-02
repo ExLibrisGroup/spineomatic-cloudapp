@@ -98,7 +98,7 @@
       "Text": "Text",
       "CopyNumberOptions": "Copy number",
       "DescOptions":"Description",
-      "blankFields":"Keep label spacing when field emtpy",
+      "blankFields":"Keep label spacing when field empty",
       "DateOptions":"Date options",
       "Fields": {
         "item_data.barcode": "Barcode",

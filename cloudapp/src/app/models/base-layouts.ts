@@ -56,5 +56,33 @@ export const BaseLayouts: Layouts = {
     verticalGap: 0.1,
     perPage: 84,
     leftPadding: 0.05,
+  }, 
+  /* https://downloads.apli.com/templates/word/wp_01273 */
+  'APLI 01273': {
+    measure: 'cm',
+    topMargin: 1,
+    leftMargin: 0,
+    pageWidth: 21,
+    orientation: 'portrait',
+    width: 7,
+    height: 3.8,
+    horizontalGap: 0,
+    verticalGap: 0,
+    perPage: 24,
+    leftPadding: 0,
   },
+    /* https://downloads.apli.com/templates/word/wp_01285 */
+    'APLI 01285': {
+      measure: 'cm',
+      topMargin: 0,
+      leftMargin: 0,
+      pageWidth: 21,
+      orientation: 'portrait',
+      width: 5.2,
+      height: 2.8,
+      horizontalGap: 0,
+      verticalGap: 0,
+      perPage: 44,
+      leftPadding: 0,
+    },
 }

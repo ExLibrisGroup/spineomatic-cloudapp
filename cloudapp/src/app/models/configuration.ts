@@ -34,6 +34,7 @@ export class Template {
   callNumberAsBarcode: boolean = false;
   callNumberLineBreaks: boolean = false;
   numberOfCallNumberLines: number = null;
+  numberOfCallNumberPartsToSkip: number = null;
   hideCutterDecimal: boolean = false;
   decimalCharacter: string = "";
   removeCharactersFromCallNo: string = "";

@@ -39,6 +39,10 @@ export class ConfigurationComponent implements OnInit {
 
   load() {
     this.configService.get().subscribe(config => {
+      let sortedObj = sortObjectByKey(config.templates);
+      config.templates = sortedObj;
+      sortedObj = sortObjectByKey(config.layouts);
+      config.layouts = sortedObj;
       this.form = configFormGroup(config);
     });
   }
@@ -54,6 +58,7 @@ export class ConfigurationComponent implements OnInit {
       () => {
         this.alert.success(this.translate.instant('Configuration.Success'));
         this.form.markAsPristine();
+        this.load();
       },
       err => this.alert.error(err.message),
       ()  => this.saving = false
@@ -91,3 +96,22 @@ export class CanActivateConfiguration implements CanActivate {
     return this.appService.canConfigure;
   }
 }
+
+// Function to sort an object by its keys, specifically the templates and layouts
+function sortObjectByKey(obj: { [key: string]: any }): { [key: string]: any } {
+  // Convert object into an array of key-value pairs
+  const entries = Object.entries(obj);
+
+  // Sort the array by keys
+  entries.sort(([keyA], [keyB]) => keyA.localeCompare(keyB));
+
+  // Reconstruct the object from the sorted array
+  const sortedObject: { [key: string]: any } = {};
+  for (const [key, value] of entries) {
+    sortedObject[key] = value;
+  }
+
+  return sortedObject;
+}
+
+

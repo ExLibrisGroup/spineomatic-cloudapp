@@ -152,5 +152,9 @@ export class TemplateComponent extends ConfigurationBaseComponent {
   get blankFields(): boolean {
     return (this.form.get(this.selected) as FormGroup).controls.blankFields.value  
   }
+
+  get numberOfCallNumberPartsToSkip(): boolean {
+    return (this.form.get(this.selected) as FormGroup).controls.numberOfCallNumberPartsToSkip.value
+  }
 }
 

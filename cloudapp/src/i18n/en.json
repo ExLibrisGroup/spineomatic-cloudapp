@@ -119,6 +119,7 @@
         "callNumberLineBreaks": "Line breaks between call number parts",
         "numberOfCallNumberLines": "Maximum call number parts",
         "removeCharactersFromCallNo": "Remove characters from call number",
+        "numberOfCallNumberPartsToSkip": "Number of call number parts to skip",
         "hideCutterDecimal": "Hide cutter decimal",
         "callNumberParser": "Call Number Parser",
         "defaultCallNumberParser": "Default (Alma)",

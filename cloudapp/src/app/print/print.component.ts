@@ -358,6 +358,14 @@ export class PrintComponent implements OnInit {
         val = workingString;
     }
 
+    /* Start of GitHub issue #128) */
+    if (Array.isArray(val)) {
+      if (this.template.callNumberLineBreaks && this.template.numberOfCallNumberPartsToSkip < val.length) {
+        val = val.slice(this.template.numberOfCallNumberPartsToSkip);
+      }
+    }
+    /* End of GitHub issue #128 */
+
     /* Start of GitHub issue #94 */
     if (Array.isArray(val)) {
       if (this.template.callNumberLineBreaks) {

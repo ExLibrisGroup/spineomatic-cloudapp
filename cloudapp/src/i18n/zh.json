@@ -120,6 +120,7 @@
         "numberOfCallNumberLines": "索书号部分打印最大数量",
         "hideCutterDecimal": "隐藏小数点",
         "removeCharactersFromCallNo": "从索书号中移除字符",
+        "numberOfCallNumberPartsToSkip": "Number of call number parts to skip",
         "callNumberParser": "索书号解析",
         "defaultCallNumberParser": "默认 (Alma)",
         "checksum": "附加校验和",

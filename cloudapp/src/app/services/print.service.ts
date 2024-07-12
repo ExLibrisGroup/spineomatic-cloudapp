@@ -16,6 +16,7 @@ export class PrintService {
   layout: Layout;
   template: Template;
   offset: number = 0;
+  rawLabels: string;
   gridlines = false;  
   //CIL addition - flag whether to use the old (default) setting or the CIL settings
   CIL: boolean = false;

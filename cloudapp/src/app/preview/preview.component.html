@@ -1,0 +1,32 @@
+<div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" [routerLink]="['/labels']">
+    <mat-icon>arrow_back_ios</mat-icon> {{ 'Back' | translate}}
+  </button>
+  <button mat-flat-button type="button" color="primary" (click)="reset()">{{ 'Labels.Reset' | translate}}</button>
+  <button mat-flat-button type="button" color="secondary" (click)="loadLabels()">{{ 'Labels.Reload' | translate}}</button>
+</div>
+  <div>
+    <h1 translate>Labels.Preview</h1>
+    <p translate>Labels.EditInstructions</p>
+    <p>&nbsp;</p>
+    <editor #editor [init]="{
+      base_url: 'assets/tinymce',
+      suffix: '.min',
+      height: 600,
+      menubar: false,
+      setup: initmce,
+      fontsize_formats: '8pt 10pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 24pt 36pt',
+      font_formats: 'ALA BT Courier=ala bt courier,courier; Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Arial Narrow=arial narrow,sans-serif; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft YaHei=microsoft yahei,gothic,sans-serif; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; TH SarabunPSK=th sarabunpsk,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+      content_style: 'body, p {font-size: 14px;font-weight: 300;color: #5e5e5e;}',
+      plugins: 'table code print image lists searchreplace',
+      toolbar:
+       'print code | bold italic underline subscript superscript| \ 
+        alignleft aligncenter alignright | numlist bullist | fontselect fontsizeselect forecolor | \
+        table tabledelete | tableprops tablerowprops tablecellprops | \
+        tableinsertrowbefore tableinsertrowafter tabledeleterow | \
+        tableinsertcolbefore tableinsertcolafter tabledeletecol | \
+        image | \
+        undo redo | removeformat searchreplace'
+      }" 
+    ></editor>
+  </div>

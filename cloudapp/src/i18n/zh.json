@@ -28,12 +28,16 @@
   },
   "Labels": {
     "Print": "打印 {length} 个书标",
+    "Preview": "预览/编辑标签",
+    "Reset": "清除并重新开始",
+    "Reload": "重新加载标签",
     "SelectLayout": "选择一个样式",
     "SelectTemplate": "选择一个模板",
     "Offset": "偏移量",
     "OffsetHint": "跳过标签第一页的位数",
     "Gridlines": "打印网格线",
     "CIL": "启用无页边距的模板和布局",
+    "EditInstructions": "点击工具栏上的<>按钮来编辑HTML源码。点击工具栏上打印机按钮来准备打印",
     "Dialog": {
       "title": "打印完成",
       "text": "所有书标都打印完成了吗?",

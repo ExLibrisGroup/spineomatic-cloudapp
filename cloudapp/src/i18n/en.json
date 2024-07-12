@@ -28,12 +28,16 @@
   },
   "Labels": {
     "Print": "Print {length} labels",
+    "Preview": "Preview/edit labels",
+    "Reset": "Clear and start over",
+    "Reload": "Reload labels",
     "SelectLayout": "Select a layout",
     "SelectTemplate": "Select a template",
     "Offset": "Offset",
     "OffsetHint": "Skip this number of slots on first page of labels",
     "Gridlines": "Print gridlines",
     "CIL": "Enable marginless templates and layouts",
+    "EditInstructions": "Click the <> button in the toolbar to edit the label HTML source. Use the printer icon in the toolbar when ready to print.",
     "Dialog": {
       "title": "Print completed",
       "text": "Were the labels printed successfully?",

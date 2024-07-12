@@ -24,6 +24,7 @@ import { PrintComponent } from './print/print.component';
 import { ConfigurationBaseComponent } from './configuration/configuration-base.component';
 import { PrefixComponent } from './configuration/template/prefix/prefix.component';
 import { ScanComponent } from './main/scan/scan.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   declarations: [					
@@ -38,6 +39,7 @@ import { ScanComponent } from './main/scan/scan.component';
     PrintComponent,
     PrefixComponent,
     ScanComponent,
+    PreviewComponent,
    ],
   imports: [
     MaterialModule,

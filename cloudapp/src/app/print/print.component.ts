@@ -153,6 +153,31 @@ export class PrintComponent implements OnInit {
               //else 
                 return '';   
             }
+          case 'item_data.alt_call_no_1':
+          case 'item_data.alt_call_no_2':
+          case 'item_data.alt_call_no_3':
+          case 'item_data.alt_call_no_4':
+          case 'item_data.alt_call_no_5':
+          case 'item_data.alt_call_no_6':
+          case 'item_data.alt_call_no_7':
+          case 'item_data.alt_call_no_8':
+          case 'item_data.alt_call_no_9':
+          case 'item_data.alt_call_no_10':  
+            const altCallNoVal = dot.pick('item_data.alt_call_no', item);
+            if (!altCallNoVal || !Array.isArray(altCallNoVal)) {
+              if (this.template.blankFields) 
+                return " <BR>";
+              else 
+                return '';
+            } 
+            if (detail.substring(22) - 1 < altCallNoVal.length)
+              return this.getCallNoPart(altCallNoVal, detail.substring (22) - 1);  
+            else {
+              if (this.template.blankFields) 
+                return " <BR>";
+              else 
+                return '';   
+            }
           case 'holdings_data.due_back_date:':
           case 'item_data.arrival_date':
           case 'item_data.expected_arrival_date':
@@ -226,14 +251,13 @@ export class PrintComponent implements OnInit {
 
   getCallNoPart(val: Array<string>, part_number) {
     if (val[part_number] != undefined) {
-      if (this.template.blankFields && val[part_number] == '') {
-        return " <BR>";
-      }
+      if (this.template.blankFields && val[part_number] == '') 
+        return "<BR>";
       return val[part_number];
     }
     else {
       if (this.template.blankFields) {
-        return " <BR>";
+        return "<BR>";
       }
       else 
         return '';

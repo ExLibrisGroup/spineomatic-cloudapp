@@ -45,5 +45,16 @@ export const LABEL_FIELDS = [
   'item_data.call_no_7',
   'item_data.call_no_8',
   'item_data.call_no_9',
-  'item_data.call_no_10'
+  'item_data.call_no_10',
+  'item_data.alt_call_no_1',
+  'item_data.alt_call_no_2',
+  'item_data.alt_call_no_3',
+  'item_data.alt_call_no_4',
+  'item_data.alt_call_no_5',
+  'item_data.alt_call_no_6',
+  'item_data.alt_call_no_7',
+  'item_data.alt_call_no_8',
+  'item_data.alt_call_no_9',
+  'item_data.alt_call_no_10'
+
 ]

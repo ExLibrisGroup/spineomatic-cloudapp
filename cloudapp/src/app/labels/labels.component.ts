@@ -137,6 +137,27 @@ export class LabelsComponent implements OnInit {
     });
   }
 
+  generatePreview() {
+    const doc = this.iframe.nativeElement.contentDocument || this.iframe.nativeElement.contentWindow;
+    // CIL change: margin of 0px on html body to prevent default 8px margins
+    const CIL_style = "<style>@media print {html, body {margin: 0px;} }</style>";
+    doc.body.innerHTML = this.printService.CIL ? CIL_style : "";
+    doc.body.appendChild(this.printComponent.location.nativeElement);
+    this.loading = true;
+    this.printComponent.instance.load()
+    .pipe(finalize(() => this.loading = false))
+    .subscribe({
+      next: () => setTimeout(this.previewIt),
+      error: e => this.alert.error('An error occurred: ' + e.message),
+    });
+  }
+
+  previewIt = () => {
+    this.printService.rawLabels = this.iframe.nativeElement.contentDocument.querySelector("app-print").shadowRoot.innerHTML;
+    //console.log ('iframe content in preview = ' + this.printService.rawLabels); 
+    this.router.navigate(['/preview']);
+  }
+  
   onSelected(event: MatAutocompleteSelectedEvent, type: string) {
     const name = event.option.value;
     this.printService[type] = this.config[type + 's'][name];

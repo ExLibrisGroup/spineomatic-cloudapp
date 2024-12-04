@@ -4,12 +4,14 @@ import { ConfigurationComponent, CanDeactivateConfiguration, CanActivateConfigur
 import { LabelsComponent } from './labels/labels.component';
 import { MainComponent } from './main/main.component';
 import { PrintComponent } from './print/print.component';
+import { PreviewComponent } from './preview/preview.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'configuration', component: ConfigurationComponent, canDeactivate: [CanDeactivateConfiguration], canActivate: [CanActivateConfiguration]},
   { path: 'labels', component: LabelsComponent },
   { path: 'print', component: PrintComponent },
+  { path: 'preview', component: PreviewComponent}
 ];
 
 @NgModule({

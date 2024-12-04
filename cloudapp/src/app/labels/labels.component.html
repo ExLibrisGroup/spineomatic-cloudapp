@@ -10,6 +10,7 @@
     <mat-icon>arrow_back_ios</mat-icon> {{ 'Back' | translate}}
   </button>
   <button mat-flat-button type="button" color="primary" [disabled]="!valid" (click)="print()">{{ 'Labels.Print' | translate:{length: printService.items.size} }}</button>
+  <button mat-flat-button type="button" color="secondary" [disabled]="!valid" (click)="generatePreview()">{{ 'Labels.Preview' | translate}}</button>
 </div>
 <div class="config" *ngIf="config">
   <mat-form-field>
